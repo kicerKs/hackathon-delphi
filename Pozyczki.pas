@@ -42,6 +42,13 @@ type
     editAddress: TEdit;
     editEmail: TEdit;
     btnAddPerson: TButton;
+    btnEditPerson: TButton;
+    addAddress: TEdit;
+    addEmail: TEdit;
+    addName: TEdit;
+    addPhone: TEdit;
+    addSurname: TEdit;
+    comboChoosePerson: TComboBox;
 
     procedure btnMainClick(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
@@ -122,9 +129,11 @@ type
 
       editWhatMoney.Visible := True;
       editNumber.Visible := False;
+
+      comboChoosePerson.Style := csDropDownList;
     end;
 
-  procedure TForm1.RadioButtonClick(Sender: TObject);
+procedure TForm1.RadioButtonClick(Sender: TObject);
     const
       shiftAmount = 29;
     begin

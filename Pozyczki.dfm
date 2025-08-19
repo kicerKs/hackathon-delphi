@@ -99,65 +99,141 @@ object Form1: TForm1
       Caption = 'Tryb ciemny'
     end
   end
-  object panelMain: TPanel
+  object panelPeople: TPanel
     Left = 0
     Top = 49
     Width = 1264
     Height = 632
     Align = alClient
-    TabOrder = 1
-    object Label3: TLabel
-      Left = 232
-      Top = 408
-      Width = 57
-      Height = 73
-      Caption = 'Label3'
-    end
-    object imgLoan: TImage
-      Left = 656
-      Top = 6
-      Width = 387
-      Height = 387
-    end
-    object listViewLoan: TListView
-      Left = 0
-      Top = 6
-      Width = 650
-      Height = 387
-      Columns = <
-        item
-          AutoSize = True
-          Caption = 'Przedmiot/Kasa '
-        end
-        item
-          AutoSize = True
-          Caption = 'Ilo'#347#263'/Kwota'
-        end
-        item
-          AutoSize = True
-          Caption = 'Osoba'
-        end
-        item
-          AutoSize = True
-          Caption = 'Data udzielenia'
-        end
-        item
-          AutoSize = True
-          Caption = 'Data oddania'
-        end
-        item
-          AutoSize = True
-          Caption = 'Status'
-        end
-        item
-          AutoSize = True
-          Caption = 'Telefon'
-        end>
-      GridLines = True
-      ReadOnly = True
-      RowSelect = True
+    TabOrder = 2
+    Visible = False
+    object editName: TEdit
+      Left = 16
+      Top = 23
+      Width = 200
+      Height = 23
       TabOrder = 0
-      ViewStyle = vsReport
+      Text = 'Imi'#281
+      OnEnter = editNameEnter
+      OnExit = editNameExit
+    end
+    object editSurname: TEdit
+      Left = 16
+      Top = 52
+      Width = 200
+      Height = 23
+      TabOrder = 1
+      Text = 'Nazwisko'
+      OnEnter = editSurnameEnter
+      OnExit = editSurnameExit
+    end
+    object editPhone: TEdit
+      Left = 16
+      Top = 81
+      Width = 200
+      Height = 23
+      Hint = 'Telefon'
+      TabOrder = 2
+      Text = 'Telefon'
+      OnEnter = editPhoneEnter
+      OnExit = editPhoneExit
+      OnKeyPress = editPhoneKeyPress
+    end
+    object editAddress: TEdit
+      Left = 16
+      Top = 110
+      Width = 200
+      Height = 23
+      TabOrder = 3
+      Text = 'Adres'
+      OnEnter = editAddressEnter
+      OnExit = editAddressExit
+    end
+    object editEmail: TEdit
+      Left = 16
+      Top = 139
+      Width = 200
+      Height = 23
+      TabOrder = 4
+      Text = 'E-Mail'
+      OnEnter = editEmailEnter
+      OnExit = editEmailExit
+    end
+    object btnAddPerson: TButton
+      Left = 16
+      Top = 168
+      Width = 200
+      Height = 25
+      Caption = 'Dodaj'
+      TabOrder = 5
+    end
+    object btnEditPerson: TButton
+      Left = 256
+      Top = 197
+      Width = 200
+      Height = 25
+      Caption = 'Edytuj'
+      TabOrder = 6
+    end
+    object addAddress: TEdit
+      Left = 256
+      Top = 139
+      Width = 200
+      Height = 23
+      TabOrder = 7
+      Text = 'Adres'
+      OnEnter = editAddressEnter
+      OnExit = editAddressExit
+    end
+    object addEmail: TEdit
+      Left = 256
+      Top = 168
+      Width = 200
+      Height = 23
+      TabOrder = 8
+      Text = 'E-Mail'
+      OnEnter = editEmailEnter
+      OnExit = editEmailExit
+    end
+    object addName: TEdit
+      Left = 256
+      Top = 52
+      Width = 200
+      Height = 23
+      TabOrder = 9
+      Text = 'Imi'#281
+      OnEnter = editNameEnter
+      OnExit = editNameExit
+    end
+    object addPhone: TEdit
+      Left = 256
+      Top = 110
+      Width = 200
+      Height = 23
+      Hint = 'Telefon'
+      TabOrder = 10
+      Text = 'Telefon'
+      OnEnter = editPhoneEnter
+      OnExit = editPhoneExit
+      OnKeyPress = editPhoneKeyPress
+    end
+    object addSurname: TEdit
+      Left = 256
+      Top = 81
+      Width = 200
+      Height = 23
+      TabOrder = 11
+      Text = 'Nazwisko'
+      OnEnter = editSurnameEnter
+      OnExit = editSurnameExit
+    end
+    object comboChoosePerson: TComboBox
+      Left = 256
+      Top = 23
+      Width = 200
+      Height = 23
+      Style = csDropDownList
+      TabOrder = 12
     end
   end
   object panelAdd: TPanel
@@ -245,76 +321,69 @@ object Form1: TForm1
       Top = 52
       Width = 186
       Height = 23
+      Style = csDropDownList
       TabOrder = 6
     end
   end
-  object panelPeople: TPanel
+  object panelMain: TPanel
     Left = 0
     Top = 49
     Width = 1264
     Height = 632
     Align = alClient
-    TabOrder = 2
-    Visible = False
-    object editName: TEdit
-      Left = 16
-      Top = 23
-      Width = 200
-      Height = 23
+    TabOrder = 1
+    object Label3: TLabel
+      Left = 0
+      Top = 399
+      Width = 34
+      Height = 15
+      Caption = 'Label3'
+    end
+    object imgLoan: TImage
+      Left = 656
+      Top = 6
+      Width = 387
+      Height = 387
+    end
+    object listViewLoan: TListView
+      Left = 0
+      Top = 6
+      Width = 650
+      Height = 387
+      Columns = <
+        item
+          AutoSize = True
+          Caption = 'Przedmiot/Kasa '
+        end
+        item
+          AutoSize = True
+          Caption = 'Ilo'#347#263'/Kwota'
+        end
+        item
+          AutoSize = True
+          Caption = 'Osoba'
+        end
+        item
+          AutoSize = True
+          Caption = 'Data udzielenia'
+        end
+        item
+          AutoSize = True
+          Caption = 'Data oddania'
+        end
+        item
+          AutoSize = True
+          Caption = 'Status'
+        end
+        item
+          AutoSize = True
+          Caption = 'Telefon'
+        end>
+      GridLines = True
+      ReadOnly = True
+      RowSelect = True
       TabOrder = 0
-      Text = 'Imi'#281
-      OnEnter = editNameEnter
-      OnExit = editNameExit
-    end
-    object editSurname: TEdit
-      Left = 16
-      Top = 52
-      Width = 200
-      Height = 23
-      TabOrder = 1
-      Text = 'Nazwisko'
-      OnEnter = editSurnameEnter
-      OnExit = editSurnameExit
-    end
-    object editPhone: TEdit
-      Left = 16
-      Top = 81
-      Width = 200
-      Height = 23
-      Hint = 'Telefon'
-      TabOrder = 2
-      Text = 'Telefon'
-      OnEnter = editPhoneEnter
-      OnExit = editPhoneExit
-      OnKeyPress = editPhoneKeyPress
-    end
-    object editAddress: TEdit
-      Left = 16
-      Top = 110
-      Width = 200
-      Height = 23
-      TabOrder = 3
-      Text = 'Adres'
-      OnEnter = editAddressEnter
-      OnExit = editAddressExit
-    end
-    object editEmail: TEdit
-      Left = 16
-      Top = 139
-      Width = 200
-      Height = 23
-      TabOrder = 4
-      Text = 'E-Mail'
-      OnEnter = editEmailEnter
-      OnExit = editEmailExit
-    end
-    object btnAddPerson: TButton
-      Left = 16
-      Top = 168
-      Width = 200
-      Height = 25
-      Caption = 'Dodaj'
-      TabOrder = 5
+      ViewStyle = vsReport
     end
   end
 end
