@@ -94,7 +94,7 @@ object Form1: TForm1
     object Label4: TLabel
       Left = 48
       Top = 171
-      Width = 65
+      Width = 64
       Height = 15
       Caption = 'Tryb ciemny'
     end
@@ -109,8 +109,8 @@ object Form1: TForm1
     object Label3: TLabel
       Left = 232
       Top = 408
-      Width = 57
-      Height = 73
+      Width = 34
+      Height = 15
       Caption = 'Label3'
     end
     object imgLoan: TImage
@@ -316,5 +316,20 @@ object Form1: TForm1
       Caption = 'Dodaj'
       TabOrder = 5
     end
+  end
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      'Database=pozyczkomat'
+      'DriverID=MySQL510_Embedded')
+    Connected = True
+    Left = 1072
+    Top = 505
+  end
+  object FDQuery1: TFDQuery
+    Connection = FDConnection1
+    SQL.Strings = (
+      'Select * from osoba')
+    Left = 768
+    Top = 553
   end
 end
