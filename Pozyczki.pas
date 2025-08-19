@@ -5,7 +5,12 @@ interface
 uses Winapi.Windows, Winapi.Messages, System.SysUtils,
       System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls,
       Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.WinXCtrls,
-      Vcl.ComCtrls;
+      Vcl.ComCtrls, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error,
+  FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
+  FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait, Data.DB,
+  FireDAC.Comp.Client, FireDAC.Phys.MySQL, FireDAC.Phys.MySQLDef,
+  FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
+  FireDAC.Comp.DataSet;
 
 type
 
@@ -42,6 +47,8 @@ type
     editAddress: TEdit;
     editEmail: TEdit;
     btnAddPerson: TButton;
+    FDConnection1: TFDConnection;
+    FDQuery1: TFDQuery;
 
     procedure btnMainClick(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
@@ -92,6 +99,8 @@ type
 
   procedure TForm1.btnMainClick(Sender: TObject);
     begin
+      FDQuery1.Open();
+      Label3.Caption := FDQuery1.FieldByName('imie').AsString;
       ShowPanel(panelMain);
     end;
 
@@ -122,6 +131,7 @@ type
 
       editWhatMoney.Visible := True;
       editNumber.Visible := False;
+
     end;
 
   procedure TForm1.RadioButtonClick(Sender: TObject);
