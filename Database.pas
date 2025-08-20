@@ -25,6 +25,10 @@ type
     TASelectAllPrzedmiot: TFDTableAdapter;
     MTSelectAllPrzedmiot: TFDMemTable;
     DSPrzedmiot: TDataSource;
+    CMDSelectAllPozyczkaPieniadze: TFDCommand;
+    TASelectAllPozyczkaPieniadze: TFDTableAdapter;
+    MTSelectAllPozyczkaPieniadze: TFDMemTable;
+    DSPozyczkaPieniadze: TDataSource;
   private
     { Private declarations }
   public

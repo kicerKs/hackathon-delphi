@@ -28,7 +28,6 @@ type
     panelAdd: TPanel;
     panelOption: TPanel;
     Label2: TLabel;
-    Label3: TLabel;
     Label4: TLabel;
     imgLoan: TImage;
     btnAddLoan: TButton;
@@ -47,7 +46,7 @@ type
     editAddress: TEdit;
     editEmail: TEdit;
     btnAddPerson: TButton;
-    DBGrid1: TDBGrid;
+    DBGridPozyczkaPrzedmiot: TDBGrid;
     DBGrid2: TDBGrid;
     btnItems: TSpeedButton;
     panelItems: TPanel;
@@ -55,6 +54,7 @@ type
     Edit2: TEdit;
     Button1: TButton;
     DBGrid3: TDBGrid;
+    DBGridPozyczkaPieniadze: TDBGrid;
 
     procedure btnMainClick(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
@@ -76,6 +76,12 @@ type
     procedure editEmailExit(Sender: TObject);
     procedure editAddressEnter(Sender: TObject);
     procedure editAddressExit(Sender: TObject);
+    procedure DBGridPozyczkaPrzedmiotDrawColumnCell(Sender: TObject;
+      const Rect: TRect; DataCol: Integer; Column: TColumn;
+      State: TGridDrawState);
+    procedure DBGridPozyczkaPieniadzeDrawColumnCell(Sender: TObject;
+      const Rect: TRect; DataCol: Integer; Column: TColumn;
+      State: TGridDrawState);
 
     private
     { Private declarations }
@@ -125,7 +131,25 @@ type
       ShowPanel(panelPeople);
     end;
 
-  procedure TForm1.btnOptionsClick(Sender: TObject);
+  procedure TForm1.DBGridPozyczkaPieniadzeDrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  if Column.Title.Caption.Contains('Przeterminowane') then
+    if Column.Field.Text.Contains('1') then DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clRed
+    else DBGridPozyczkaPieniadze.Canvas.Font.Color := clGreen;
+  DBGridPozyczkaPieniadze.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+end;
+
+procedure TForm1.DBGridPozyczkaPrzedmiotDrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  if Column.Title.Caption.Contains('Przeterminowane') then
+    if Column.Field.Text.Contains('1') then DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clRed
+    else DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clGreen;
+  DBGridPozyczkaPrzedmiot.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+end;
+
+procedure TForm1.btnOptionsClick(Sender: TObject);
       begin
         ShowPanel(panelOption);
       end;

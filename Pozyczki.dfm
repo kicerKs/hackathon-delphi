@@ -196,40 +196,6 @@ object Form1: TForm1
       TabOrder = 6
     end
   end
-  object panelMain: TPanel
-    Left = 0
-    Top = 49
-    Width = 1264
-    Height = 632
-    Align = alClient
-    TabOrder = 5
-    object Label3: TLabel
-      Left = 232
-      Top = 408
-      Width = 34
-      Height = 15
-      Caption = 'Label3'
-    end
-    object imgLoan: TImage
-      Left = 656
-      Top = 6
-      Width = 387
-      Height = 387
-    end
-    object DBGrid1: TDBGrid
-      Left = 16
-      Top = 6
-      Width = 1027
-      Height = 387
-      DataSource = DataModule1.DSPozyczkaPrzedmiot
-      TabOrder = 0
-      TitleFont.Charset = DEFAULT_CHARSET
-      TitleFont.Color = clWindowText
-      TitleFont.Height = -12
-      TitleFont.Name = 'Segoe UI'
-      TitleFont.Style = []
-    end
-  end
   object panelPeople: TPanel
     Left = 0
     Top = 49
@@ -360,6 +326,48 @@ object Form1: TForm1
       TitleFont.Height = -12
       TitleFont.Name = 'Segoe UI'
       TitleFont.Style = []
+    end
+  end
+  object panelMain: TPanel
+    Left = 0
+    Top = 49
+    Width = 1264
+    Height = 632
+    Align = alClient
+    TabOrder = 5
+    object imgLoan: TImage
+      Left = 864
+      Top = 230
+      Width = 387
+      Height = 387
+    end
+    object DBGridPozyczkaPrzedmiot: TDBGrid
+      Left = 16
+      Top = 6
+      Width = 1027
+      Height = 227
+      DataSource = DataModule1.DSPozyczkaPrzedmiot
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -12
+      TitleFont.Name = 'Segoe UI'
+      TitleFont.Style = []
+      OnDrawColumnCell = DBGridPozyczkaPrzedmiotDrawColumnCell
+    end
+    object DBGridPozyczkaPieniadze: TDBGrid
+      Left = 16
+      Top = 262
+      Width = 1027
+      Height = 227
+      DataSource = DataModule1.DSPozyczkaPieniadze
+      TabOrder = 1
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -12
+      TitleFont.Name = 'Segoe UI'
+      TitleFont.Style = []
+      OnDrawColumnCell = DBGridPozyczkaPieniadzeDrawColumnCell
     end
   end
 end
