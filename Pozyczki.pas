@@ -10,7 +10,8 @@ uses Winapi.Windows, Winapi.Messages, System.SysUtils,
   FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait, Data.DB,
   FireDAC.Comp.Client, FireDAC.Phys.MySQL, FireDAC.Phys.MySQLDef,
   FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
-  FireDAC.Comp.DataSet;
+  FireDAC.Comp.DataSet, Vcl.Grids, Vcl.DBGrids,
+  Database;
 
 type
 
@@ -29,7 +30,6 @@ type
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
-    listViewLoan: TListView;
     imgLoan: TImage;
     btnAddLoan: TButton;
     loanExpDate: TDateTimePicker;
@@ -47,14 +47,21 @@ type
     editAddress: TEdit;
     editEmail: TEdit;
     btnAddPerson: TButton;
-    FDConnection1: TFDConnection;
-    FDQuery1: TFDQuery;
+    DBGrid1: TDBGrid;
+    DBGrid2: TDBGrid;
+    btnItems: TSpeedButton;
+    panelItems: TPanel;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Button1: TButton;
+    DBGrid3: TDBGrid;
 
     procedure btnMainClick(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
     procedure btnCalendarClick(Sender: TObject);
     procedure btnPeopleClick(Sender: TObject);
-    procedure btnOptionClick(Sender: TObject);
+    procedure btnItemsClick(Sender: TObject);
+    procedure btnOptionsClick(Sender: TObject);
     procedure showPanel(PanelToShow: TPanel);
     procedure formCreate(Sender: TObject);
     procedure radioButtonClick(Sender: TObject);
@@ -94,13 +101,12 @@ type
       panelCalendar.Visible := False;
       panelPeople.Visible := False;
       panelOption.Visible := False;
+      panelItems.Visible := False;
       PanelToShow.Visible := True;
     end;
 
   procedure TForm1.btnMainClick(Sender: TObject);
     begin
-      FDQuery1.Open();
-      Label3.Caption := FDQuery1.FieldByName('imie').AsString;
       ShowPanel(panelMain);
     end;
 
@@ -119,9 +125,14 @@ type
       ShowPanel(panelPeople);
     end;
 
-  procedure TForm1.btnOptionClick(Sender: TObject);
+  procedure TForm1.btnOptionsClick(Sender: TObject);
       begin
         ShowPanel(panelOption);
+      end;
+
+  procedure TForm1.btnItemsClick(Sender: TObject);
+      begin
+        ShowPanel(panelItems);
       end;
 
   //procedury wybrania kasy/itemku i kosmetyka
