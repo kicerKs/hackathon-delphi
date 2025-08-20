@@ -21,7 +21,7 @@ object Form1: TForm1
     object btnMain: TSpeedButton
       Left = 0
       Top = 0
-      Width = 256
+      Width = 200
       Height = 49
       GroupIndex = 1
       Down = True
@@ -30,9 +30,9 @@ object Form1: TForm1
       OnClick = btnMainClick
     end
     object btnAdd: TSpeedButton
-      Left = 256
+      Left = 200
       Top = 0
-      Width = 256
+      Width = 200
       Height = 49
       GroupIndex = 1
       Caption = 'Dodaj'
@@ -40,31 +40,40 @@ object Form1: TForm1
       OnClick = btnAddClick
     end
     object btnCalendar: TSpeedButton
-      Left = 512
+      Left = 400
       Top = 0
-      Width = 256
+      Width = 200
       Height = 49
       GroupIndex = 1
       Caption = 'Kalendarz'
       OnClick = btnCalendarClick
     end
     object btnPeople: TSpeedButton
-      Left = 768
+      Left = 600
       Top = 0
-      Width = 256
+      Width = 200
       Height = 49
       GroupIndex = 1
       Caption = 'Osoby'
       OnClick = btnPeopleClick
     end
     object btnOption: TSpeedButton
-      Left = 1024
+      Left = 1000
       Top = 0
-      Width = 256
+      Width = 200
       Height = 49
       GroupIndex = 1
       Caption = 'Opcje'
-      OnClick = btnOptionClick
+      OnClick = btnOptionsClick
+    end
+    object btnItems: TSpeedButton
+      Left = 800
+      Top = 0
+      Width = 200
+      Height = 49
+      GroupIndex = 1
+      Caption = 'Przedmioty'
+      OnClick = btnItemsClick
     end
   end
   object panelCalendar: TPanel
@@ -73,7 +82,7 @@ object Form1: TForm1
     Width = 1264
     Height = 632
     Align = alClient
-    TabOrder = 3
+    TabOrder = 2
     Visible = False
     object Label2: TLabel
       Left = 624
@@ -89,7 +98,7 @@ object Form1: TForm1
     Width = 1264
     Height = 632
     Align = alClient
-    TabOrder = 5
+    TabOrder = 4
     Visible = False
     object Label4: TLabel
       Left = 48
@@ -99,74 +108,13 @@ object Form1: TForm1
       Caption = 'Tryb ciemny'
     end
   end
-  object panelMain: TPanel
-    Left = 0
-    Top = 49
-    Width = 1264
-    Height = 632
-    Align = alClient
-    TabOrder = 1
-    object Label3: TLabel
-      Left = 232
-      Top = 408
-      Width = 34
-      Height = 15
-      Caption = 'Label3'
-    end
-    object imgLoan: TImage
-      Left = 656
-      Top = 6
-      Width = 387
-      Height = 387
-    end
-    object listViewLoan: TListView
-      Left = 0
-      Top = 6
-      Width = 650
-      Height = 387
-      Columns = <
-        item
-          AutoSize = True
-          Caption = 'Przedmiot/Kasa '
-        end
-        item
-          AutoSize = True
-          Caption = 'Ilo'#347#263'/Kwota'
-        end
-        item
-          AutoSize = True
-          Caption = 'Osoba'
-        end
-        item
-          AutoSize = True
-          Caption = 'Data udzielenia'
-        end
-        item
-          AutoSize = True
-          Caption = 'Data oddania'
-        end
-        item
-          AutoSize = True
-          Caption = 'Status'
-        end
-        item
-          AutoSize = True
-          Caption = 'Telefon'
-        end>
-      GridLines = True
-      ReadOnly = True
-      RowSelect = True
-      TabOrder = 0
-      ViewStyle = vsReport
-    end
-  end
   object panelAdd: TPanel
     Left = 0
     Top = 49
     Width = 1264
     Height = 632
     Align = alClient
-    TabOrder = 4
+    TabOrder = 3
     Visible = False
     object Label1: TLabel
       Left = 208
@@ -254,10 +202,10 @@ object Form1: TForm1
     Width = 1264
     Height = 632
     Align = alClient
-    TabOrder = 2
+    TabOrder = 1
     Visible = False
     object editName: TEdit
-      Left = 16
+      Left = 728
       Top = 23
       Width = 200
       Height = 23
@@ -267,7 +215,7 @@ object Form1: TForm1
       OnExit = editNameExit
     end
     object editSurname: TEdit
-      Left = 16
+      Left = 728
       Top = 52
       Width = 200
       Height = 23
@@ -277,7 +225,7 @@ object Form1: TForm1
       OnExit = editSurnameExit
     end
     object editPhone: TEdit
-      Left = 16
+      Left = 728
       Top = 81
       Width = 200
       Height = 23
@@ -289,7 +237,7 @@ object Form1: TForm1
       OnKeyPress = editPhoneKeyPress
     end
     object editAddress: TEdit
-      Left = 16
+      Left = 728
       Top = 110
       Width = 200
       Height = 23
@@ -299,7 +247,7 @@ object Form1: TForm1
       OnExit = editAddressExit
     end
     object editEmail: TEdit
-      Left = 16
+      Left = 728
       Top = 139
       Width = 200
       Height = 23
@@ -309,27 +257,117 @@ object Form1: TForm1
       OnExit = editEmailExit
     end
     object btnAddPerson: TButton
-      Left = 16
+      Left = 728
       Top = 168
       Width = 200
       Height = 25
       Caption = 'Dodaj'
       TabOrder = 5
     end
+    object DBGrid2: TDBGrid
+      Left = 16
+      Top = 13
+      Width = 689
+      Height = 173
+      DataSource = DataModule1.DSOsoba
+      TabOrder = 6
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -12
+      TitleFont.Name = 'Segoe UI'
+      TitleFont.Style = []
+    end
   end
-  object FDConnection1: TFDConnection
-    Params.Strings = (
-      'Database=pozyczkomat'
-      'DriverID=MySQL510_Embedded')
-    Connected = True
-    Left = 1072
-    Top = 505
+  object panelItems: TPanel
+    Left = 0
+    Top = 49
+    Width = 1264
+    Height = 632
+    Align = alClient
+    TabOrder = 6
+    Visible = False
+    object Edit1: TEdit
+      Left = 728
+      Top = 23
+      Width = 200
+      Height = 23
+      TabOrder = 0
+      Text = 'Nazwa'
+      OnEnter = editNameEnter
+      OnExit = editNameExit
+    end
+    object Edit2: TEdit
+      Left = 728
+      Top = 52
+      Width = 200
+      Height = 23
+      TabOrder = 1
+      Text = #346'cie'#380'ka'
+      OnEnter = editSurnameEnter
+      OnExit = editSurnameExit
+    end
+    object Button1: TButton
+      Left = 728
+      Top = 168
+      Width = 200
+      Height = 25
+      Caption = 'Dodaj'
+      TabOrder = 2
+    end
+    object DBGrid3: TDBGrid
+      Left = 16
+      Top = 13
+      Width = 689
+      Height = 173
+      DataSource = DataModule1.DSPrzedmiot
+      TabOrder = 3
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -12
+      TitleFont.Name = 'Segoe UI'
+      TitleFont.Style = []
+    end
   end
-  object FDQuery1: TFDQuery
-    Connection = FDConnection1
-    SQL.Strings = (
-      'Select * from osoba')
-    Left = 768
-    Top = 553
+  object panelMain: TPanel
+    Left = 0
+    Top = 49
+    Width = 1264
+    Height = 632
+    Align = alClient
+    TabOrder = 5
+    object imgLoan: TImage
+      Left = 864
+      Top = 230
+      Width = 387
+      Height = 387
+    end
+    object DBGridPozyczkaPrzedmiot: TDBGrid
+      Left = 16
+      Top = 6
+      Width = 1027
+      Height = 227
+      DataSource = DataModule1.DSPozyczkaPrzedmiot
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -12
+      TitleFont.Name = 'Segoe UI'
+      TitleFont.Style = []
+      OnDrawColumnCell = DBGridPozyczkaPrzedmiotDrawColumnCell
+    end
+    object DBGridPozyczkaPieniadze: TDBGrid
+      Left = 16
+      Top = 262
+      Width = 1027
+      Height = 227
+      DataSource = DataModule1.DSPozyczkaPieniadze
+      TabOrder = 1
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -12
+      TitleFont.Name = 'Segoe UI'
+      TitleFont.Style = []
+      OnDrawColumnCell = DBGridPozyczkaPieniadzeDrawColumnCell
+    end
   end
 end
