@@ -154,7 +154,6 @@ object DataModule1: TDataModule1
     Top = 248
   end
   object TASelectAllPozyczkaPieniadze: TFDTableAdapter
-    UpdateTableName = 'osoba'
     DatSTableName = 'MTSelectAllPozyczkaPieniadze'
     SelectCommand = CMDSelectAllPozyczkaPieniadze
     Left = 280
@@ -177,5 +176,51 @@ object DataModule1: TDataModule1
     DataSet = MTSelectAllPozyczkaPieniadze
     Left = 592
     Top = 256
+  end
+  object QAddPerson: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      
+        'Insert into osoba (imie, nazwisko, telefon, adres, email) values' +
+        ' (:Imie, :Nazwisko, :Telefon, :Adres, :Email)')
+    Left = 1040
+    Top = 136
+    ParamData = <
+      item
+        Name = 'IMIE'
+        ParamType = ptInput
+      end
+      item
+        Name = 'NAZWISKO'
+        ParamType = ptInput
+      end
+      item
+        Name = 'TELEFON'
+        ParamType = ptInput
+      end
+      item
+        Name = 'ADRES'
+        ParamType = ptInput
+      end
+      item
+        Name = 'EMAIL'
+        ParamType = ptInput
+      end>
+  end
+  object QAddItem: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      'Insert into przedmiot (nazwa, sciezka) values (:Nazwa, :Sciezka)')
+    Left = 1040
+    Top = 208
+    ParamData = <
+      item
+        Name = 'NAZWA'
+        ParamType = ptInput
+      end
+      item
+        Name = 'SCIEZKA'
+        ParamType = ptInput
+      end>
   end
 end

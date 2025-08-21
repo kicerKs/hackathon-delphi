@@ -29,6 +29,8 @@ type
     TASelectAllPozyczkaPieniadze: TFDTableAdapter;
     MTSelectAllPozyczkaPieniadze: TFDMemTable;
     DSPozyczkaPieniadze: TDataSource;
+    QAddPerson: TFDQuery;
+    QAddItem: TFDQuery;
   private
     { Private declarations }
   public
