@@ -196,6 +196,48 @@ object Form1: TForm1
       TabOrder = 6
     end
   end
+  object panelMain: TPanel
+    Left = 0
+    Top = 49
+    Width = 1264
+    Height = 632
+    Align = alClient
+    TabOrder = 5
+    object imgLoan: TImage
+      Left = 864
+      Top = 230
+      Width = 387
+      Height = 387
+    end
+    object DBGridPozyczkaPrzedmiot: TDBGrid
+      Left = 16
+      Top = 6
+      Width = 1027
+      Height = 227
+      DataSource = DataModule1.DSPozyczkaPrzedmiot
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -12
+      TitleFont.Name = 'Segoe UI'
+      TitleFont.Style = []
+      OnDrawColumnCell = DBGridPozyczkaPrzedmiotDrawColumnCell
+    end
+    object DBGridPozyczkaPieniadze: TDBGrid
+      Left = 16
+      Top = 262
+      Width = 1027
+      Height = 227
+      DataSource = DataModule1.DSPozyczkaPieniadze
+      TabOrder = 1
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -12
+      TitleFont.Name = 'Segoe UI'
+      TitleFont.Style = []
+      OnDrawColumnCell = DBGridPozyczkaPieniadzeDrawColumnCell
+    end
+  end
   object panelPeople: TPanel
     Left = 0
     Top = 49
@@ -263,8 +305,9 @@ object Form1: TForm1
       Height = 25
       Caption = 'Dodaj'
       TabOrder = 5
+      OnClick = btnAddPersonClick
     end
-    object DBGrid2: TDBGrid
+    object DBGridPerson: TDBGrid
       Left = 16
       Top = 13
       Width = 689
@@ -286,7 +329,7 @@ object Form1: TForm1
     Align = alClient
     TabOrder = 6
     Visible = False
-    object Edit1: TEdit
+    object editItemName: TEdit
       Left = 728
       Top = 23
       Width = 200
@@ -296,7 +339,7 @@ object Form1: TForm1
       OnEnter = editNameEnter
       OnExit = editNameExit
     end
-    object Edit2: TEdit
+    object editItemPath: TEdit
       Left = 728
       Top = 52
       Width = 200
@@ -306,15 +349,16 @@ object Form1: TForm1
       OnEnter = editSurnameEnter
       OnExit = editSurnameExit
     end
-    object Button1: TButton
+    object btnAddItem: TButton
       Left = 728
       Top = 168
       Width = 200
       Height = 25
       Caption = 'Dodaj'
       TabOrder = 2
+      OnClick = btnAddItemClick
     end
-    object DBGrid3: TDBGrid
+    object DBGridItem: TDBGrid
       Left = 16
       Top = 13
       Width = 689
@@ -326,48 +370,6 @@ object Form1: TForm1
       TitleFont.Height = -12
       TitleFont.Name = 'Segoe UI'
       TitleFont.Style = []
-    end
-  end
-  object panelMain: TPanel
-    Left = 0
-    Top = 49
-    Width = 1264
-    Height = 632
-    Align = alClient
-    TabOrder = 5
-    object imgLoan: TImage
-      Left = 864
-      Top = 230
-      Width = 387
-      Height = 387
-    end
-    object DBGridPozyczkaPrzedmiot: TDBGrid
-      Left = 16
-      Top = 6
-      Width = 1027
-      Height = 227
-      DataSource = DataModule1.DSPozyczkaPrzedmiot
-      TabOrder = 0
-      TitleFont.Charset = DEFAULT_CHARSET
-      TitleFont.Color = clWindowText
-      TitleFont.Height = -12
-      TitleFont.Name = 'Segoe UI'
-      TitleFont.Style = []
-      OnDrawColumnCell = DBGridPozyczkaPrzedmiotDrawColumnCell
-    end
-    object DBGridPozyczkaPieniadze: TDBGrid
-      Left = 16
-      Top = 262
-      Width = 1027
-      Height = 227
-      DataSource = DataModule1.DSPozyczkaPieniadze
-      TabOrder = 1
-      TitleFont.Charset = DEFAULT_CHARSET
-      TitleFont.Color = clWindowText
-      TitleFont.Height = -12
-      TitleFont.Name = 'Segoe UI'
-      TitleFont.Style = []
-      OnDrawColumnCell = DBGridPozyczkaPieniadzeDrawColumnCell
     end
   end
 end

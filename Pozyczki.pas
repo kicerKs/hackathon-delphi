@@ -47,13 +47,13 @@ type
     editEmail: TEdit;
     btnAddPerson: TButton;
     DBGridPozyczkaPrzedmiot: TDBGrid;
-    DBGrid2: TDBGrid;
+    DBGridPerson: TDBGrid;
     btnItems: TSpeedButton;
     panelItems: TPanel;
-    Edit1: TEdit;
-    Edit2: TEdit;
-    Button1: TButton;
-    DBGrid3: TDBGrid;
+    editItemName: TEdit;
+    editItemPath: TEdit;
+    btnAddItem: TButton;
+    DBGridItem: TDBGrid;
     DBGridPozyczkaPieniadze: TDBGrid;
 
     procedure btnMainClick(Sender: TObject);
@@ -82,6 +82,8 @@ type
     procedure DBGridPozyczkaPieniadzeDrawColumnCell(Sender: TObject;
       const Rect: TRect; DataCol: Integer; Column: TColumn;
       State: TGridDrawState);
+    procedure btnAddPersonClick(Sender: TObject);
+    procedure btnAddItemClick(Sender: TObject);
 
     private
     { Private declarations }
@@ -121,7 +123,26 @@ type
       ShowPanel(panelAdd);
     end;
 
-  procedure TForm1.btnCalendarClick(Sender: TObject);
+  procedure TForm1.btnAddItemClick(Sender: TObject);
+begin
+   Database.DataModule1.QAddItem.ParamByName('nazwa').AsString := editItemName.Text;
+   Database.DataModule1.QAddItem.ParamByName('sciezka').AsString := editItemPath.Text;
+   Database.DataModule1.QAddItem.ExecSQL;
+   DBGridItem.DataSource.DataSet.Refresh;
+end;
+
+procedure TForm1.btnAddPersonClick(Sender: TObject);
+begin
+   Database.DataModule1.QAddPerson.ParamByName('imie').AsString := editName.Text;
+   Database.DataModule1.QAddPerson.ParamByName('nazwisko').AsString := editSurname.Text;
+   Database.DataModule1.QAddPerson.ParamByName('telefon').AsString := editPhone.Text;
+   Database.DataModule1.QAddPerson.ParamByName('adres').AsString := editAddress.Text;
+   Database.DataModule1.QAddPerson.ParamByName('email').AsString := editEmail.Text;
+   Database.DataModule1.QAddPerson.ExecSQL;
+   DBGridPerson.DataSource.DataSet.Refresh;
+end;
+
+procedure TForm1.btnCalendarClick(Sender: TObject);
     begin
       ShowPanel(panelCalendar);
     end;
