@@ -11,277 +11,69 @@ uses Winapi.Windows, Winapi.Messages, System.SysUtils,
   FireDAC.Comp.Client, FireDAC.Phys.MySQL, FireDAC.Phys.MySQLDef,
   FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
   FireDAC.Comp.DataSet, Vcl.Grids, Vcl.DBGrids,
-  Database;
+  Database, uFrameAdd, uFrameMain, uFrameCalendar, uFramePeople, uFrameOption, uFrameItems,
+  uFrameNav;
 
 type
 
   TForm1 = class(TForm)
     panelNav: TPanel;
-    btnMain: TSpeedButton;
-    btnAdd: TSpeedButton;
-    btnCalendar: TSpeedButton;
-    btnPeople: TSpeedButton;
-    btnOption: TSpeedButton;
-    panelMain: TPanel;
-    panelPeople: TPanel;
-    panelCalendar: TPanel;
-    panelAdd: TPanel;
-    panelOption: TPanel;
-    Label2: TLabel;
-    Label4: TLabel;
-    imgLoan: TImage;
-    btnAddLoan: TButton;
-    loanExpDate: TDateTimePicker;
-    editWhatMoney: TEdit;
-    radioItem: TRadioButton;
-    radioMoney: TRadioButton;
-    Label1: TLabel;
-    editNumber: TEdit;
-    Label6: TLabel;
-    comboBoxPerson: TComboBox;
-    Label7: TLabel;
-    editName: TEdit;
-    editSurname: TEdit;
-    editPhone: TEdit;
-    editAddress: TEdit;
-    editEmail: TEdit;
-    btnAddPerson: TButton;
-    DBGridPozyczkaPrzedmiot: TDBGrid;
-    DBGridPerson: TDBGrid;
-    btnItems: TSpeedButton;
-    panelItems: TPanel;
-    editItemName: TEdit;
-    editItemPath: TEdit;
-    btnAddItem: TButton;
-    DBGridItem: TDBGrid;
-    DBGridPozyczkaPieniadze: TDBGrid;
+    panelContent: TPanel;
 
-    procedure btnMainClick(Sender: TObject);
-    procedure btnAddClick(Sender: TObject);
-    procedure btnCalendarClick(Sender: TObject);
-    procedure btnPeopleClick(Sender: TObject);
-    procedure btnItemsClick(Sender: TObject);
-    procedure btnOptionsClick(Sender: TObject);
-    procedure showPanel(PanelToShow: TPanel);
-    procedure formCreate(Sender: TObject);
-    procedure radioButtonClick(Sender: TObject);
-    procedure editPhoneKeyPress(Sender: TObject; var Key: Char);
-    procedure editPhoneExit(Sender: TObject);
-    procedure editPhoneEnter(Sender: TObject);
-    procedure editNameExit(Sender: TObject);
-    procedure editNameEnter(Sender: TObject);
-    procedure editSurnameEnter(Sender: TObject);
-    procedure editSurnameExit(Sender: TObject);
-    procedure editEmailEnter(Sender: TObject);
-    procedure editEmailExit(Sender: TObject);
-    procedure editAddressEnter(Sender: TObject);
-    procedure editAddressExit(Sender: TObject);
-    procedure DBGridPozyczkaPrzedmiotDrawColumnCell(Sender: TObject;
-      const Rect: TRect; DataCol: Integer; Column: TColumn;
-      State: TGridDrawState);
-    procedure DBGridPozyczkaPieniadzeDrawColumnCell(Sender: TObject;
-      const Rect: TRect; DataCol: Integer; Column: TColumn;
-      State: TGridDrawState);
-    procedure btnAddPersonClick(Sender: TObject);
-    procedure btnAddItemClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
 
     private
-    { Private declarations }
+      FrameAdd: TFrameAdd;
+      FrameMain: TFrameMain;
+      FrameCalendar: TFrameCalendar;
+      FramePeople: TFramePeople;
+      FrameOption: TFrameOption;
+      FrameItems: TFrameItems;
+      FrameNav: TFrameNav;
 
     public
     { Public declarations }
 
     end;
 
-  var
-    Form1: TForm1;
+    var
+      Form1: TForm1;
 
   implementation
   {$R *.dfm}
 
 
   //procedury(klasy te co wykonuje bez zwracania wartosci)
-  //obs³uga zmian okienek
-  procedure TForm1.ShowPanel(PanelToShow: TPanel);
-    begin
-      panelMain.Visible := False;
-      panelAdd.Visible := False;
-      panelCalendar.Visible := False;
-      panelPeople.Visible := False;
-      panelOption.Visible := False;
-      panelItems.Visible := False;
-      PanelToShow.Visible := True;
-    end;
-
-  procedure TForm1.btnMainClick(Sender: TObject);
-    begin
-      ShowPanel(panelMain);
-    end;
-
-  procedure TForm1.btnAddClick(Sender: TObject);
-    begin
-      ShowPanel(panelAdd);
-    end;
-
-  procedure TForm1.btnAddItemClick(Sender: TObject);
-begin
-   Database.DataModule1.QAddItem.ParamByName('nazwa').AsString := editItemName.Text;
-   Database.DataModule1.QAddItem.ParamByName('sciezka').AsString := editItemPath.Text;
-   Database.DataModule1.QAddItem.ExecSQL;
-   DBGridItem.DataSource.DataSet.Refresh;
-end;
-
-procedure TForm1.btnAddPersonClick(Sender: TObject);
-begin
-   Database.DataModule1.QAddPerson.ParamByName('imie').AsString := editName.Text;
-   Database.DataModule1.QAddPerson.ParamByName('nazwisko').AsString := editSurname.Text;
-   Database.DataModule1.QAddPerson.ParamByName('telefon').AsString := editPhone.Text;
-   Database.DataModule1.QAddPerson.ParamByName('adres').AsString := editAddress.Text;
-   Database.DataModule1.QAddPerson.ParamByName('email').AsString := editEmail.Text;
-   Database.DataModule1.QAddPerson.ExecSQL;
-   DBGridPerson.DataSource.DataSet.Refresh;
-end;
-
-procedure TForm1.btnCalendarClick(Sender: TObject);
-    begin
-      ShowPanel(panelCalendar);
-    end;
-
-  procedure TForm1.btnPeopleClick(Sender: TObject);
-    begin
-      ShowPanel(panelPeople);
-    end;
-
-  procedure TForm1.DBGridPozyczkaPieniadzeDrawColumnCell(Sender: TObject;
-  const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
-begin
-  if Column.Title.Caption.Contains('Przeterminowane') then
-    if Column.Field.Text.Contains('1') then DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clRed
-    else DBGridPozyczkaPieniadze.Canvas.Font.Color := clGreen;
-  DBGridPozyczkaPieniadze.DefaultDrawColumnCell(Rect, DataCol, Column, State);
-end;
-
-procedure TForm1.DBGridPozyczkaPrzedmiotDrawColumnCell(Sender: TObject;
-  const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
-begin
-  if Column.Title.Caption.Contains('Przeterminowane') then
-    if Column.Field.Text.Contains('1') then DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clRed
-    else DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clGreen;
-  DBGridPozyczkaPrzedmiot.DefaultDrawColumnCell(Rect, DataCol, Column, State);
-end;
-
-procedure TForm1.btnOptionsClick(Sender: TObject);
-      begin
-        ShowPanel(panelOption);
-      end;
-
-  procedure TForm1.btnItemsClick(Sender: TObject);
-      begin
-        ShowPanel(panelItems);
-      end;
-
-  //procedury wybrania kasy/itemku i kosmetyka
+  //stworzenie i wywolanie frame'ow
   procedure TForm1.FormCreate(Sender: TObject);
+  var
+    Frames: array[0..5] of TFrame;
+    i: Integer;
+  begin
+    FrameNav := TFrameNav.Create(Self);
+    FrameNav.Parent := panelNav;
+    FrameNav.Align := alTop;
+    FrameNav.Visible := True;
+
+    // Tworzymy tablicê frame'ów
+    Frames[0] := TFrameMain.Create(Self);
+    Frames[1] := TFrameAdd.Create(Self);
+    Frames[2] := TFrameCalendar.Create(Self);
+    Frames[3] := TFramePeople.Create(Self);
+    Frames[4] := TFrameOption.Create(Self);
+    Frames[5] := TFrameItems.Create(Self);
+
+    // Pêtla ustawiaj¹ca w³aœciwoœci wspólne dla wszystkich frame'ów
+    for i := 0 to High(Frames) do
     begin
-      radioMoney.Checked := True;
-
-      editWhatMoney.Visible := True;
-      editNumber.Visible := False;
-
-    end;
-
-  procedure TForm1.RadioButtonClick(Sender: TObject);
-    const
-      shiftAmount = 29;
-    begin
-      if RadioMoney.Checked then
-      begin
-        editWhatMoney.Visible := True;
-        editNumber.Visible := False;
-        label6.Visible := False;
-        btnAddLoan.Top := btnAddLoan.Top - shiftAmount;
-        loanExpDate.Top := loanExpDate.Top - shiftAmount;
-        Label1.Caption := 'Kwota';
-      end
-      else if RadioItem.Checked then
-      begin
-        editWhatMoney.Visible := True;
-        editNumber.Visible := True;
-        label6.Visible := True;
-        btnAddLoan.Top := btnAddLoan.Top + shiftAmount;
-        loanExpDate.Top := loanExpDate.Top + shiftAmount;
-        Label1.Caption := 'Przedmiot';
-      end;
+      Frames[i].Parent := panelContent;
+      Frames[i].Align := alClient;
+      Frames[i].Visible := i = 0;
     end;
 
-  //procedury do dodawania osób (walidacja i kosmetyka usuwania tekstu)
-  procedure TForm1.editPhoneKeyPress(Sender: TObject; var Key: Char);
-    begin
-      if not CharInSet(Key, ['0'..'9', #8]) then
-        Key := #0;
-    end;
-  procedure TForm1.EditPhoneExit(Sender: TObject);
-    var
-      Phone: string;
-    begin
-      Phone := EditPhone.Text;
-      if (EditPhone.Text = '') then
-        EditPhone.Text := 'Telefon'
-      else if (Length(Phone) < 7) or
-         (Phone[1] <> '+') and not CharInSet(Phone[1], ['0'..'9']) then
-        ShowMessage('Nieprawid³owy numer telefonu!');
-    end;
-  procedure TForm1.editPhoneEnter(Sender: TObject);
-    begin
-      if EditPhone.Text = 'Telefon' then
-        EditPhone.Clear;
-    end;
+    // Inicjalizacja FrameNav
+    FrameNav.Initialize(panelContent, Frames[0], Frames[1], Frames[2],
+    Frames[3], Frames[4], Frames[5]);
+  end;
 
-  procedure TForm1.EditNameEnter(Sender: TObject);
-    begin
-      if EditName.Text = 'Imiê' then
-        EditName.Clear;
-    end;
-
-  procedure TForm1.EditNameExit(Sender: TObject);
-    begin
-      if EditName.Text = '' then
-        EditName.Text := 'Imiê';
-    end;
-
-  procedure TForm1.EditSurnameEnter(Sender: TObject);
-    begin
-      if EditSurname.Text = 'Nazwisko' then
-        EditSurname.Clear;
-    end;
-
-  procedure TForm1.EditSurnameExit(Sender: TObject);
-    begin
-      if EditSurname.Text = '' then
-        EditSurname.Text := 'Nazwisko';
-    end;
-
-  procedure TForm1.EditEmailEnter(Sender: TObject);
-    begin
-      if EditEmail.Text = 'E-Mail' then
-        EditEmail.Clear;
-    end;
-
-  procedure TForm1.EditEmailExit(Sender: TObject);
-    begin
-      if EditEmail.Text = '' then
-        EditEmail.Text := 'E-Mail';
-    end;
-
-  procedure TForm1.EditAddressEnter(Sender: TObject);
-    begin
-      if EditAddress.Text = 'Adres' then
-        EditAddress.Clear;
-    end;
-
-  procedure TForm1.EditAddressExit(Sender: TObject);
-    begin
-      if EditAddress.Text = '' then
-        EditAddress.Text := 'Adres';
-    end;
 end.
