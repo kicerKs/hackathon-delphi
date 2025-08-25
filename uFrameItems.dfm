@@ -11,7 +11,14 @@ object FrameItems: TFrameItems
     Height = 480
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 640
+    object itemImage: TImage
+      Left = 728
+      Top = 164
+      Width = 200
+      Height = 205
+      Center = True
+      Proportional = True
+    end
     object editItemName: TEdit
       Left = 728
       Top = 44
