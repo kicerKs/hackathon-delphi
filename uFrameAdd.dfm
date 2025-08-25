@@ -11,10 +11,6 @@ object FrameAdd: TFrameAdd
     Height = 480
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = -624
-    ExplicitTop = -152
-    ExplicitWidth = 1264
-    ExplicitHeight = 632
     object Label1: TLabel
       Left = 208
       Top = 84
@@ -43,6 +39,7 @@ object FrameAdd: TFrameAdd
       Height = 25
       Caption = 'Dodaj'
       TabOrder = 0
+      OnClick = clickButtonAdd
     end
     object loanExpDate: TDateTimePicker
       Left = 16

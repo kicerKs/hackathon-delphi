@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
-  Vcl.ComCtrls, Vcl.ExtCtrls;
+  Vcl.ComCtrls, Vcl.ExtCtrls, Database;
 
 type
   TFrameAdd = class(TFrame)
@@ -22,6 +22,7 @@ type
     comboBoxPerson: TComboBox;
 
     procedure RadioButtonClick(Sender: TObject);
+    procedure clickButtonAdd(Sender: TObject);
   private
     { Private declarations }
   public
@@ -32,7 +33,20 @@ implementation
 
 {$R *.dfm}
 
-  constructor TFrameAdd.Create(AOwner: TComponent);
+procedure TFrameAdd.clickButtonAdd(Sender: TObject);
+var
+  v: Variant;
+begin
+   Database.DataModule1.DSOsoba.DataSet.First;
+   while not Database.DataModule1.DSOsoba.DataSet.Eof do
+   begin
+      comboBoxPerson.Items.AddPair(Database.DataModule1.DSOsoba.DataSet.FieldByName('Imiê').AsString+' '+Database.DataModule1.DSOsoba.DataSet.FieldByName('Nazwisko').AsString, Database.DataModule1.DSOsoba.DataSet.FieldByName('ID').AsString);
+      Database.DataModule1.DSOsoba.DataSet.Next;
+   end;
+   Database.DataModule1.DSOsoba.DataSet.First;
+end;
+
+constructor TFrameAdd.Create(AOwner: TComponent);
     begin
       inherited Create(AOwner);
       radioMoney.Checked := True;
