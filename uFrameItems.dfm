@@ -1,23 +1,20 @@
 object FrameItems: TFrameItems
   Left = 0
   Top = 0
-  Width = 640
+  Width = 1123
   Height = 480
   TabOrder = 0
   object panelItems: TPanel
     Left = 0
     Top = 0
-    Width = 640
+    Width = 1123
     Height = 480
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = -624
-    ExplicitTop = -152
-    ExplicitWidth = 1264
-    ExplicitHeight = 632
+    ExplicitWidth = 640
     object editItemName: TEdit
       Left = 728
-      Top = 23
+      Top = 44
       Width = 200
       Height = 23
       TabOrder = 0
@@ -25,7 +22,7 @@ object FrameItems: TFrameItems
     end
     object editItemPath: TEdit
       Left = 728
-      Top = 52
+      Top = 73
       Width = 200
       Height = 23
       TabOrder = 1
@@ -33,7 +30,7 @@ object FrameItems: TFrameItems
     end
     object btnAddItem: TButton
       Left = 728
-      Top = 168
+      Top = 102
       Width = 200
       Height = 25
       Caption = 'Dodaj'
@@ -52,6 +49,46 @@ object FrameItems: TFrameItems
       TitleFont.Height = -12
       TitleFont.Name = 'Segoe UI'
       TitleFont.Style = []
+      OnDblClick = DBGridItemDblClick
+    end
+    object btnEditItem: TButton
+      Left = 728
+      Top = 102
+      Width = 200
+      Height = 25
+      Caption = 'Edytuj'
+      TabOrder = 4
+      Visible = False
+      OnClick = btnEditItemClick
+    end
+    object btnDelItem: TButton
+      Left = 728
+      Top = 133
+      Width = 200
+      Height = 25
+      Caption = 'Usu'#324
+      TabOrder = 5
+      Visible = False
+      OnClick = btnDelItemClick
+    end
+    object btnGoEdit: TButton
+      Left = 728
+      Top = 13
+      Width = 200
+      Height = 25
+      Caption = 'Edycja'
+      TabOrder = 6
+      OnClick = btnGoEditClick
+    end
+    object btnGoAdd: TButton
+      Left = 728
+      Top = 13
+      Width = 200
+      Height = 25
+      Caption = 'Dodawanie'
+      TabOrder = 7
+      Visible = False
+      OnClick = btnGoAddClick
     end
   end
 end

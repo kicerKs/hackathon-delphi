@@ -68,13 +68,13 @@ object DataModule1: TDataModule1
         'Select id as ID, imie as Imi'#281', nazwisko as Nazwisko, telefon as ' +
         #39'Nr. telefonu'#39', email as '#39'E-mail'#39', adres as Adres from osoba')
     Left = 88
-    Top = 320
+    Top = 344
   end
   object TASelectAllOsoba: TFDTableAdapter
     DatSTableName = 'MTSelectAllOsoba'
     SelectCommand = CMDSelectAllOsoba
     Left = 248
-    Top = 328
+    Top = 344
   end
   object MTSelectAllOsoba: TFDMemTable
     Active = True
@@ -87,7 +87,7 @@ object DataModule1: TDataModule1
     UpdateOptions.AutoCommitUpdates = True
     Adapter = TASelectAllOsoba
     Left = 424
-    Top = 336
+    Top = 344
   end
   object DSOsoba: TDataSource
     DataSet = MTSelectAllOsoba
@@ -174,8 +174,8 @@ object DataModule1: TDataModule1
   end
   object DSPozyczkaPieniadze: TDataSource
     DataSet = MTSelectAllPozyczkaPieniadze
-    Left = 592
-    Top = 256
+    Left = 608
+    Top = 248
   end
   object QAddPerson: TFDQuery
     Connection = PozyczkomatDatabaseConnection
@@ -211,8 +211,8 @@ object DataModule1: TDataModule1
     Connection = PozyczkomatDatabaseConnection
     SQL.Strings = (
       'Insert into przedmiot (nazwa, sciezka) values (:Nazwa, :Sciezka)')
-    Left = 1040
-    Top = 208
+    Left = 1144
+    Top = 136
     ParamData = <
       item
         Name = 'NAZWA'
@@ -220,6 +220,93 @@ object DataModule1: TDataModule1
       end
       item
         Name = 'SCIEZKA'
+        ParamType = ptInput
+      end>
+  end
+  object QUpdatePerson: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      'UPDATE osoba'
+      'SET imie = :Imie,'
+      '    nazwisko = :Nazwisko,'
+      '    telefon = :Telefon,'
+      '    adres = :Adres,'
+      '    email = :Email'
+      'WHERE id = :ID')
+    Left = 1040
+    Top = 200
+    ParamData = <
+      item
+        Name = 'IMIE'
+        ParamType = ptInput
+      end
+      item
+        Name = 'NAZWISKO'
+        ParamType = ptInput
+      end
+      item
+        Name = 'TELEFON'
+        ParamType = ptInput
+      end
+      item
+        Name = 'ADRES'
+        ParamType = ptInput
+      end
+      item
+        Name = 'EMAIL'
+        ParamType = ptInput
+      end
+      item
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+  end
+  object QDeletePerson: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      'DELETE FROM osoba'
+      'WHERE id = :ID')
+    Left = 1040
+    Top = 264
+    ParamData = <
+      item
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+  end
+  object QUpdateItem: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      'UPDATE przedmiot'
+      'SET nazwa = :Nazwa,'
+      '    sciezka = :Sciezka'
+      'WHERE id = :ID;')
+    Left = 1144
+    Top = 200
+    ParamData = <
+      item
+        Name = 'NAZWA'
+        ParamType = ptInput
+      end
+      item
+        Name = 'SCIEZKA'
+        ParamType = ptInput
+      end
+      item
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+  end
+  object QDeleteItem: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      'DELETE FROM przedmiot'
+      'WHERE id = :ID;')
+    Left = 1144
+    Top = 264
+    ParamData = <
+      item
+        Name = 'ID'
         ParamType = ptInput
       end>
   end

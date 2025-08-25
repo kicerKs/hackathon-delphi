@@ -31,6 +31,10 @@ type
     DSPozyczkaPieniadze: TDataSource;
     QAddPerson: TFDQuery;
     QAddItem: TFDQuery;
+    QUpdatePerson: TFDQuery;
+    QDeletePerson: TFDQuery;
+    QUpdateItem: TFDQuery;
+    QDeleteItem: TFDQuery;
   private
     { Private declarations }
   public

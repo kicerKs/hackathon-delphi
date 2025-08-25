@@ -1,23 +1,21 @@
 object FramePeople: TFramePeople
   Left = 0
   Top = 0
-  Width = 640
-  Height = 480
+  Width = 1389
+  Height = 744
   TabOrder = 0
   object panelPeople: TPanel
     Left = 0
     Top = 0
-    Width = 640
-    Height = 480
+    Width = 1389
+    Height = 744
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = -624
-    ExplicitTop = -152
-    ExplicitWidth = 1264
-    ExplicitHeight = 632
+    ExplicitWidth = 637
+    ExplicitHeight = 480
     object editName: TEdit
       Left = 728
-      Top = 23
+      Top = 44
       Width = 200
       Height = 23
       TabOrder = 0
@@ -27,7 +25,7 @@ object FramePeople: TFramePeople
     end
     object editSurname: TEdit
       Left = 728
-      Top = 52
+      Top = 73
       Width = 200
       Height = 23
       TabOrder = 1
@@ -37,7 +35,7 @@ object FramePeople: TFramePeople
     end
     object editPhone: TEdit
       Left = 728
-      Top = 81
+      Top = 102
       Width = 200
       Height = 23
       Hint = 'Telefon'
@@ -49,7 +47,7 @@ object FramePeople: TFramePeople
     end
     object editAddress: TEdit
       Left = 728
-      Top = 110
+      Top = 131
       Width = 200
       Height = 23
       TabOrder = 3
@@ -59,7 +57,7 @@ object FramePeople: TFramePeople
     end
     object editEmail: TEdit
       Left = 728
-      Top = 139
+      Top = 160
       Width = 200
       Height = 23
       TabOrder = 4
@@ -69,7 +67,7 @@ object FramePeople: TFramePeople
     end
     object btnAddPerson: TButton
       Left = 728
-      Top = 168
+      Top = 189
       Width = 200
       Height = 25
       Caption = 'Dodaj'
@@ -80,14 +78,56 @@ object FramePeople: TFramePeople
       Left = 16
       Top = 13
       Width = 689
-      Height = 173
+      Height = 300
       DataSource = DataModule1.DSOsoba
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+      ReadOnly = True
       TabOrder = 6
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
       TitleFont.Height = -12
       TitleFont.Name = 'Segoe UI'
       TitleFont.Style = []
+      OnDblClick = DBGridPersonDblClick
+    end
+    object btnEditPerson: TButton
+      Left = 728
+      Top = 189
+      Width = 200
+      Height = 25
+      Caption = 'Edytuj'
+      TabOrder = 7
+      Visible = False
+      OnClick = btnEditPersonClick
+    end
+    object btnDelete: TButton
+      Left = 728
+      Top = 220
+      Width = 200
+      Height = 25
+      Caption = 'Usu'#324
+      TabOrder = 8
+      Visible = False
+      OnClick = btnDeleteClick
+    end
+    object btnGoAdd: TButton
+      Left = 728
+      Top = 13
+      Width = 200
+      Height = 25
+      Caption = 'Przejd'#378' do dodawania'
+      TabOrder = 9
+      Visible = False
+      OnClick = btnGoAddClick
+    end
+    object btnGoEdit: TButton
+      Left = 728
+      Top = 13
+      Width = 200
+      Height = 25
+      Caption = 'Przejd'#378' do Edycji'
+      TabOrder = 10
+      OnClick = btnGoEditClick
     end
   end
 end
