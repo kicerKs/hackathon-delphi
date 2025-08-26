@@ -22,6 +22,7 @@ type
     procedure DBGridPozyczkaPrzedmiotDrawColumnCell(Sender: TObject;
   const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure toggleSwitchClick(Sender: TObject);
+    procedure refreshDB();
   private
     { Private declarations }
   public
@@ -65,4 +66,10 @@ implementation
       else DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clGreen;
       DBGridPozyczkaPrzedmiot.DefaultDrawColumnCell(Rect, DataCol, Column, State);
     end;
+
+  procedure TFrameMain.refreshDB();
+  begin
+    DBGridPozyczkaPieniadze.DataSource.DataSet.Refresh;
+    DBGridPozyczkaPrzedmiot.DataSource.DataSet.Refresh;
+  end;
 end.

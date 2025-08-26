@@ -11,8 +11,6 @@ object FrameMain: TFrameMain
     Height = 634
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 1338
-    ExplicitHeight = 632
     object imgLoan: TImage
       Left = 936
       Top = 272

@@ -5,21 +5,24 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
-  Vcl.ComCtrls, Vcl.ExtCtrls, Database;
+  Vcl.ComCtrls, Vcl.ExtCtrls, Database, DateUtils;
 
 type
   TFrameAdd = class(TFrame)
     panelAdd: TPanel;
-    Label1: TLabel;
-    Label6: TLabel;
-    Label7: TLabel;
+    label2: TLabel;
+    label3: TLabel;
+    label1: TLabel;
     btnAddLoan: TButton;
     loanExpDate: TDateTimePicker;
-    editWhatMoney: TEdit;
     radioItem: TRadioButton;
     radioMoney: TRadioButton;
     editNumber: TEdit;
     comboBoxPerson: TComboBox;
+    comboBoxItem: TComboBox;
+    loanGivenDate: TDateTimePicker;
+    label4: TLabel;
+    label5: TLabel;
 
     procedure RadioButtonClick(Sender: TObject);
     procedure clickButtonAdd(Sender: TObject);
@@ -27,6 +30,7 @@ type
     { Private declarations }
   public
     constructor Create(AOwner: TComponent); override;
+    procedure refreshDB();
   end;
 
 implementation
@@ -34,48 +38,96 @@ implementation
 {$R *.dfm}
 
 procedure TFrameAdd.clickButtonAdd(Sender: TObject);
-var
-  v: Variant;
 begin
-   Database.DataModule1.DSOsoba.DataSet.First;
-   while not Database.DataModule1.DSOsoba.DataSet.Eof do
-   begin
-      comboBoxPerson.Items.AddPair(Database.DataModule1.DSOsoba.DataSet.FieldByName('Imiê').AsString+' '+Database.DataModule1.DSOsoba.DataSet.FieldByName('Nazwisko').AsString, Database.DataModule1.DSOsoba.DataSet.FieldByName('ID').AsString);
-      Database.DataModule1.DSOsoba.DataSet.Next;
-   end;
-   Database.DataModule1.DSOsoba.DataSet.First;
+  if RadioItem.Checked then
+  begin
+     with Database.DataModule1 do
+      begin
+       QAddPozyczkaPrzedmiot.ParamByName('IDO').AsString := comboBoxPerson.Items[comboBoxPerson.ItemIndex].Split(comboBoxPerson.Items.NameValueSeparator)[1];
+       QAddPozyczkaPrzedmiot.ParamByName('IDP').AsString := comboBoxItem.Items[comboBoxItem.ItemIndex].Split(comboBoxItem.Items.NameValueSeparator)[1];
+       QAddPozyczkaPrzedmiot.ParamByName('Ilosc').AsString := editNumber.Text;
+       QAddPozyczkaPrzedmiot.ParamByName('DataU').AsString := FormatDateTime('yyyy-mm-dd hh:mm:ss', loanGivenDate.Date);
+       QAddPozyczkaPrzedmiot.ParamByName('Termin').AsString := FormatDateTime('yyyy-mm-dd hh:mm:ss', loanExpDate.Date);
+       QAddPozyczkaPrzedmiot.ExecSQL;
+      end;
+  end
+  else if RadioMoney.Checked then
+  begin
+    with Database.DataModule1 do
+      begin
+       QAddPozyczkaPieniadze.ParamByName('IDO').AsString := comboBoxPerson.Items[comboBoxPerson.ItemIndex].Split(comboBoxPerson.Items.NameValueSeparator)[1];
+       QAddPozyczkaPieniadze.ParamByName('Ilosc').AsString := editNumber.Text;
+       QAddPozyczkaPieniadze.ParamByName('DataU').AsString := FormatDateTime('yyyy-mm-dd hh:mm:ss', loanGivenDate.Date);
+       QAddPozyczkaPieniadze.ParamByName('Termin').AsString := FormatDateTime('yyyy-mm-dd hh:mm:ss', loanExpDate.Date);
+       QAddPozyczkaPieniadze.ExecSQL;
+      end;
+  end;
+
+
 end;
 
 constructor TFrameAdd.Create(AOwner: TComponent);
     begin
       inherited Create(AOwner);
       radioMoney.Checked := True;
-      editWhatMoney.Visible := True;
-      editNumber.Visible := False;
+      editNumber.Visible := True;
     end;
 
-  procedure TFrameAdd.RadioButtonClick(Sender: TObject);
+procedure TFrameAdd.RadioButtonClick(Sender: TObject);
     const
       shiftAmount = 29;
     begin
       if RadioMoney.Checked then
       begin
-        editWhatMoney.Visible := True;
-        editNumber.Visible := False;
-        label6.Visible := False;
+        comboBoxItem.Visible := False;
+        editNumber.Visible := True;
         btnAddLoan.Top := btnAddLoan.Top - shiftAmount;
         loanExpDate.Top := loanExpDate.Top - shiftAmount;
-        Label1.Caption := 'Kwota';
+        loanGivenDate.Top := loanGivenDate.Top - shiftAmount;
+        editNumber.Top := editNumber.Top - shiftAmount;
+        Label2.Caption := 'Kwota';
+        Label3.Caption := 'Data udzielenia';
+        Label4.Caption := 'Termin';
+        Label5.Visible := False;
       end
       else if RadioItem.Checked then
       begin
-        editWhatMoney.Visible := True;
+        comboBoxItem.Visible := True;
         editNumber.Visible := True;
-        label6.Visible := True;
         btnAddLoan.Top := btnAddLoan.Top + shiftAmount;
         loanExpDate.Top := loanExpDate.Top + shiftAmount;
-        Label1.Caption := 'Przedmiot';
+        loanGivenDate.Top := loanGivenDate.Top + shiftAmount;
+        editNumber.Top := editNumber.Top + shiftAmount;
+        Label2.Caption := 'Przedmiot';
+        Label3.Caption := 'Iloœæ';
+        Label4.Caption := 'Data udzielenia';
+        Label5.Visible := True;
       end;
     end;
 
+procedure TFrameAdd.refreshDB();
+begin
+  // get all people from database
+  comboBoxPerson.Clear;
+  Database.DataModule1.DSOsoba.DataSet.First;
+  while not Database.DataModule1.DSOsoba.DataSet.Eof do
+  begin
+     comboBoxPerson.Items.AddPair(Database.DataModule1.DSOsoba.DataSet.FieldByName('Imiê').AsString+' '+Database.DataModule1.DSOsoba.DataSet.FieldByName('Nazwisko').AsString, Database.DataModule1.DSOsoba.DataSet.FieldByName('ID').AsString);
+     Database.DataModule1.DSOsoba.DataSet.Next;
+  end;
+  Database.DataModule1.DSOsoba.DataSet.First;
+  // get all items from database
+  comboBoxItem.Clear;
+  Database.DataModule1.DSPrzedmiot.DataSet.First;
+  while not Database.DataModule1.DSPrzedmiot.DataSet.Eof do
+  begin
+    comboBoxItem.Items.AddPair(Database.DataModule1.DSPrzedmiot.DataSet.FieldByName('Nazwa').AsString, Database.DataModule1.DSPrzedmiot.DataSet.FieldByName('ID').AsString);
+    Database.DataModule1.DSPrzedmiot.DataSet.Next;
+  end;
+  Database.DataModule1.DSPrzedmiot.DataSet.First;
+
+  // set selected to first
+  comboBoxPerson.ItemIndex := 0;
+  comboBoxItem.ItemIndex := 0;
+end;
 end.

@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.ExtCtrls;
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.ExtCtrls, uFrameAdd, uFrameMain;
 
 type
   TFrameNav = class(TFrame)
@@ -79,11 +79,13 @@ implementation
   procedure TFrameNav.btnMainClick(Sender: TObject);
     begin
       ShowFrame(FFrameMain);
+      TFrameMain(FFrameMain).refreshDB;
     end;
 
     procedure TFrameNav.btnAddClick(Sender: TObject);
     begin
       ShowFrame(FFrameAdd);
+      TFrameAdd(FFrameAdd).refreshDB;
     end;
 
     procedure TFrameNav.btnCalendarClick(Sender: TObject);
