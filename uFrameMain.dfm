@@ -31,21 +31,6 @@ object FrameMain: TFrameMain
       Height = 15
       Caption = 'tu sie konczy'
     end
-    object DBGridPozyczkaPrzedmiot: TDBGrid
-      Left = 32
-      Top = 42
-      Width = 881
-      Height = 535
-      DataSource = DataModule1.DSPozyczkaPrzedmiot
-      ReadOnly = True
-      TabOrder = 0
-      TitleFont.Charset = DEFAULT_CHARSET
-      TitleFont.Color = clWindowText
-      TitleFont.Height = -12
-      TitleFont.Name = 'Segoe UI'
-      TitleFont.Style = []
-      OnDrawColumnCell = DBGridPozyczkaPrzedmiotDrawColumnCell
-    end
     object DBGridPozyczkaPieniadze: TDBGrid
       Left = 32
       Top = 42
@@ -71,6 +56,21 @@ object FrameMain: TFrameMain
       StateCaptions.CaptionOff = 'Przedmioty'
       TabOrder = 2
       OnClick = toggleSwitchClick
+    end
+    object DBGridPozyczkaPrzedmiot: TDBGrid
+      Left = 32
+      Top = 42
+      Width = 881
+      Height = 535
+      DataSource = DataModule1.DSPozyczkaPrzedmiot
+      ReadOnly = True
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -12
+      TitleFont.Name = 'Segoe UI'
+      TitleFont.Style = []
+      OnDrawColumnCell = DBGridPozyczkaPrzedmiotDrawColumnCell
     end
   end
 end

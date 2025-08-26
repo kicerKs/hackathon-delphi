@@ -64,6 +64,9 @@ implementation
       if Column.Title.Caption.Contains('Przeterminowane') then
         if Column.Field.Text.Contains('1') then DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clRed
       else DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clGreen;
+      // Przez te dwie linijki kursor zmienia siê na klepsydrê, nie wiem czemu ale tak jest xD
+      if Column.Title.Caption.Contains('Osoba') then Column.Width := 150;
+      if Column.Title.Caption.Contains('Przedmiot') then Column.Width := 150;
       DBGridPozyczkaPrzedmiot.DefaultDrawColumnCell(Rect, DataCol, Column, State);
     end;
 
