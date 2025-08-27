@@ -50,21 +50,24 @@ begin
   CurrentItemID := -1;
 end;
 
-//add
+// Add item
 procedure TFrameItems.btnAddItemClick(Sender: TObject);
 var
   s: String;
 begin
+  // SQL
   Database.DataModule1.QAddItem.ParamByName('nazwa').AsString := editItemName.Text;
   Database.DataModule1.QAddItem.ParamByName('sciezka').AsString := editItemPath.Text;
   Database.DataModule1.QAddItem.ExecSQL;
+  // Copy file to \pictures
   s := openPicDialog.FileName;
   CopyFile(PWideChar(s), PWideChar('pictures\'+editItemPath.Text), True);
+  // Refresh
   DBGridItem.DataSource.DataSet.Refresh;
 end;
 
 //wypelnienie formularza edycji
-  procedure TFrameItems.DBGridItemDblClick(Sender: TObject);
+procedure TFrameItems.DBGridItemDblClick(Sender: TObject);
 begin
   // tutaj moja kontrowersyjna zmiana, w razie czego mo¿esz revertn¹æ, ale wydaje mi siê to sensowne
   if not IsEditMode then
@@ -123,10 +126,13 @@ begin
      editItemPath.Text := '';
      itemImage.Picture := nil; // podobno nie robi memory leak :V
 end;
+
 procedure TFrameItems.btnGoEditClick(Sender: TObject);
 begin
     changeToEditMode();
 end;
+
+// Open file dialog for picture
 procedure TFrameItems.btnOpenFileClick(Sender: TObject);
 var
   s: String;
@@ -142,6 +148,7 @@ begin
 
 end;
 
+// Helper function for changing mode to edit
 procedure TFrameItems.changeToEditMode();
 begin
      IsEditMode := True;

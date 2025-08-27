@@ -37,8 +37,10 @@ implementation
 
 {$R *.dfm}
 
+// Adding loans
 procedure TFrameAdd.clickButtonAdd(Sender: TObject);
 begin
+  // pozyczka_przedmiot
   if RadioItem.Checked then
   begin
      with Database.DataModule1 do
@@ -51,6 +53,7 @@ begin
        QAddPozyczkaPrzedmiot.ExecSQL;
       end;
   end
+  // pozyczka_pieniadze
   else if RadioMoney.Checked then
   begin
     with Database.DataModule1 do
@@ -105,9 +108,10 @@ procedure TFrameAdd.RadioButtonClick(Sender: TObject);
       end;
     end;
 
+// Pull data from database. Called when changing frame.
 procedure TFrameAdd.refreshDB();
 begin
-  // get all people from database
+  // Get all people from database
   comboBoxPerson.Clear;
   Database.DataModule1.DSOsoba.DataSet.First;
   while not Database.DataModule1.DSOsoba.DataSet.Eof do
@@ -116,7 +120,7 @@ begin
      Database.DataModule1.DSOsoba.DataSet.Next;
   end;
   Database.DataModule1.DSOsoba.DataSet.First;
-  // get all items from database
+  // Get all items from database
   comboBoxItem.Clear;
   Database.DataModule1.DSPrzedmiot.DataSet.First;
   while not Database.DataModule1.DSPrzedmiot.DataSet.Eof do
@@ -126,7 +130,7 @@ begin
   end;
   Database.DataModule1.DSPrzedmiot.DataSet.First;
 
-  // set selected to first
+  // Set selected item to first element of combobox
   comboBoxPerson.ItemIndex := 0;
   comboBoxItem.ItemIndex := 0;
 end;

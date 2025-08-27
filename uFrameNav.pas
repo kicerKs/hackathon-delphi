@@ -77,34 +77,36 @@ implementation
   end;
 
   procedure TFrameNav.btnMainClick(Sender: TObject);
-    begin
-      ShowFrame(FFrameMain);
-      TFrameMain(FFrameMain).refreshDB;
-    end;
+  begin
+    ShowFrame(FFrameMain);
+    // Refresh database data
+    TFrameMain(FFrameMain).refreshDB;
+  end;
 
-    procedure TFrameNav.btnAddClick(Sender: TObject);
-    begin
-      ShowFrame(FFrameAdd);
-      TFrameAdd(FFrameAdd).refreshDB;
-    end;
+  procedure TFrameNav.btnAddClick(Sender: TObject);
+  begin
+    ShowFrame(FFrameAdd);
+    // Refresh database data
+    TFrameAdd(FFrameAdd).refreshDB;
+  end;
 
-    procedure TFrameNav.btnCalendarClick(Sender: TObject);
-    begin
-      ShowFrame(FFrameCalendar);
-    end;
+  procedure TFrameNav.btnCalendarClick(Sender: TObject);
+  begin
+    ShowFrame(FFrameCalendar);
+  end;
 
-    procedure TFrameNav.btnPeopleClick(Sender: TObject);
-    begin
-      ShowFrame(FFramePeople);
-    end;
+  procedure TFrameNav.btnPeopleClick(Sender: TObject);
+  begin
+    ShowFrame(FFramePeople);
+  end;
 
-    procedure TFrameNav.btnOptionClick(Sender: TObject);
-    begin
-      ShowFrame(FFrameOption);
-    end;
+  procedure TFrameNav.btnOptionClick(Sender: TObject);
+  begin
+    ShowFrame(FFrameOption);
+  end;
 
-    procedure TFrameNav.btnItemsClick(Sender: TObject);
-    begin
-      ShowFrame(FFrameItems);
-    end;
+  procedure TFrameNav.btnItemsClick(Sender: TObject);
+  begin
+    ShowFrame(FFrameItems);
+  end;
 end.
