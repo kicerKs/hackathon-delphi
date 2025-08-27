@@ -97,5 +97,18 @@ object FrameItems: TFrameItems
       Visible = False
       OnClick = btnGoAddClick
     end
+    object btnOpenFile: TButton
+      Left = 934
+      Top = 72
+      Width = 75
+      Height = 25
+      Caption = 'Wybierz...'
+      TabOrder = 8
+      OnClick = btnOpenFileClick
+    end
+  end
+  object openPicDialog: TOpenPictureDialog
+    Left = 1064
+    Top = 424
   end
 end

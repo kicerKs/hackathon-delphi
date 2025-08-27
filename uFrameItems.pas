@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids,
   Vcl.DBGrids, Vcl.StdCtrls, Vcl.ExtCtrls, Database, FireDAC.Stan.Param,
-  Vcl.Imaging.pngimage;
+  Vcl.Imaging.pngimage, Vcl.ExtDlgs;
 
 type
   TFrameItems = class(TFrame)
@@ -20,6 +20,8 @@ type
     btnGoEdit: TButton;
     btnGoAdd: TButton;
     itemImage: TImage;
+    btnOpenFile: TButton;
+    openPicDialog: TOpenPictureDialog;
 
     procedure btnAddItemClick(Sender: TObject);
     procedure btnGoAddClick(Sender: TObject);
@@ -28,6 +30,7 @@ type
     procedure btnEditItemClick(Sender: TObject);
     procedure btnDelItemClick(Sender: TObject);
     procedure changeToEditMode();
+    procedure btnOpenFileClick(Sender: TObject);
   private
     IsEditMode: Boolean;
     CurrentItemID: Integer;
@@ -47,14 +50,18 @@ begin
   CurrentItemID := -1;
 end;
 
-
+//add
 procedure TFrameItems.btnAddItemClick(Sender: TObject);
-    begin
-      Database.DataModule1.QAddItem.ParamByName('nazwa').AsString := editItemName.Text;
-      Database.DataModule1.QAddItem.ParamByName('sciezka').AsString := editItemPath.Text;
-      Database.DataModule1.QAddItem.ExecSQL;
-      DBGridItem.DataSource.DataSet.Refresh;
-    end;
+var
+  s: String;
+begin
+  Database.DataModule1.QAddItem.ParamByName('nazwa').AsString := editItemName.Text;
+  Database.DataModule1.QAddItem.ParamByName('sciezka').AsString := editItemPath.Text;
+  Database.DataModule1.QAddItem.ExecSQL;
+  s := openPicDialog.FileName;
+  CopyFile(PWideChar(s), PWideChar('pictures\'+editItemPath.Text), True);
+  DBGridItem.DataSource.DataSet.Refresh;
+end;
 
 //wypelnienie formularza edycji
   procedure TFrameItems.DBGridItemDblClick(Sender: TObject);
@@ -120,6 +127,21 @@ procedure TFrameItems.btnGoEditClick(Sender: TObject);
 begin
     changeToEditMode();
 end;
+procedure TFrameItems.btnOpenFileClick(Sender: TObject);
+var
+  s: String;
+  ts: TArray<String>;
+begin
+  if openPicDialog.Execute then
+  begin
+    s := openPicDialog.FileName;
+    ts := s.Split(['\']);
+    s := ts[Length(ts)-1];
+    editItemPath.Text := s;
+  end;
+
+end;
+
 procedure TFrameItems.changeToEditMode();
 begin
      IsEditMode := True;
