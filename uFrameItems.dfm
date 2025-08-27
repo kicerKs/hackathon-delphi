@@ -11,7 +11,14 @@ object FrameItems: TFrameItems
     Height = 480
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 640
+    object itemImage: TImage
+      Left = 728
+      Top = 164
+      Width = 200
+      Height = 205
+      Center = True
+      Proportional = True
+    end
     object editItemName: TEdit
       Left = 728
       Top = 44
@@ -90,5 +97,18 @@ object FrameItems: TFrameItems
       Visible = False
       OnClick = btnGoAddClick
     end
+    object btnOpenFile: TButton
+      Left = 934
+      Top = 72
+      Width = 75
+      Height = 25
+      Caption = 'Wybierz...'
+      TabOrder = 8
+      OnClick = btnOpenFileClick
+    end
+  end
+  object openPicDialog: TOpenPictureDialog
+    Left = 1064
+    Top = 424
   end
 end

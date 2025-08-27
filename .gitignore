@@ -83,3 +83,6 @@ modules/
 
 #Database errors
 data/*.err
+
+#Pictures
+pictures/*

@@ -310,4 +310,61 @@ object DataModule1: TDataModule1
         ParamType = ptInput
       end>
   end
+  object QAddPozyczkaPrzedmiot: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      
+        'Insert into pozyczka_przedmiot(id_przedmiot, id_osoba, ilosc, da' +
+        'ta_udzielenia, termin_oddania) VALUES(:IDP, :IDO, :Ilosc, :DataU' +
+        ', :Termin)')
+    Left = 1040
+    Top = 336
+    ParamData = <
+      item
+        Name = 'IDP'
+        ParamType = ptInput
+      end
+      item
+        Name = 'IDO'
+        ParamType = ptInput
+      end
+      item
+        Name = 'ILOSC'
+        ParamType = ptInput
+      end
+      item
+        Name = 'DATAU'
+        ParamType = ptInput
+      end
+      item
+        Name = 'TERMIN'
+        ParamType = ptInput
+      end>
+  end
+  object QAddPozyczkaPieniadze: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      
+        'insert into pozyczka_pieniadze (id_osoba, ilosc, data_udzielenia' +
+        ', termin_oddania) values (:IDO, :Ilosc, :DataU, :Termin)')
+    Left = 1040
+    Top = 400
+    ParamData = <
+      item
+        Name = 'IDO'
+        ParamType = ptInput
+      end
+      item
+        Name = 'ILOSC'
+        ParamType = ptInput
+      end
+      item
+        Name = 'DATAU'
+        ParamType = ptInput
+      end
+      item
+        Name = 'TERMIN'
+        ParamType = ptInput
+      end>
+  end
 end

@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.ExtCtrls;
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.ExtCtrls, uFrameAdd, uFrameMain;
 
 type
   TFrameNav = class(TFrame)
@@ -77,32 +77,36 @@ implementation
   end;
 
   procedure TFrameNav.btnMainClick(Sender: TObject);
-    begin
-      ShowFrame(FFrameMain);
-    end;
+  begin
+    ShowFrame(FFrameMain);
+    // Refresh database data
+    TFrameMain(FFrameMain).refreshDB;
+  end;
 
-    procedure TFrameNav.btnAddClick(Sender: TObject);
-    begin
-      ShowFrame(FFrameAdd);
-    end;
+  procedure TFrameNav.btnAddClick(Sender: TObject);
+  begin
+    ShowFrame(FFrameAdd);
+    // Refresh database data
+    TFrameAdd(FFrameAdd).refreshDB;
+  end;
 
-    procedure TFrameNav.btnCalendarClick(Sender: TObject);
-    begin
-      ShowFrame(FFrameCalendar);
-    end;
+  procedure TFrameNav.btnCalendarClick(Sender: TObject);
+  begin
+    ShowFrame(FFrameCalendar);
+  end;
 
-    procedure TFrameNav.btnPeopleClick(Sender: TObject);
-    begin
-      ShowFrame(FFramePeople);
-    end;
+  procedure TFrameNav.btnPeopleClick(Sender: TObject);
+  begin
+    ShowFrame(FFramePeople);
+  end;
 
-    procedure TFrameNav.btnOptionClick(Sender: TObject);
-    begin
-      ShowFrame(FFrameOption);
-    end;
+  procedure TFrameNav.btnOptionClick(Sender: TObject);
+  begin
+    ShowFrame(FFrameOption);
+  end;
 
-    procedure TFrameNav.btnItemsClick(Sender: TObject);
-    begin
-      ShowFrame(FFrameItems);
-    end;
+  procedure TFrameNav.btnItemsClick(Sender: TObject);
+  begin
+    ShowFrame(FFrameItems);
+  end;
 end.

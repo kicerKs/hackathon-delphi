@@ -11,8 +11,6 @@ object FramePeople: TFramePeople
     Height = 744
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 637
-    ExplicitHeight = 480
     object editName: TEdit
       Left = 728
       Top = 44

@@ -22,6 +22,7 @@ type
     procedure DBGridPozyczkaPrzedmiotDrawColumnCell(Sender: TObject;
   const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure toggleSwitchClick(Sender: TObject);
+    procedure refreshDB();
   private
     { Private declarations }
   public
@@ -31,38 +32,46 @@ implementation
 
 {$R *.dfm}
 
-  //przycisk do prze³¹czania widoku tych siatek
-  procedure TFrameMain.toggleSwitchClick(Sender: TObject);
-    begin
-      if toggleSwitch.State = tssOn then
-        begin
-          DBGridPozyczkaPieniadze.Visible := True;
-          DBGridPozyczkaPrzedmiot.Visible := False;
-        end
-      else
-        begin
-          DBGridPozyczkaPieniadze.Visible := False;
-          DBGridPozyczkaPrzedmiot.Visible := True;
-        end;
-    end;
+//przycisk do prze³¹czania widoku tych siatek
+procedure TFrameMain.toggleSwitchClick(Sender: TObject);
+begin
+   if toggleSwitch.State = tssOn then
+     begin
+        DBGridPozyczkaPieniadze.Visible := True;
+        DBGridPozyczkaPrzedmiot.Visible := False;
+      end
+   else
+      begin
+        DBGridPozyczkaPieniadze.Visible := False;
+        DBGridPozyczkaPrzedmiot.Visible := True;
+      end;
+end;
 
-  //to twoje krecik (zrób coœ ¿eby ³adnie siê kolumny wyœwietla³y)
-  procedure TFrameMain.DBGridPozyczkaPieniadzeDrawColumnCell(Sender: TObject;
-    const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
-    begin
-      if Column.Title.Caption.Contains('Przeterminowane') then
-        if Column.Field.Text.Contains('1') then DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clRed
-      else DBGridPozyczkaPieniadze.Canvas.Font.Color := clGreen;
-      DBGridPozyczkaPieniadze.DefaultDrawColumnCell(Rect, DataCol, Column, State);
-    end;
+procedure TFrameMain.DBGridPozyczkaPieniadzeDrawColumnCell(Sender: TObject;
+const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  if Column.Title.Caption.Contains('Przeterminowane') then
+    if Column.Field.Text.Contains('1') then DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clRed
+  else DBGridPozyczkaPieniadze.Canvas.Font.Color := clGreen;
+  DBGridPozyczkaPieniadze.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+end;
 
-  //to te¿
-  procedure TFrameMain.DBGridPozyczkaPrzedmiotDrawColumnCell(Sender: TObject;
-    const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
-    begin
-      if Column.Title.Caption.Contains('Przeterminowane') then
-        if Column.Field.Text.Contains('1') then DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clRed
-      else DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clGreen;
-      DBGridPozyczkaPrzedmiot.DefaultDrawColumnCell(Rect, DataCol, Column, State);
-    end;
+procedure TFrameMain.DBGridPozyczkaPrzedmiotDrawColumnCell(Sender: TObject;
+const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  if Column.Title.Caption.Contains('Przeterminowane') then
+    if Column.Field.Text.Contains('1') then DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clRed
+  else DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clGreen;
+  // Przez te dwie linijki kursor zmienia siê na klepsydrê, nie wiem czemu ale tak jest xD
+  if Column.Title.Caption.Contains('Osoba') then Column.Width := 150;
+  if Column.Title.Caption.Contains('Przedmiot') then Column.Width := 150;
+  DBGridPozyczkaPrzedmiot.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+end;
+
+procedure TFrameMain.refreshDB();
+begin
+  DBGridPozyczkaPieniadze.DataSource.DataSet.Refresh;
+  DBGridPozyczkaPrzedmiot.DataSource.DataSet.Refresh;
+end;
+
 end.

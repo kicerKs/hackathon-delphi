@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids,
-  Vcl.DBGrids, Vcl.StdCtrls, Vcl.ExtCtrls, Database, FireDAC.Stan.Param;
+  Vcl.DBGrids, Vcl.StdCtrls, Vcl.ExtCtrls, Database, FireDAC.Stan.Param,
+  Vcl.Imaging.pngimage, Vcl.ExtDlgs;
 
 type
   TFrameItems = class(TFrame)
@@ -18,6 +19,9 @@ type
     btnDelItem: TButton;
     btnGoEdit: TButton;
     btnGoAdd: TButton;
+    itemImage: TImage;
+    btnOpenFile: TButton;
+    openPicDialog: TOpenPictureDialog;
 
     procedure btnAddItemClick(Sender: TObject);
     procedure btnGoAddClick(Sender: TObject);
@@ -25,6 +29,8 @@ type
     procedure DBGridItemDblClick(Sender: TObject);
     procedure btnEditItemClick(Sender: TObject);
     procedure btnDelItemClick(Sender: TObject);
+    procedure changeToEditMode();
+    procedure btnOpenFileClick(Sender: TObject);
   private
     IsEditMode: Boolean;
     CurrentItemID: Integer;
@@ -44,27 +50,38 @@ begin
   CurrentItemID := -1;
 end;
 
-
+// Add item
 procedure TFrameItems.btnAddItemClick(Sender: TObject);
-    begin
-      Database.DataModule1.QAddItem.ParamByName('nazwa').AsString := editItemName.Text;
-      Database.DataModule1.QAddItem.ParamByName('sciezka').AsString := editItemPath.Text;
-      Database.DataModule1.QAddItem.ExecSQL;
-      DBGridItem.DataSource.DataSet.Refresh;
-    end;
+var
+  s: String;
+begin
+  // SQL
+  Database.DataModule1.QAddItem.ParamByName('nazwa').AsString := editItemName.Text;
+  Database.DataModule1.QAddItem.ParamByName('sciezka').AsString := editItemPath.Text;
+  Database.DataModule1.QAddItem.ExecSQL;
+  // Copy file to \pictures
+  s := openPicDialog.FileName;
+  CopyFile(PWideChar(s), PWideChar('pictures\'+editItemPath.Text), True);
+  // Refresh
+  DBGridItem.DataSource.DataSet.Refresh;
+end;
 
 //wypelnienie formularza edycji
-  procedure TFrameItems.DBGridItemDblClick(Sender: TObject);
+procedure TFrameItems.DBGridItemDblClick(Sender: TObject);
 begin
-  if IsEditMode then
+  // tutaj moja kontrowersyjna zmiana, w razie czego mo¿esz revertn¹æ, ale wydaje mi siê to sensowne
+  if not IsEditMode then
+     changeToEditMode();
+  //begin
+  if not DBGridItem.DataSource.DataSet.IsEmpty then
   begin
-    if not DBGridItem.DataSource.DataSet.IsEmpty then
-    begin
-      CurrentItemID := DBGridItem.DataSource.DataSet.FieldByName('ID').AsInteger;
-      editItemName.Text := DBGridItem.DataSource.DataSet.FieldByName('Nazwa').AsString;
-      editItemPath.Text := DBGridItem.DataSource.DataSet.FieldByName('Œcie¿ka').AsString;
-    end;
+    CurrentItemID := DBGridItem.DataSource.DataSet.FieldByName('ID').AsInteger;
+    editItemName.Text := DBGridItem.DataSource.DataSet.FieldByName('Nazwa').AsString;
+    editItemPath.Text := DBGridItem.DataSource.DataSet.FieldByName('Œcie¿ka').AsString;
+    // TODO: walidacja czy plik istnieje, daj placeholder <b³êdny plik> jeœli nie
+    itemImage.Picture.LoadFromFile('pictures/'+DBGridItem.DataSource.DataSet.FieldByName('Œcie¿ka').AsString);
   end;
+  //end;
 end;
 
 //edit
@@ -107,8 +124,32 @@ begin
      btnAddItem.Visible := True;
      editItemName.Text := '';
      editItemPath.Text := '';
+     itemImage.Picture := nil; // podobno nie robi memory leak :V
 end;
+
 procedure TFrameItems.btnGoEditClick(Sender: TObject);
+begin
+    changeToEditMode();
+end;
+
+// Open file dialog for picture
+procedure TFrameItems.btnOpenFileClick(Sender: TObject);
+var
+  s: String;
+  ts: TArray<String>;
+begin
+  if openPicDialog.Execute then
+  begin
+    s := openPicDialog.FileName;
+    ts := s.Split(['\']);
+    s := ts[Length(ts)-1];
+    editItemPath.Text := s;
+  end;
+
+end;
+
+// Helper function for changing mode to edit
+procedure TFrameItems.changeToEditMode();
 begin
      IsEditMode := True;
      btnEditItem.Visible := True;
@@ -118,6 +159,7 @@ begin
      btnAddItem.Visible := False;
      editItemName.Text := '';
      editItemPath.Text := '';
+     itemImage.Picture := nil; // podobno nie robi memory leak :V
 end;
 
 end.
