@@ -37,6 +37,12 @@ type
     QDeleteItem: TFDQuery;
     QAddPozyczkaPrzedmiot: TFDQuery;
     QAddPozyczkaPieniadze: TFDQuery;
+    QEditPozyczkaPrzedmiot: TFDQuery;
+    QDelPozyczkaPrzedmiot: TFDQuery;
+    QEditPozyczkaPieniadze: TFDQuery;
+    QDelPozyczkaPieniadze: TFDQuery;
+    QReturnPozyczkaPrzedmiot: TFDQuery;
+    QReturnPozyczkaPieniadze: TFDQuery;
   private
     { Private declarations }
   public

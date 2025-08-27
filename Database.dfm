@@ -31,6 +31,7 @@ object DataModule1: TDataModule1
     Top = 136
   end
   object TASelectAllPozyczkaPrzedmiot: TFDTableAdapter
+    UpdateTableName = 'osoba'
     DatSTableName = 'MTSelectAllPozyczkaPrzedmiot'
     SelectCommand = CMDSelectAllPozyczkaPrzedmiot
     Left = 272
@@ -347,7 +348,87 @@ object DataModule1: TDataModule1
       
         'insert into pozyczka_pieniadze (id_osoba, ilosc, data_udzielenia' +
         ', termin_oddania) values (:IDO, :Ilosc, :DataU, :Termin)')
+    Left = 1192
+    Top = 336
+    ParamData = <
+      item
+        Name = 'IDO'
+        ParamType = ptInput
+      end
+      item
+        Name = 'ILOSC'
+        ParamType = ptInput
+      end
+      item
+        Name = 'DATAU'
+        ParamType = ptInput
+      end
+      item
+        Name = 'TERMIN'
+        ParamType = ptInput
+      end>
+  end
+  object QEditPozyczkaPrzedmiot: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      'UPDATE pozyczka_przedmiot'
+      'SET id_przedmiot = :IDP,'
+      '    id_osoba = :IDO,'
+      '    ilosc = :Ilosc,'
+      '    data_udzielenia = :DataU,'
+      '    termin_oddania = :Termin'
+      'WHERE id = :ID;')
     Left = 1040
+    Top = 400
+    ParamData = <
+      item
+        Name = 'IDP'
+        ParamType = ptInput
+      end
+      item
+        Name = 'IDO'
+        ParamType = ptInput
+      end
+      item
+        Name = 'ILOSC'
+        ParamType = ptInput
+      end
+      item
+        Name = 'DATAU'
+        ParamType = ptInput
+      end
+      item
+        Name = 'TERMIN'
+        ParamType = ptInput
+      end
+      item
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+  end
+  object QDelPozyczkaPrzedmiot: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      'DELETE FROM pozyczka_przedmiot'
+      'WHERE id = :ID;')
+    Left = 1040
+    Top = 464
+    ParamData = <
+      item
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+  end
+  object QEditPozyczkaPieniadze: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      'UPDATE pozyczka_pieniadze'
+      'SET id_osoba = :IDO,'
+      '    ilosc = :Ilosc,'
+      '    data_udzielenia = :DataU,'
+      '    termin_oddania = :Termin'
+      'WHERE id = :ID;')
+    Left = 1192
     Top = 400
     ParamData = <
       item
@@ -364,6 +445,59 @@ object DataModule1: TDataModule1
       end
       item
         Name = 'TERMIN'
+        ParamType = ptInput
+      end
+      item
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+  end
+  object QDelPozyczkaPieniadze: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      'DELETE FROM pozyczka_pieniadze'
+      'WHERE id = :ID;')
+    Left = 1192
+    Top = 464
+    ParamData = <
+      item
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+  end
+  object QReturnPozyczkaPrzedmiot: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      'UPDATE pozyczka_przedmiot'
+      'SET data_oddania = :DataOddania'
+      'WHERE id = :ID;')
+    Left = 760
+    Top = 136
+    ParamData = <
+      item
+        Name = 'DATAODDANIA'
+        ParamType = ptInput
+      end
+      item
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+  end
+  object QReturnPozyczkaPieniadze: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      'UPDATE pozyczka_pieniadze'
+      'SET data_oddania = :DataOddania'
+      'WHERE id = :ID;')
+    Left = 760
+    Top = 248
+    ParamData = <
+      item
+        Name = 'DATAODDANIA'
+        ParamType = ptInput
+      end
+      item
+        Name = 'ID'
         ParamType = ptInput
       end>
   end
