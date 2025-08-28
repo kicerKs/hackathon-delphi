@@ -5,6 +5,7 @@ object DataModule1: TDataModule1
     Params.Strings = (
       'Database=pozyczkomat'
       'DriverID=MySQL510_Embedded')
+    Connected = True
     LoginPrompt = False
     Left = 96
     Top = 32
@@ -23,9 +24,9 @@ object DataModule1: TDataModule1
         'Select pozyczka_przedmiot.id as ID, Concat(imie, '#39' '#39', nazwisko) ' +
         'as Osoba, nazwa as Przedmiot, ilosc as '#39'Ilo'#347#263#39', data_udzielenia ' +
         'as Udzielono, termin_oddania as Termin, data_oddania as '#39'Data od' +
-        'dania'#39', data_oddania>termin_oddania as Przeterminowane from osob' +
-        'a, przedmiot, pozyczka_przedmiot where osoba.id = pozyczka_przed' +
-        'miot.id_osoba and przedmiot.id = pozyczka_przedmiot.id_przedmiot')
+        'dania'#39' from osoba, przedmiot, pozyczka_przedmiot where osoba.id ' +
+        '= pozyczka_przedmiot.id_osoba and przedmiot.id = pozyczka_przedm' +
+        'iot.id_przedmiot ORDER BY ID ASC')
     Left = 96
     Top = 136
   end
@@ -71,7 +72,6 @@ object DataModule1: TDataModule1
     Top = 344
   end
   object TASelectAllOsoba: TFDTableAdapter
-    UpdateTableName = 'osoba'
     DatSTableName = 'MTSelectAllOsoba'
     SelectCommand = CMDSelectAllOsoba
     Left = 248
@@ -112,7 +112,6 @@ object DataModule1: TDataModule1
     Top = 448
   end
   object TASelectAllPrzedmiot: TFDTableAdapter
-    UpdateTableName = 'przedmiot'
     DatSTableName = 'MTSelectAllPrzedmiot'
     SelectCommand = CMDSelectAllPrzedmiot
     Left = 256
@@ -149,9 +148,9 @@ object DataModule1: TDataModule1
       
         'Select pozyczka_pieniadze.id as ID, Concat(imie, '#39' '#39', nazwisko) ' +
         'as Osoba, ilosc as Kwota, data_udzielenia as Udzielono, termin_o' +
-        'ddania as Termin, data_oddania as Oddano, data_oddania>termin_od' +
-        'dania as Przeterminowane from osoba, pozyczka_pieniadze where os' +
-        'oba.id = pozyczka_pieniadze.id_osoba')
+        'ddania as Termin, data_oddania as '#39'Data oddania'#39' from osoba, poz' +
+        'yczka_pieniadze where osoba.id = pozyczka_pieniadze.id_osoba ORD' +
+        'ER BY ID ASC')
     Left = 96
     Top = 248
   end

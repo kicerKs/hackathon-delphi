@@ -61,7 +61,6 @@ begin
   dateStart.Date := Date;
   dateEnd.Date := Date;
   dateReturnTime.Date := Date;
-
 end;
 
 //przycisk do prze³¹czania widoku tych siatek
@@ -94,9 +93,20 @@ end;
 procedure TFrameMain.DBGridPozyczkaPieniadzeDrawColumnCell(Sender: TObject;
 const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
 begin
-  if Column.Title.Caption.Contains('Przeterminowane') then
-    if Column.Field.Text.Contains('1') then DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clRed
-  else DBGridPozyczkaPieniadze.Canvas.Font.Color := clGreen;
+  if (DBGridPozyczkaPieniadze.DataSource.DataSet.FieldByName('Data Oddania').AsString = '') then
+  begin
+    if (DBGridPozyczkaPieniadze.DataSource.DataSet.FieldByName('Termin').AsDateTime > Date) then
+      DBGridPozyczkaPieniadze.Canvas.Font.Color := clBlack
+    else
+      DBGridPozyczkaPieniadze.Canvas.Font.Color := clRed;
+  end
+  else
+  begin
+    if (DBGridPozyczkaPieniadze.DataSource.DataSet.FieldByName('Termin').AsDateTime < DBGridPozyczkaPieniadze.DataSource.DataSet.FieldByName('Data oddania').AsDateTime) then
+      DBGridPozyczkaPieniadze.Canvas.Font.Color := clRed
+    else
+      DBGridPozyczkaPieniadze.Canvas.Font.Color := clGreen;
+  end;
   DBGridPozyczkaPieniadze.DefaultDrawColumnCell(Rect, DataCol, Column, State);
 end;
 
@@ -165,6 +175,7 @@ begin
      btnGoEdit.Visible := False;
      btnReturn.Visible := False;
      dateReturnTime.Visible := False;
+     refreshDB();
 end;
 
 //zaznaczenie pozyczki jako oddanej
@@ -233,48 +244,35 @@ end;
 procedure TFrameMain.DBGridPozyczkaPrzedmiotDrawColumnCell(Sender: TObject;
 const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
 begin
-  if Column.Title.Caption.Contains('Przeterminowane') then
-    if Column.Field.Text.Contains('1') then DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clRed
-  else DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clGreen;
+  //if Column.Title.Caption.Contains('Przeterminowane') then
+  //  if Column.Field.Text.Contains('1') then DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clRed
+  //else DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clGreen;
+
   // Przez te dwie linijki kursor zmienia siê na klepsydrê, nie wiem czemu ale tak jest xD
-  //if Column.Title.Caption.Contains('Osoba') then Column.Width := 150;
-  //if Column.Title.Caption.Contains('Przedmiot') then Column.Width := 150;
+  // Powinno byæ git
+  if Column.Title.Caption.Contains('Osoba') and (Column.Width <> 150) then Column.Width := 150;
+  if Column.Title.Caption.Contains('Przedmiot') and (Column.Width <> 150) then Column.Width := 150;
+  //DBGridPozyczkaPrzedmiot.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+
+  if (DBGridPozyczkaPrzedmiot.DataSource.DataSet.FieldByName('Data Oddania').AsString = '') then
+  begin
+    if (DBGridPozyczkaPrzedmiot.DataSource.DataSet.FieldByName('Termin').AsDateTime > Date) then
+      DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clBlack
+    else
+      DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clRed;
+  end
+  else
+  begin
+    if (DBGridPozyczkaPrzedmiot.DataSource.DataSet.FieldByName('Termin').AsDateTime < DBGridPozyczkaPrzedmiot.DataSource.DataSet.FieldByName('Data oddania').AsDateTime) then
+      DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clRed
+    else
+      DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clGreen;
+  end;
   DBGridPozyczkaPrzedmiot.DefaultDrawColumnCell(Rect, DataCol, Column, State);
 
-  //dobra dzia³a wype³nianie comboboxów, chuj zostaw tak, nie wiem w jakim innym momencie wjebaæ
-  //wczytywanie do comboboxow XD
-    //wype³nianie combobox osób
-  comboPersonEdit.Clear;
-  Database.DataModule1.DSOsoba.DataSet.First;
-  while not Database.DataModule1.DSOsoba.DataSet.Eof do
-  begin
-    comboPersonEdit.Items.AddPair(
-      Database.DataModule1.DSOsoba.DataSet.FieldByName('Imiê').AsString + ' ' +
-      Database.DataModule1.DSOsoba.DataSet.FieldByName('Nazwisko').AsString,
-      Database.DataModule1.DSOsoba.DataSet.FieldByName('ID').AsString
-    );
-    Database.DataModule1.DSOsoba.DataSet.Next;
-  end;
-  Database.DataModule1.DSOsoba.DataSet.First;
+  // Przesuwam do refreshDB, powinno dzia³aæ git
 
-  //wype³nianie combobox przedmiotow
-  comboItemEdit.Clear;
-  Database.DataModule1.DSPrzedmiot.DataSet.First;
-  while not Database.DataModule1.DSPrzedmiot.DataSet.Eof do
-  begin
-    comboItemEdit.Items.AddPair(
-      Database.DataModule1.DSPrzedmiot.DataSet.FieldByName('Nazwa').AsString,
-      Database.DataModule1.DSPrzedmiot.DataSet.FieldByName('ID').AsString
-    );
-    Database.DataModule1.DSPrzedmiot.DataSet.Next;
-  end;
-  Database.DataModule1.DSPrzedmiot.DataSet.First;
 
-  //ustawienie domyslnego wyboru
-  if comboPersonEdit.Items.Count > 0 then
-    comboPersonEdit.ItemIndex := 0;
-  if comboItemEdit.Items.Count > 0 then
-    comboItemEdit.ItemIndex := 0;
 end;
 
 //usuwanie pozyczek przyciskiem del
@@ -334,6 +332,41 @@ procedure TFrameMain.refreshDB();
 begin
   DBGridPozyczkaPieniadze.DataSource.DataSet.Refresh;
   DBGridPozyczkaPrzedmiot.DataSource.DataSet.Refresh;
+
+  //dobra dzia³a wype³nianie comboboxów, chuj zostaw tak, nie wiem w jakim innym momencie wjebaæ
+  //wczytywanie do comboboxow XD
+    //wype³nianie combobox osób
+  comboPersonEdit.Clear;
+  Database.DataModule1.DSOsoba.DataSet.First;
+  while not Database.DataModule1.DSOsoba.DataSet.Eof do
+  begin
+    comboPersonEdit.Items.AddPair(
+      Database.DataModule1.DSOsoba.DataSet.FieldByName('Imiê').AsString + ' ' +
+      Database.DataModule1.DSOsoba.DataSet.FieldByName('Nazwisko').AsString,
+      Database.DataModule1.DSOsoba.DataSet.FieldByName('ID').AsString
+    );
+    Database.DataModule1.DSOsoba.DataSet.Next;
+  end;
+  Database.DataModule1.DSOsoba.DataSet.First;
+
+  //wype³nianie combobox przedmiotow
+  comboItemEdit.Clear;
+  Database.DataModule1.DSPrzedmiot.DataSet.First;
+  while not Database.DataModule1.DSPrzedmiot.DataSet.Eof do
+  begin
+    comboItemEdit.Items.AddPair(
+      Database.DataModule1.DSPrzedmiot.DataSet.FieldByName('Nazwa').AsString,
+      Database.DataModule1.DSPrzedmiot.DataSet.FieldByName('ID').AsString
+    );
+    Database.DataModule1.DSPrzedmiot.DataSet.Next;
+  end;
+  Database.DataModule1.DSPrzedmiot.DataSet.First;
+
+  //ustawienie domyslnego wyboru
+  if comboPersonEdit.Items.Count > 0 then
+    comboPersonEdit.ItemIndex := 0;
+  if comboItemEdit.Items.Count > 0 then
+    comboItemEdit.ItemIndex := 0;
 end;
 
 //przycisk edycji
