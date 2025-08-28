@@ -35,16 +35,16 @@ object FrameAdd: TFrameAdd
     object label4: TLabel
       Left = 208
       Top = 142
-      Width = 24
+      Width = 47
       Height = 15
-      Caption = 'Ilo'#347#263
+      Caption = 'Pocz'#261'tek'
     end
     object label5: TLabel
       Left = 208
-      Top = 171
+      Top = 168
       Width = 36
       Height = 15
-      Caption = 'Termin'
+      Caption = 'Koniec'
     end
     object btnAddLoan: TButton
       Left = 16

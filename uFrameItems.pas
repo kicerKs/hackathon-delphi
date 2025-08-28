@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids,
   Vcl.DBGrids, Vcl.StdCtrls, Vcl.ExtCtrls, Database, FireDAC.Stan.Param,
-  Vcl.Imaging.pngimage, Vcl.ExtDlgs;
+  Vcl.Imaging.pngimage, Vcl.ExtDlgs, System.UITypes;
 
 type
   TFrameItems = class(TFrame)
@@ -22,6 +22,9 @@ type
     itemImage: TImage;
     btnOpenFile: TButton;
     openPicDialog: TOpenPictureDialog;
+    editSearch: TEdit;
+    btnSearch: TButton;
+    btnReset: TButton;
 
     procedure btnAddItemClick(Sender: TObject);
     procedure btnGoAddClick(Sender: TObject);
@@ -31,6 +34,10 @@ type
     procedure btnDelItemClick(Sender: TObject);
     procedure changeToEditMode();
     procedure btnOpenFileClick(Sender: TObject);
+    procedure btnSearchClick(Sender: TObject);
+    procedure btnResetClick(Sender: TObject);
+    procedure editSearchEnter(Sender: TObject);
+    procedure editSearchExit(Sender: TObject);
   private
     IsEditMode: Boolean;
     CurrentItemID: Integer;
@@ -55,6 +62,27 @@ procedure TFrameItems.btnAddItemClick(Sender: TObject);
 var
   s: String;
 begin
+  // Walidacja pustej nazwy
+  if Trim(editItemName.Text) = '' then
+  begin
+    ShowMessage('Podaj nazwê przedmiotu!');
+    Exit;
+  end;
+
+  // Sprawdzenie czy ju¿ istnieje taki przedmiot w bazie
+  with Database.DataModule1 do
+  begin
+    QCheckItem.SQL.Text := 'SELECT COUNT(*) AS CNT FROM Przedmiot WHERE Nazwa = :nazwa';
+    QCheckItem.ParamByName('nazwa').AsString := editItemName.Text;
+    QCheckItem.Open;
+    if QCheckItem.FieldByName('CNT').AsInteger > 0 then
+    begin
+      ShowMessage('Przedmiot o tej nazwie ju¿ istnieje!');
+      QCheckItem.Close;
+      Exit;
+    end;
+    QCheckItem.Close;
+  end;
   // SQL
   Database.DataModule1.QAddItem.ParamByName('nazwa').AsString := editItemName.Text;
   Database.DataModule1.QAddItem.ParamByName('sciezka').AsString := editItemPath.Text;
@@ -84,11 +112,36 @@ begin
   //end;
 end;
 
+procedure TFrameItems.editSearchEnter(Sender: TObject);
+begin
+  if editSearch.Text = 'Wyszukaj' then
+  EditSearch.Clear;
+end;
+
+procedure TFrameItems.editSearchExit(Sender: TObject);
+begin
+  if editSearch.Text = '' then
+  EditSearch.Text := 'Wyszukaj';
+end;
+
 //edit
 procedure TFrameItems.btnEditItemClick(Sender: TObject);
 begin
   with Database.DataModule1 do
     begin
+     // Walidacja unikalnoœci nazwy
+    QCheckItem.Close;
+    QCheckItem.ParamByName('nazwa').AsString := editItemName.Text;
+    QCheckItem.ParamByName('id').AsInteger :=
+      DBGridItem.DataSource.DataSet.FieldByName('ID').AsInteger;
+    QCheckItem.Open;
+
+    if QCheckItem.FieldByName('CNT').AsInteger > 0 then
+    begin
+      MessageDlg('Przedmiot o takiej nazwie ju¿ istnieje!', mtError, [mbOK], 0);
+      Exit;
+    end;
+    //dodanie
       QUpdateItem.ParamByName('ID').AsInteger :=
           DBGridItem.DataSource.DataSet.FieldByName('id').AsInteger;
       QUpdateItem.ParamByName('Nazwa').AsString := editItemName.Text;
@@ -111,6 +164,26 @@ begin
           DBGridItem.DataSource.DataSet.Refresh;
         end;
       end;
+end;
+
+//wyszukiwanie
+procedure TFrameItems.btnSearchClick(Sender: TObject);
+begin
+  with Database.DataModule1 do
+  begin
+    QSearchItem.Close;
+    QSearchItem.ParamByName('search').AsString := '%' + editSearch.Text + '%';
+    QSearchItem.Open;
+
+    DBGridItem.DataSource.DataSet := QSearchItem;
+  end;
+end;
+
+//reset wyszukania
+procedure TFrameItems.btnResetClick(Sender: TObject);
+begin
+     DBGridItem.DataSource.DataSet := Database.DataModule1.MTSelectAllPrzedmiot;
+     editSearch.Text := 'Wyszukaj';
 end;
 
 //przyciski do przelaczania edycja/dodawanie

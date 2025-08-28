@@ -45,6 +45,8 @@ object FrameMain: TFrameMain
       TitleFont.Style = []
       Visible = False
       OnDrawColumnCell = DBGridPozyczkaPieniadzeDrawColumnCell
+      OnDblClick = DBGridPozyczkaPieniadzeDblClick
+      OnKeyDown = DBGridPozyczkaPieniadzeKeyDown
     end
     object toggleSwitch: TToggleSwitch
       Left = 32
@@ -71,6 +73,98 @@ object FrameMain: TFrameMain
       TitleFont.Name = 'Segoe UI'
       TitleFont.Style = []
       OnDrawColumnCell = DBGridPozyczkaPrzedmiotDrawColumnCell
+      OnDblClick = DBGridPozyczkaPrzedmiotDblClick
+      OnKeyDown = DBGridPozyczkaPrzedmiotKeyDown
+    end
+    object comboPersonEdit: TComboBox
+      Left = 936
+      Top = 73
+      Width = 186
+      Height = 23
+      TabOrder = 3
+      Visible = False
+    end
+    object comboItemEdit: TComboBox
+      Left = 936
+      Top = 102
+      Width = 186
+      Height = 23
+      TabOrder = 4
+      Visible = False
+    end
+    object editQuantity: TEdit
+      Left = 936
+      Top = 131
+      Width = 186
+      Height = 23
+      TabOrder = 5
+      Visible = False
+    end
+    object dateStart: TDateTimePicker
+      Left = 936
+      Top = 160
+      Width = 186
+      Height = 23
+      Date = 45896.000000000000000000
+      Time = 0.673268217593431500
+      TabOrder = 6
+      Visible = False
+    end
+    object dateEnd: TDateTimePicker
+      Left = 936
+      Top = 189
+      Width = 186
+      Height = 23
+      Date = 45896.000000000000000000
+      Time = 0.673412407406431200
+      TabOrder = 7
+      Visible = False
+    end
+    object btnEditLoan: TButton
+      Left = 936
+      Top = 218
+      Width = 186
+      Height = 25
+      Caption = 'Zapisz'
+      TabOrder = 8
+      OnClick = btnEditLoanClick
+    end
+    object btnGoEdit: TButton
+      Left = 936
+      Top = 42
+      Width = 186
+      Height = 25
+      Caption = 'Edytuj po'#380'yczk'#281
+      TabOrder = 9
+      OnClick = btnGoEditClick
+    end
+    object btnGoCheck: TButton
+      Left = 936
+      Top = 42
+      Width = 186
+      Height = 25
+      Caption = 'Powr'#243't'
+      TabOrder = 10
+      Visible = False
+      OnClick = btnGoCheckClick
+    end
+    object dateReturnTime: TDateTimePicker
+      Left = 936
+      Top = 102
+      Width = 186
+      Height = 23
+      Date = 45896.000000000000000000
+      Time = 0.736991342593682900
+      TabOrder = 11
+    end
+    object btnReturn: TButton
+      Left = 936
+      Top = 71
+      Width = 186
+      Height = 25
+      Caption = 'Oddane'
+      TabOrder = 12
+      OnClick = btnReturnClick
     end
   end
 end

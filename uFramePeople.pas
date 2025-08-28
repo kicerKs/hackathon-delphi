@@ -21,6 +21,9 @@ type
     btnDelete: TButton;
     btnGoAdd: TButton;
     btnGoEdit: TButton;
+    editSearch: TEdit;
+    btnSearch: TButton;
+    btnReset: TButton;
 
     procedure btnAddPersonClick(Sender: TObject);
     procedure editPhoneKeyPress(Sender: TObject; var Key: Char);
@@ -39,12 +42,18 @@ type
     procedure btnDeleteClick(Sender: TObject);
     procedure btnGoEditClick(Sender: TObject);
     procedure btnGoAddClick(Sender: TObject);
+    procedure editNameKeyPress(Sender: TObject; var Key: Char);
+    procedure editSurnameKeyPress(Sender: TObject; var Key: Char);
+    procedure btnSearchClick(Sender: TObject);
+    procedure editSearchKeyPress(Sender: TObject; var Key: Char);
+    procedure editSearchEnter(Sender: TObject);
+    procedure editSearchExit(Sender: TObject);
+    procedure btnResetClick(Sender: TObject);
 
   private
     isEditMode: Boolean;
-    constructor Create(AOwner: TComponent); override;
   public
-    { Public declarations }
+    constructor Create(AOwner: TComponent); override;
   end;
 
 implementation
@@ -80,14 +89,36 @@ end;
    //add
 procedure TFramePeople.btnAddPersonClick(Sender: TObject);
   begin
-    //trzeba zrobiæ walidacjê ¿eby 2318746198 razy tego samego nie da³o siê dodaæ do bazy
-     Database.DataModule1.QAddPerson.ParamByName('imie').AsString := editName.Text;
-     Database.DataModule1.QAddPerson.ParamByName('nazwisko').AsString := editSurname.Text;
-     Database.DataModule1.QAddPerson.ParamByName('telefon').AsString := editPhone.Text;
-     Database.DataModule1.QAddPerson.ParamByName('adres').AsString := editAddress.Text;
-     Database.DataModule1.QAddPerson.ParamByName('email').AsString := editEmail.Text;
-     Database.DataModule1.QAddPerson.ExecSQL;
-     DBGridPerson.DataSource.DataSet.Refresh;
+  with Database.DataModule1 do
+  begin
+    // sprawdzamy czy istnieje taka osoba
+    QCheckPerson.Close;
+    QCheckPerson.SQL.Text :=
+      'SELECT COUNT(*) AS Cnt FROM osoba ' +
+      'WHERE imie = :imie AND nazwisko = :nazwisko ' +
+      'AND telefon = :telefon AND email = :email';
+    QCheckPerson.ParamByName('imie').AsString := editName.Text;
+    QCheckPerson.ParamByName('nazwisko').AsString := editSurname.Text;
+    QCheckPerson.ParamByName('telefon').AsString := editPhone.Text;
+    QCheckPerson.ParamByName('email').AsString := editEmail.Text;
+    QCheckPerson.Open;
+
+    if QCheckPerson.FieldByName('Cnt').AsInteger > 0 then
+    begin
+      MessageDlg('Taka osoba ju¿ istnieje w bazie danych!', mtWarning, [mbOK], 0);
+      Exit;
+    end;
+
+    // dodajemy osobê
+    QAddPerson.ParamByName('imie').AsString := editName.Text;
+    QAddPerson.ParamByName('nazwisko').AsString := editSurname.Text;
+    QAddPerson.ParamByName('telefon').AsString := editPhone.Text;
+    QAddPerson.ParamByName('adres').AsString := editAddress.Text;
+    QAddPerson.ParamByName('email').AsString := editEmail.Text;
+    QAddPerson.ExecSQL;
+
+    DBGridPerson.DataSource.DataSet.Refresh;
+  end;
   end;
 
   //delete
@@ -109,6 +140,19 @@ procedure TFramePeople.btnEditPersonClick(Sender: TObject);
   begin
     with Database.DataModule1 do
       begin
+      // Walidacja unikalnoœci imienia + nazwiska
+    QCheckPerson.Close;
+    QCheckPerson.ParamByName('imie').AsString := editName.Text;
+    QCheckPerson.ParamByName('nazwisko').AsString := editSurname.Text;
+    QCheckPerson.ParamByName('id').AsInteger := DBGridPerson.DataSource.DataSet.FieldByName('ID').AsInteger;
+    QCheckPerson.Open;
+
+    if QCheckPerson.FieldByName('CNT').AsInteger > 0 then
+    begin
+      MessageDlg('Osoba o takim imieniu i nazwisku ju¿ istnieje!', mtError, [mbOK], 0);
+      Exit;
+    end;
+    //aktualizacja danych
         QUpdatePerson.ParamByName('ID').AsInteger :=
           DBGridPerson.DataSource.DataSet.FieldByName('id').AsInteger;
         QUpdatePerson.ParamByName('Imie').AsString := editName.Text;
@@ -152,13 +196,43 @@ begin
 
 end;
 
+//wyszukanie rekordu w bazie
+procedure TFramePeople.btnSearchClick(Sender: TObject);
+begin
+  with Database.DataModule1 do
+  begin
+    QSearchPerson.Close;
+    QSearchPerson.ParamByName('search').AsString := '%' + editSearch.Text + '%';
+    QSearchPerson.Open;
+    DBGridPerson.DataSource.DataSet := QSearchPerson;
+  end;
+end;
+
+procedure TFramePeople.editSearchKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then // Enter
+  begin
+    Key := #0; // ¿eby nie piszcza³o
+    btnSearchClick(Sender);
+  end;
+end;
+
+//reset po wyszukaniu w bazie
+procedure TFramePeople.btnResetClick(Sender: TObject);
+begin
+    DBGridPerson.DataSource.DataSet := Database.DataModule1.MTSelectAllOsoba;
+    editSearch.Text := 'Wyszukaj';
+end;
+
 //walidacja
+//telefon
   procedure TFramePeople.editPhoneKeyPress(Sender: TObject; var Key: Char);
     begin
       if not CharInSet(Key, ['0'..'9', #8]) then
         Key := #0;
     end;
-  procedure TFramePeople.EditPhoneExit(Sender: TObject);
+
+procedure TFramePeople.EditPhoneExit(Sender: TObject);
     var
       Phone: string;
     begin
@@ -169,7 +243,22 @@ end;
          (Phone[1] <> '+') and not CharInSet(Phone[1], ['0'..'9']) then
         ShowMessage('Nieprawid³owy numer telefonu!');
     end;
-  procedure TFramePeople.editPhoneEnter(Sender: TObject);
+
+    //imie
+  procedure TFramePeople.editNameKeyPress(Sender: TObject; var Key: Char);
+begin
+    if not CharInSet(Key, ['A'..'Z', 'a'..'z', '¥'..'¯', '¹'..'¿', ' ', '-', #8]) then
+    Key := #0;
+end;
+
+//nazwisko
+  procedure TFramePeople.editSurnameKeyPress(Sender: TObject; var Key: Char);
+begin
+   if not CharInSet(Key, ['A'..'Z', 'a'..'z', '¥'..'¯', '¹'..'¿', ' ', '-', #8]) then
+    Key := #0;
+end;
+
+procedure TFramePeople.editPhoneEnter(Sender: TObject);
     begin
       if EditPhone.Text = 'Telefon' then
         EditPhone.Clear;
@@ -199,7 +288,7 @@ end;
         EditSurname.Text := 'Nazwisko';
     end;
 
-  procedure TFramePeople.EditEmailEnter(Sender: TObject);
+procedure TFramePeople.EditEmailEnter(Sender: TObject);
     begin
       if EditEmail.Text = 'E-Mail' then
         EditEmail.Clear;
@@ -223,4 +312,15 @@ procedure TFramePeople.EditAddressEnter(Sender: TObject);
         EditAddress.Text := 'Adres';
     end;
 
+  procedure TFramePeople.editSearchEnter(Sender: TObject);
+    begin
+       if editSearch.Text = 'Wyszukaj' then
+        EditSearch.Clear;
+    end;
+
+procedure TFramePeople.editSearchExit(Sender: TObject);
+    begin
+       if editSearch.Text = '' then
+        EditSearch.Text := 'Wyszukaj';
+    end;
 end.
