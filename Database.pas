@@ -43,6 +43,10 @@ type
     QDelPozyczkaPieniadze: TFDQuery;
     QReturnPozyczkaPrzedmiot: TFDQuery;
     QReturnPozyczkaPieniadze: TFDQuery;
+    QCheckPerson: TFDQuery;
+    QCheckItem: TFDQuery;
+    QSearchPerson: TFDQuery;
+    QSearchItem: TFDQuery;
   private
     { Private declarations }
   public

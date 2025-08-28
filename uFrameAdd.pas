@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
-  Vcl.ComCtrls, Vcl.ExtCtrls, Database, DateUtils;
+  Vcl.ComCtrls, Vcl.ExtCtrls, Database, DateUtils, FireDAC.Stan.Param, System.UITypes;
 
 type
   TFrameAdd = class(TFrame)
@@ -40,6 +40,13 @@ implementation
 // Adding loans
 procedure TFrameAdd.clickButtonAdd(Sender: TObject);
 begin
+  if loanExpDate.Date < loanGivenDate.Date then
+  begin
+    MessageDlg('Data terminu nie mo¿e byæ wczeœniejsza ni¿ data udzielenia po¿yczki!',
+      mtError, [mbOK], 0);
+    Exit;
+  end;
+
   // pozyczka_przedmiot
   if RadioItem.Checked then
   begin
@@ -74,6 +81,9 @@ constructor TFrameAdd.Create(AOwner: TComponent);
       inherited Create(AOwner);
       radioMoney.Checked := True;
       editNumber.Visible := True;
+
+      loanGivenDate.Date := Date;
+      loanExpDate.Date := Date;
     end;
 
 procedure TFrameAdd.RadioButtonClick(Sender: TObject);

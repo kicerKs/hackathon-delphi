@@ -1,19 +1,21 @@
 object FrameItems: TFrameItems
   Left = 0
   Top = 0
-  Width = 1123
-  Height = 480
+  Width = 1299
+  Height = 638
   TabOrder = 0
   object panelItems: TPanel
     Left = 0
     Top = 0
-    Width = 1123
-    Height = 480
+    Width = 1299
+    Height = 638
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 1123
+    ExplicitHeight = 480
     object itemImage: TImage
       Left = 728
-      Top = 164
+      Top = 193
       Width = 200
       Height = 205
       Center = True
@@ -21,7 +23,7 @@ object FrameItems: TFrameItems
     end
     object editItemName: TEdit
       Left = 728
-      Top = 44
+      Top = 73
       Width = 200
       Height = 23
       TabOrder = 0
@@ -29,7 +31,7 @@ object FrameItems: TFrameItems
     end
     object editItemPath: TEdit
       Left = 728
-      Top = 73
+      Top = 102
       Width = 200
       Height = 23
       TabOrder = 1
@@ -37,7 +39,7 @@ object FrameItems: TFrameItems
     end
     object btnAddItem: TButton
       Left = 728
-      Top = 102
+      Top = 131
       Width = 200
       Height = 25
       Caption = 'Dodaj'
@@ -60,7 +62,7 @@ object FrameItems: TFrameItems
     end
     object btnEditItem: TButton
       Left = 728
-      Top = 102
+      Top = 131
       Width = 200
       Height = 25
       Caption = 'Edytuj'
@@ -70,7 +72,7 @@ object FrameItems: TFrameItems
     end
     object btnDelItem: TButton
       Left = 728
-      Top = 133
+      Top = 162
       Width = 200
       Height = 25
       Caption = 'Usu'#324
@@ -80,7 +82,7 @@ object FrameItems: TFrameItems
     end
     object btnGoEdit: TButton
       Left = 728
-      Top = 13
+      Top = 42
       Width = 200
       Height = 25
       Caption = 'Edycja'
@@ -89,7 +91,7 @@ object FrameItems: TFrameItems
     end
     object btnGoAdd: TButton
       Left = 728
-      Top = 13
+      Top = 42
       Width = 200
       Height = 25
       Caption = 'Dodawanie'
@@ -99,12 +101,40 @@ object FrameItems: TFrameItems
     end
     object btnOpenFile: TButton
       Left = 934
-      Top = 72
+      Top = 101
       Width = 75
       Height = 25
       Caption = 'Wybierz...'
       TabOrder = 8
       OnClick = btnOpenFileClick
+    end
+    object editSearch: TEdit
+      Left = 728
+      Top = 13
+      Width = 200
+      Height = 23
+      TabOrder = 9
+      Text = 'Wyszukaj'
+      OnEnter = editSearchEnter
+      OnExit = editSearchExit
+    end
+    object btnSearch: TButton
+      Left = 934
+      Top = 11
+      Width = 75
+      Height = 25
+      Caption = 'Szukaj'
+      TabOrder = 10
+      OnClick = btnSearchClick
+    end
+    object btnReset: TButton
+      Left = 1015
+      Top = 11
+      Width = 75
+      Height = 25
+      Caption = 'Resetuj widok'
+      TabOrder = 11
+      OnClick = btnResetClick
     end
   end
   object openPicDialog: TOpenPictureDialog

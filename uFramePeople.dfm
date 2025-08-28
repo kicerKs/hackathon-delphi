@@ -13,27 +13,29 @@ object FramePeople: TFramePeople
     TabOrder = 0
     object editName: TEdit
       Left = 728
-      Top = 44
+      Top = 75
       Width = 200
       Height = 23
       TabOrder = 0
       Text = 'Imi'#281
       OnEnter = editNameEnter
       OnExit = editNameExit
+      OnKeyPress = editNameKeyPress
     end
     object editSurname: TEdit
       Left = 728
-      Top = 73
+      Top = 104
       Width = 200
       Height = 23
       TabOrder = 1
       Text = 'Nazwisko'
       OnEnter = editSurnameEnter
       OnExit = editSurnameExit
+      OnKeyPress = editSurnameKeyPress
     end
     object editPhone: TEdit
       Left = 728
-      Top = 102
+      Top = 133
       Width = 200
       Height = 23
       Hint = 'Telefon'
@@ -45,7 +47,7 @@ object FramePeople: TFramePeople
     end
     object editAddress: TEdit
       Left = 728
-      Top = 131
+      Top = 162
       Width = 200
       Height = 23
       TabOrder = 3
@@ -55,7 +57,7 @@ object FramePeople: TFramePeople
     end
     object editEmail: TEdit
       Left = 728
-      Top = 160
+      Top = 191
       Width = 200
       Height = 23
       TabOrder = 4
@@ -65,7 +67,7 @@ object FramePeople: TFramePeople
     end
     object btnAddPerson: TButton
       Left = 728
-      Top = 189
+      Top = 220
       Width = 200
       Height = 25
       Caption = 'Dodaj'
@@ -90,7 +92,7 @@ object FramePeople: TFramePeople
     end
     object btnEditPerson: TButton
       Left = 728
-      Top = 189
+      Top = 220
       Width = 200
       Height = 25
       Caption = 'Edytuj'
@@ -100,7 +102,7 @@ object FramePeople: TFramePeople
     end
     object btnDelete: TButton
       Left = 728
-      Top = 220
+      Top = 251
       Width = 200
       Height = 25
       Caption = 'Usu'#324
@@ -110,7 +112,7 @@ object FramePeople: TFramePeople
     end
     object btnGoAdd: TButton
       Left = 728
-      Top = 13
+      Top = 44
       Width = 200
       Height = 25
       Caption = 'Przejd'#378' do dodawania'
@@ -120,12 +122,41 @@ object FramePeople: TFramePeople
     end
     object btnGoEdit: TButton
       Left = 728
-      Top = 13
+      Top = 44
       Width = 200
       Height = 25
       Caption = 'Przejd'#378' do Edycji'
       TabOrder = 10
       OnClick = btnGoEditClick
+    end
+    object editSearch: TEdit
+      Left = 728
+      Top = 13
+      Width = 200
+      Height = 23
+      TabOrder = 11
+      Text = 'Wyszukaj'
+      OnEnter = editSearchEnter
+      OnExit = editSearchExit
+      OnKeyPress = editSearchKeyPress
+    end
+    object btnSearch: TButton
+      Left = 934
+      Top = 12
+      Width = 90
+      Height = 25
+      Caption = 'Szukaj'
+      TabOrder = 12
+      OnClick = btnSearchClick
+    end
+    object btnReset: TButton
+      Left = 1030
+      Top = 12
+      Width = 90
+      Height = 25
+      Caption = 'Reset widoku'
+      TabOrder = 13
+      OnClick = btnResetClick
     end
   end
 end

@@ -5,7 +5,6 @@ object DataModule1: TDataModule1
     Params.Strings = (
       'Database=pozyczkomat'
       'DriverID=MySQL510_Embedded')
-    Connected = True
     LoginPrompt = False
     Left = 96
     Top = 32
@@ -72,6 +71,7 @@ object DataModule1: TDataModule1
     Top = 344
   end
   object TASelectAllOsoba: TFDTableAdapter
+    UpdateTableName = 'osoba'
     DatSTableName = 'MTSelectAllOsoba'
     SelectCommand = CMDSelectAllOsoba
     Left = 248
@@ -112,6 +112,7 @@ object DataModule1: TDataModule1
     Top = 448
   end
   object TASelectAllPrzedmiot: TFDTableAdapter
+    UpdateTableName = 'przedmiot'
     DatSTableName = 'MTSelectAllPrzedmiot'
     SelectCommand = CMDSelectAllPrzedmiot
     Left = 256
@@ -155,6 +156,7 @@ object DataModule1: TDataModule1
     Top = 248
   end
   object TASelectAllPozyczkaPieniadze: TFDTableAdapter
+    UpdateTableName = 'osoba'
     DatSTableName = 'MTSelectAllPozyczkaPieniadze'
     SelectCommand = CMDSelectAllPozyczkaPieniadze
     Left = 280
@@ -499,6 +501,82 @@ object DataModule1: TDataModule1
       item
         Name = 'ID'
         ParamType = ptInput
+      end>
+  end
+  object QCheckPerson: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      'SELECT COUNT(*) AS Cnt'
+      'FROM osoba'
+      'WHERE imie = :imie AND nazwisko = :nazwisko'
+      '  AND telefon = :telefon AND email = :email;')
+    Left = 1040
+    Top = 536
+    ParamData = <
+      item
+        Name = 'IMIE'
+        ParamType = ptInput
+      end
+      item
+        Name = 'NAZWISKO'
+        ParamType = ptInput
+      end
+      item
+        Name = 'TELEFON'
+        ParamType = ptInput
+      end
+      item
+        Name = 'EMAIL'
+        ParamType = ptInput
+      end>
+  end
+  object QCheckItem: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      'SELECT COUNT(*) AS CNT'
+      'FROM przedmiot'
+      'WHERE Nazwa = :nazwa;')
+    Left = 1160
+    Top = 536
+    ParamData = <
+      item
+        Name = 'NAZWA'
+        ParamType = ptInput
+      end>
+  end
+  object QSearchPerson: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      
+        'Select id as ID, imie as Imi'#281', nazwisko as Nazwisko, telefon as ' +
+        #39'Nr. telefonu'#39', email as '#39'E-mail'#39', adres as Adres'
+      'FROM osoba'
+      'WHERE imie LIKE :search'
+      '   OR nazwisko LIKE :search'
+      '   OR CONCAT(imie, '#39' '#39', nazwisko) LIKE :search')
+    Left = 1040
+    Top = 600
+    ParamData = <
+      item
+        Name = 'SEARCH'
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object QSearchItem: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      'Select id as ID, nazwa as Nazwa, sciezka as '#39#346'cie'#380'ka'#39
+      'FROM przedmiot'
+      'WHERE nazwa LIKE :search;'
+      '')
+    Left = 1160
+    Top = 600
+    ParamData = <
+      item
+        Name = 'SEARCH'
+        ParamType = ptInput
+        Value = Null
       end>
   end
 end

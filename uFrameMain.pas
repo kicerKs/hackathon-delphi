@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids,
-  Vcl.DBGrids, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.WinXCtrls, Vcl.ComCtrls, Database;
+  Vcl.DBGrids, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.WinXCtrls, Vcl.ComCtrls, Database, FireDAC.Stan.Param, System.UITypes;
 
 type
   TFrameMain = class(TFrame)
@@ -46,11 +46,23 @@ type
   private
     { Private declarations }
   public
+  constructor Create(AOwner: TComponent); override;
   end;
 
 implementation
 
 {$R *.dfm}
+
+constructor TFrameMain.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+
+  //data dzisiejsza (domyœlnie)
+  dateStart.Date := Date;
+  dateEnd.Date := Date;
+  dateReturnTime.Date := Date;
+
+end;
 
 //przycisk do prze³¹czania widoku tych siatek
 procedure TFrameMain.toggleSwitchClick(Sender: TObject);
@@ -159,6 +171,7 @@ end;
 procedure TFrameMain.btnReturnClick(Sender: TObject);
 var
   currentID: Integer;
+  loanDate: TDateTime;
 begin
   if toggleSwitch.State = tssOff then
   begin
@@ -167,7 +180,15 @@ begin
     begin
       if IsEmpty then Exit;
       currentID := FieldByName('ID').AsInteger;
+      loanDate := FieldByName('Udzielono').AsDateTime;
 
+      //walidacja ustawienia daty oddania
+      if dateReturnTime.Date < loanDate then
+      begin
+        ShowMessage('Data zwrotu nie mo¿e byæ wczeœniejsza ni¿ data wypo¿yczenia!');
+        Exit;
+      end;
+      //oznaczenie jako oddanej
       if MessageDlg('Czy na pewno chcesz oznaczyæ tê po¿yczkê jako oddan¹?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
       begin
         with Database.DataModule1.QReturnPozyczkaPrzedmiot do
@@ -187,6 +208,13 @@ begin
     begin
       if IsEmpty then Exit;
       currentID := FieldByName('ID').AsInteger;
+      loanDate := FieldByName('Udzielono').AsDateTime;
+      //to samo co wyzej
+      if dateReturnTime.Date < loanDate then
+      begin
+        ShowMessage('Data zwrotu nie mo¿e byæ wczeœniejsza ni¿ data wypo¿yczenia!');
+        Exit;
+      end;
 
       if MessageDlg('Czy na pewno chcesz oznaczyæ tê po¿yczkê jako oddan¹?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
       begin
@@ -313,6 +341,12 @@ procedure TFrameMain.btnEditLoanClick(Sender: TObject);
 var
   currentID: Integer;
 begin
+  if dateEnd.Date < dateStart.Date then
+  begin
+    ShowMessage('Termin zwrotu nie mo¿e byæ wczeœniejszy ni¿ data udzielenia!');
+    Exit;
+  end;
+
   if toggleSwitch.State = tssOff then
   begin
     // Po¿yczka przedmiotowa
