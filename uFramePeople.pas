@@ -204,7 +204,10 @@ begin
     QSearchPerson.Close;
     QSearchPerson.ParamByName('search').AsString := '%' + editSearch.Text + '%';
     QSearchPerson.Open;
-    DBGridPerson.DataSource.DataSet := QSearchPerson;
+    if QSearchPerson.RowsAffected = 0 then
+      ShowMessage('Nie znaleziono rekordu w bazie')
+    else
+      DBGridPerson.DataSource.DataSet := QSearchPerson;
   end;
 end;
 

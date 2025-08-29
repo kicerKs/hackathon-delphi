@@ -11,8 +11,6 @@ object FrameItems: TFrameItems
     Height = 638
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 1123
-    ExplicitHeight = 480
     object itemImage: TImage
       Left = 728
       Top = 193

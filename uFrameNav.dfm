@@ -12,7 +12,7 @@ object FrameNav: TFrameNav
     Align = alTop
     TabOrder = 0
     object btnMain: TSpeedButton
-      Left = 0
+      Left = -6
       Top = 0
       Width = 200
       Height = 49
