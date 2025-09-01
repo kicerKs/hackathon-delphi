@@ -1,3 +1,4 @@
+
 program Pozyczkomat;
 
 uses
@@ -10,13 +11,16 @@ uses
   uFramePeople in 'uFramePeople.pas' {FramePeople: TFrame},
   uFrameOption in 'uFrameOption.pas' {FrameOption: TFrame},
   uFrameItems in 'uFrameItems.pas' {FrameItems: TFrame},
-  uFrameNav in 'uFrameNav.pas' {FrameNav: TFrame};
+  uFrameNav in 'uFrameNav.pas' {FrameNav: TFrame},
+  Vcl.Themes,
+  Vcl.Styles;
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
+  TStyleManager.TrySetStyle('Tablet Dark');
   Application.CreateForm(TForm1, Form1);
   Application.CreateForm(TDataModule1, DataModule1);
   Application.Run;
