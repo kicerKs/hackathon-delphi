@@ -174,8 +174,11 @@ begin
     QSearchItem.Close;
     QSearchItem.ParamByName('search').AsString := '%' + editSearch.Text + '%';
     QSearchItem.Open;
+    if QSearchItem.RowsAffected = 0 then
+      ShowMessage('Nie znaleziono rekordu w bazie')
+    else
+      DBGridItem.DataSource.DataSet := QSearchItem;
 
-    DBGridItem.DataSource.DataSet := QSearchItem;
   end;
 end;
 
