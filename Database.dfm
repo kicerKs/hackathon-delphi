@@ -641,4 +641,16 @@ object DataModule1: TDataModule1
         ParamType = ptInput
       end>
   end
+  object QItempathById: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      'Select sciezka from przedmiot where nazwa = :Nazwa')
+    Left = 112
+    Top = 696
+    ParamData = <
+      item
+        Name = 'NAZWA'
+        ParamType = ptInput
+      end>
+  end
 end

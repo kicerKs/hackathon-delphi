@@ -127,6 +127,19 @@ begin
 
     dateStart.Date := FieldByName('Udzielono').AsDateTime;
     dateEnd.Date   := FieldByName('Termin').AsDateTime;
+
+
+    Database.DataModule1.QItempathById.ParamByName('Nazwa').AsString := FieldByName('Przedmiot').AsString;
+    Database.DataModule1.QItempathById.Open;
+    if Database.DataModule1.QItempathById.RecordCount > 0 then
+    begin
+      imgLoan.Visible := True;
+      if System.SysUtils.FileExists('pictures\'+Database.DataModule1.QItempathById.FieldByName('sciezka').AsString) then
+        imgLoan.Picture.LoadFromFile('pictures\'+Database.DataModule1.QItempathById.FieldByName('sciezka').AsString)
+      else
+        imgLoan.Visible := False;
+    end;
+    Database.DataModule1.QItempathById.Close;
   end;
 end;
 
@@ -145,6 +158,7 @@ begin
     editQuantity.Text := FieldByName('Kwota').AsString;
     dateStart.Date := FieldByName('Udzielono').AsDateTime;
     dateEnd.Date   := FieldByName('Termin').AsDateTime;
+
   end;
 end;
 

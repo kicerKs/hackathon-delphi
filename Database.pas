@@ -49,6 +49,7 @@ type
     QSearchItem: TFDQuery;
     QLoanItems: TFDQuery;
     QLoanMoney: TFDQuery;
+    QItempathById: TFDQuery;
   private
     { Private declarations }
   public
