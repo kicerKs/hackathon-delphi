@@ -81,8 +81,11 @@ __recovery/
 # Boss dependency manager vendor folder https://github.com/HashLoad/boss
 modules/
 
-#Database errors
+#Database errors and binary data
 data/*.err
+data/ib_logfile0
+data/ibdata1
+data/ibtmp1
 
 #Pictures
 pictures/*

@@ -47,6 +47,8 @@ type
     QCheckItem: TFDQuery;
     QSearchPerson: TFDQuery;
     QSearchItem: TFDQuery;
+    QLoanItems: TFDQuery;
+    QLoanMoney: TFDQuery;
   private
     { Private declarations }
   public

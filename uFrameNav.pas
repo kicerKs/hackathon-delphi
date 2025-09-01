@@ -51,7 +51,7 @@ implementation
     FFrameOption := FrameOption;
     FFrameItems := FrameItems;
 
-    // Podpiêcie przycisków do metod
+    // PodpiÃªcie przyciskÃ³w do metod
     btnMain.OnClick := btnMainClick;
     btnAdd.OnClick := btnAddClick;
     btnCalendar.OnClick := btnCalendarClick;
@@ -95,6 +95,7 @@ implementation
   procedure TFrameNav.btnCalendarClick(Sender: TObject);
   begin
     ShowFrame(FFrameCalendar);
+    TFrameCalendar(FFrameCalendar).LoadedCalendar;
   end;
 
   procedure TFrameNav.btnPeopleClick(Sender: TObject);
