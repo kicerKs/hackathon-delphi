@@ -31,7 +31,6 @@ object DataModule1: TDataModule1
     Top = 136
   end
   object TASelectAllPozyczkaPrzedmiot: TFDTableAdapter
-    UpdateTableName = 'osoba'
     DatSTableName = 'MTSelectAllPozyczkaPrzedmiot'
     SelectCommand = CMDSelectAllPozyczkaPrzedmiot
     Left = 272
@@ -155,7 +154,6 @@ object DataModule1: TDataModule1
     Top = 248
   end
   object TASelectAllPozyczkaPieniadze: TFDTableAdapter
-    UpdateTableName = 'osoba'
     DatSTableName = 'MTSelectAllPozyczkaPieniadze'
     SelectCommand = CMDSelectAllPozyczkaPieniadze
     Left = 280
@@ -576,6 +574,71 @@ object DataModule1: TDataModule1
         Name = 'SEARCH'
         ParamType = ptInput
         Value = Null
+      end>
+  end
+  object QLoanItems: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      'SELECT '
+      '    pozyczka_przedmiot.id AS ID,'
+      '    CONCAT(nazwa, '#39' - '#39', imie, '#39' '#39', nazwisko) AS Caption,'
+      '    data_oddania AS DateReturn,'
+      '    termin_oddania,'
+      
+        '    CONCAT(imie, '#39' '#39', nazwisko, '#39' - '#39', email, '#39' / '#39', telefon, '#39' ' +
+        '- '#39', nazwa) AS FullDetails'
+      'FROM '
+      '    osoba'
+      
+        '    INNER JOIN pozyczka_przedmiot ON osoba.id = pozyczka_przedmi' +
+        'ot.id_osoba'
+      
+        '    INNER JOIN przedmiot ON przedmiot.id = pozyczka_przedmiot.id' +
+        '_przedmiot'
+      'WHERE '
+      '    MONTH(termin_oddania) = :M '
+      '    AND YEAR(termin_oddania) = :Y')
+    Left = 576
+    Top = 576
+    ParamData = <
+      item
+        Name = 'M'
+        ParamType = ptInput
+      end
+      item
+        Name = 'Y'
+        ParamType = ptInput
+      end>
+  end
+  object QLoanMoney: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      'SELECT '
+      '    pozyczka_pieniadze.id AS ID,'
+      '    CONCAT(ilosc, '#39' - '#39', imie, '#39' '#39', nazwisko) AS Caption,'
+      '    data_oddania AS DateReturn,'
+      '    termin_oddania,'
+      
+        '    CONCAT(imie, '#39' '#39', nazwisko, '#39' - '#39', email, '#39' / '#39', telefon, '#39' ' +
+        '- Kwota: '#39', ilosc) AS FullDetails'
+      'FROM '
+      '    osoba'
+      
+        '    INNER JOIN pozyczka_pieniadze ON osoba.id = pozyczka_pieniad' +
+        'ze.id_osoba'
+      'WHERE '
+      '    MONTH(termin_oddania) = :M'
+      '    AND YEAR(termin_oddania) = :Y')
+    Left = 576
+    Top = 632
+    ParamData = <
+      item
+        Name = 'M'
+        ParamType = ptInput
+      end
+      item
+        Name = 'Y'
+        ParamType = ptInput
       end>
   end
 end
