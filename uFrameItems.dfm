@@ -11,8 +11,6 @@ object FrameItems: TFrameItems
     Height = 638
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 1123
-    ExplicitHeight = 480
     object itemImage: TImage
       Left = 728
       Top = 193
@@ -121,18 +119,18 @@ object FrameItems: TFrameItems
     object btnSearch: TButton
       Left = 934
       Top = 11
-      Width = 75
+      Width = 90
       Height = 25
       Caption = 'Szukaj'
       TabOrder = 10
       OnClick = btnSearchClick
     end
     object btnReset: TButton
-      Left = 1015
+      Left = 1030
       Top = 11
-      Width = 75
+      Width = 90
       Height = 25
-      Caption = 'Resetuj widok'
+      Caption = 'Reset widoku'
       TabOrder = 11
       OnClick = btnResetClick
     end
