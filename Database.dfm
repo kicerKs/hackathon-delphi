@@ -154,6 +154,7 @@ object DataModule1: TDataModule1
     Top = 248
   end
   object TASelectAllPozyczkaPieniadze: TFDTableAdapter
+    UpdateTableName = 'osoba'
     DatSTableName = 'MTSelectAllPozyczkaPieniadze'
     SelectCommand = CMDSelectAllPozyczkaPieniadze
     Left = 280
@@ -652,5 +653,30 @@ object DataModule1: TDataModule1
         Name = 'NAZWA'
         ParamType = ptInput
       end>
+  end
+  object QSelectItemDate: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      
+        'Select pozyczka_przedmiot.id as ID, Concat(imie, '#39' '#39', nazwisko) ' +
+        'as Osoba, nazwa as Przedmiot, ilosc as '#39'Ilo'#347#263#39', data_udzielenia ' +
+        'as Udzielono, termin_oddania as Termin, data_oddania as '#39'Data od' +
+        'dania'#39' from osoba, przedmiot, pozyczka_przedmiot where osoba.id ' +
+        '= pozyczka_przedmiot.id_osoba and przedmiot.id = pozyczka_przedm' +
+        'iot.id_przedmiot ORDER BY ID ASC')
+    Left = 384
+    Top = 584
+  end
+  object QSelectMoneyDate: TFDQuery
+    Connection = PozyczkomatDatabaseConnection
+    SQL.Strings = (
+      
+        'Select pozyczka_pieniadze.id as ID, Concat(imie, '#39' '#39', nazwisko) ' +
+        'as Osoba, ilosc as Kwota, data_udzielenia as Udzielono, termin_o' +
+        'ddania as Termin, data_oddania as '#39'Data oddania'#39' from osoba, poz' +
+        'yczka_pieniadze where osoba.id = pozyczka_pieniadze.id_osoba ORD' +
+        'ER BY ID ASC')
+    Left = 384
+    Top = 648
   end
 end

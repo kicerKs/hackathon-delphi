@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids,
-  Vcl.DBGrids, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.WinXCtrls, Vcl.ComCtrls, Database, FireDAC.Stan.Param, System.UITypes;
+  Vcl.DBGrids, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.WinXCtrls, Vcl.ComCtrls, Database, FireDAC.Stan.Param, System.UITypes, uFrameOption,
+  System.Notification, System.IniFiles;
 
 type
   TFrameMain = class(TFrame)
@@ -26,6 +27,7 @@ type
     btnGoCheck: TButton;
     dateReturnTime: TDateTimePicker;
     btnReturn: TButton;
+    NotificationCenter: TNotificationCenter;
 
     procedure DBGridPozyczkaPieniadzeDrawColumnCell(Sender: TObject;
   const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -44,9 +46,10 @@ type
     procedure btnGoCheckClick(Sender: TObject);
     procedure btnReturnClick(Sender: TObject);
   private
-    { Private declarations }
+    FIniFilePath: string;
   public
-  constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TComponent); override;
+    procedure CheckLoanNotifications;
   end;
 
 implementation
@@ -61,6 +64,9 @@ begin
   dateStart.Date := Date;
   dateEnd.Date := Date;
   dateReturnTime.Date := Date;
+
+  //ini
+  FIniFilePath := ExtractFilePath(Application.ExeName) + 'settings.ini';
 end;
 
 //przycisk do prze³¹czania widoku tych siatek
@@ -437,4 +443,106 @@ begin
   // Odœwie¿enie danych w gridzie
   refreshDB();
 end;
+
+//do powiadomien
+procedure TFrameMain.CheckLoanNotifications;
+var
+  Ini: TIniFile;
+  LastAlertDateStr: string;
+  LastAlertDate: TDate;
+  ds: TDataSet;
+  MsgText: string;
+  DaysLeft: Integer;
+  Notification: TNotification;
+begin
+  if not FileExists(FIniFilePath) then Exit;
+
+  Ini := TIniFile.Create(FIniFilePath);
+  try
+    // jeœli powiadomienia wy³¹czone, wychodzimy
+    if not Ini.ReadBool('Notifications', 'EnableLoanAlerts', False) then Exit;
+
+    // sprawdzamy czy alert by³ ju¿ dzisiaj
+    LastAlertDateStr := Ini.ReadString('Notifications', 'LastAlertDate', '');
+    if LastAlertDateStr <> '' then
+    begin
+      LastAlertDate := StrToDateDef(LastAlertDateStr, 0);
+      if LastAlertDate = Date then
+        Exit; // ju¿ dzisiaj wyœwietlone
+    end;
+
+    while (not DataModule1.PozyczkomatDatabaseConnection.Connected) do
+      begin
+        Application.ProcessMessages;  // ¿eby UI ¿y³o
+        Sleep(50);                    // ma³a przerwa
+      end;
+
+    // --- POWIADOMIENIA DLA PO¯YCZEK PRZEDMIOTOWYCH ---
+    ds := Database.DataModule1.QSelectItemDate;
+    ds.Open;
+    ds.First;
+    while not ds.Eof do
+    begin
+      if ds.FieldByName('Data oddania').AsString = '' then
+      begin
+        DaysLeft := Trunc(ds.FieldByName('Termin').AsDateTime - Date);
+        if (DaysLeft >= 0) and (DaysLeft <= 2) then
+        begin
+          MsgText := Format('%s - %s (pozosta³o %d dni)', [
+            ds.FieldByName('Osoba').AsString,
+            ds.FieldByName('Przedmiot').AsString,
+            DaysLeft
+          ]);
+
+          // utworzenie powiadomienia
+          Notification := NotificationCenter.CreateNotification;
+          Notification.Name := 'LoanItemAlert';
+          Notification.Title := 'Po¿yczka przedmiotowa';
+          Notification.AlertBody := MsgText;
+          Notification.FireDate := Now;
+          NotificationCenter.PresentNotification(Notification);
+        end;
+      end;
+      ds.Next;
+    end;
+    ds.Close;
+
+    // --- POWIADOMIENIA DLA PO¯YCZEK PIENIÊ¯NYCH ---
+    ds := Database.DataModule1.QSelectMoneyDate;
+    ds.Open;
+    ds.First;
+    while not ds.Eof do
+    begin
+      if ds.FieldByName('Data oddania').AsString = '' then
+      begin
+        DaysLeft := Trunc(ds.FieldByName('Termin').AsDateTime - Date);
+        if (DaysLeft >= 0) and (DaysLeft <= 2) then
+        begin
+          MsgText := Format('%s - %s z³ (pozosta³o %d dni)', [
+            ds.FieldByName('Osoba').AsString,
+            ds.FieldByName('Kwota').AsString,
+            DaysLeft
+          ]);
+
+          // utworzenie powiadomienia
+          Notification := NotificationCenter.CreateNotification;
+          Notification.Name := 'LoanMoneyAlert';
+          Notification.Title := 'Po¿yczka pieniê¿na';
+          Notification.AlertBody := MsgText;
+          Notification.FireDate := Now;
+          NotificationCenter.PresentNotification(Notification);
+        end;
+      end;
+      ds.Next;
+    end;
+    ds.Close;
+
+    // zapisanie daty ostatniego wyœwietlenia
+    Ini.WriteString('Notifications', 'LastAlertDate', DateToStr(Date));
+
+  finally
+    Ini.Free;
+  end;
+end;
+
 end.

@@ -168,4 +168,8 @@ object FrameMain: TFrameMain
       OnClick = btnReturnClick
     end
   end
+  object NotificationCenter: TNotificationCenter
+    Left = 1184
+    Top = 120
+  end
 end
