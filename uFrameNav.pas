@@ -83,6 +83,7 @@ implementation
     ShowFrame(FFrameMain);
     // Refresh database data
     TFrameMain(FFrameMain).refreshDB;
+    TFrameMain(FFrameMain).CheckLoanNotifications;
   end;
 
   procedure TFrameNav.btnAddClick(Sender: TObject);

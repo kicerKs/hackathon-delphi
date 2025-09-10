@@ -19,8 +19,11 @@ type
   TForm1 = class(TForm)
     panelNav: TPanel;
     panelContent: TPanel;
+    Timer1: TTimer;
 
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
 
     private
       FrameAdd: TFrameAdd;
@@ -32,7 +35,6 @@ type
       FrameNav: TFrameNav;
 
     public
-    { Public declarations }
 
     end;
 
@@ -41,7 +43,6 @@ type
 
   implementation
   {$R *.dfm}
-
 
   //procedury(klasy te co wykonuje bez zwracania wartosci)
   //stworzenie i wywolanie frame'ow
@@ -74,6 +75,27 @@ type
     // Inicjalizacja FrameNav
     FrameNav.Initialize(panelContent, Frames[0], Frames[1], Frames[2],
     Frames[3], Frames[4], Frames[5]);
+    FrameMain := TFrameMain(Frames[0]);
   end;
+
+procedure TForm1.FormShow(Sender: TObject);
+begin
+  timer1.Enabled := True;
+end;
+
+procedure TForm1.Timer1Timer(Sender: TObject);
+begin
+    // sprawdzamy czy baza i FrameMain s¹ gotowe
+  if Assigned(FrameMain) and
+     Assigned(DataModule1) and
+     Assigned(DataModule1.PozyczkomatDatabaseConnection) and
+     DataModule1.PozyczkomatDatabaseConnection.Connected then
+    begin
+      timer1.Enabled := False;  // wy³¹czamy timer
+
+      // teraz bezpiecznie odpalamy powiadomienia
+      FrameMain.CheckLoanNotifications;
+    end
+end;
 
 end.

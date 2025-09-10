@@ -12,6 +12,7 @@ object Form1: TForm1
   Font.Name = 'Segoe UI'
   Font.Style = []
   OnCreate = FormCreate
+  OnShow = FormShow
   TextHeight = 15
   object panelNav: TPanel
     Left = 0
@@ -20,7 +21,6 @@ object Form1: TForm1
     Height = 49
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 1264
   end
   object panelContent: TPanel
     Left = 0
@@ -29,6 +29,12 @@ object Form1: TForm1
     Height = 632
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 1264
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 5000
+    OnTimer = Timer1Timer
+    Left = 616
+    Top = 344
   end
 end

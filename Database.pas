@@ -8,7 +8,7 @@ uses
   FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.MySQL,
   FireDAC.Phys.MySQLDef, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client,
   FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
-  FireDAC.Comp.DataSet;
+  FireDAC.Comp.DataSet, Winapi.Messages,  Vcl.Controls, Vcl.Forms, Vcl.Dialogs;
 
 type
   TDataModule1 = class(TDataModule)
@@ -50,10 +50,10 @@ type
     QLoanItems: TFDQuery;
     QLoanMoney: TFDQuery;
     QItempathById: TFDQuery;
+    QSelectItemDate: TFDQuery;
+    QSelectMoneyDate: TFDQuery;
   private
-    { Private declarations }
   public
-    { Public declarations }
   end;
 
 var
