@@ -213,6 +213,7 @@ begin
       DayLabel.Font.Style := [];
       DayPanel.Color := clBtnFace;
       DayLabel.Font.Color := clGray;
+      DayLabel.Visible := False;
     end
     else if DayNum <= DaysInMonth then
     begin
@@ -221,6 +222,7 @@ begin
       DayLabel.Font.Style := [fsBold];
       DayPanel.Color := clSkyBlue;
       DayLabel.Font.Color := clBlack;
+      DayLabel.Visible := True;
       Inc(DayNum);
     end
     else
@@ -230,6 +232,7 @@ begin
       DayLabel.Font.Style := [];
       DayPanel.Color := clBtnFace;
       DayLabel.Font.Color := clGray;
+      DayLabel.Visible := False;
       Inc(DayNum);
     end;
   end;

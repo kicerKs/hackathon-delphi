@@ -93,6 +93,7 @@ constructor TFrameAdd.Create(AOwner: TComponent);
 
 procedure TFrameAdd.DBGridItemsOnDblClick(Sender: TObject);
 begin
+if radioItem.Checked then
   with DBGridItems.DataSource.DataSet do
     editItem.Text := FieldByName('id').AsString;
 end;
@@ -107,6 +108,7 @@ procedure TFrameAdd.RadioButtonClick(Sender: TObject);
     const
       shiftAmount = 29;
     begin
+      editItem.Text := '';
       if RadioMoney.Checked then
       begin
         editNumber.Visible := True;

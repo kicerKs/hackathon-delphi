@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Notification, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
-  Vcl.WinXCtrls, Database, FireDAC.Stan.Param, System.IniFiles, System.DateUtils;
+  Vcl.WinXCtrls, Database, FireDAC.Stan.Param, System.IniFiles, System.DateUtils,
+  Vcl.Styles, Vcl.Themes;
 
 type
   TFrameOption = class(TFrame)
@@ -13,7 +14,11 @@ type
     Label4: TLabel;
     switchNotif: TToggleSwitch;
     btnSave: TButton;
+    switchTheme: TToggleSwitch;
+    Label1: TLabel;
+    Label2: TLabel;
     procedure btnSaveClick(Sender: TObject);
+    procedure switchThemeOnClick(Sender: TObject);
   private
     FIniFilePath: string;
     procedure SaveSettings;
@@ -42,9 +47,18 @@ begin
   try
     // zapisujemy tylko po klikniêciu przycisku
     Ini.WriteBool('Notifications', 'EnableLoanAlerts', switchNotif.State = tssOn);
+    Ini.WriteBool('Theme', 'EnableDarkMode', switchTheme.State = tssOn);
   finally
     Ini.Free;
   end;
+end;
+
+procedure TFrameOption.switchThemeOnClick(Sender: TObject);
+begin
+  if switchTheme.state = tssOn then
+    TStyleManager.TrySetStyle('Windows10 Dark')
+  else
+    TStyleManager.TrySetStyle('Windows10');
 end;
 
 //odczyt pliku ini
@@ -57,6 +71,17 @@ begin
     switchNotif.State := tssOff;
     if Ini.ReadBool('Notifications', 'EnableLoanAlerts', False) then
       switchNotif.State := tssOn;
+    if Ini.ReadBool('Theme', 'EnableDarkMode', True) then
+    begin
+      TStyleManager.TrySetStyle('Windows10 Dark');
+      switchTheme.State := tssOn;
+    end
+    else
+    begin
+      TStyleManager.TrySetStyle('Windows10');
+      switchTheme.State := tssOff;
+    end;
+
   finally
     Ini.Free;
   end;

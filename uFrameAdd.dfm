@@ -1,54 +1,55 @@
 object FrameAdd: TFrameAdd
   Left = 0
   Top = 0
-  Width = 1066
+  Width = 1223
   Height = 615
   TabOrder = 0
   object panelAdd: TPanel
     Left = 0
     Top = 0
-    Width = 1066
+    Width = 1223
     Height = 615
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 1066
     object label2: TLabel
-      Left = 208
-      Top = 84
+      Left = 224
+      Top = 228
       Width = 54
       Height = 15
       Caption = 'Przedmiot'
     end
     object label3: TLabel
-      Left = 208
-      Top = 113
+      Left = 224
+      Top = 257
       Width = 24
       Height = 15
       Caption = 'Ilo'#347#263
     end
     object label1: TLabel
-      Left = 208
-      Top = 55
+      Left = 224
+      Top = 204
       Width = 34
       Height = 15
       Caption = 'Osoba'
     end
     object label4: TLabel
-      Left = 208
-      Top = 142
+      Left = 224
+      Top = 286
       Width = 47
       Height = 15
       Caption = 'Pocz'#261'tek'
     end
     object label5: TLabel
-      Left = 208
-      Top = 168
+      Left = 224
+      Top = 312
       Width = 36
       Height = 15
       Caption = 'Koniec'
     end
     object btnAddLoan: TButton
-      Left = 16
-      Top = 197
+      Left = 62
+      Top = 394
       Width = 186
       Height = 25
       Caption = 'Dodaj'
@@ -56,8 +57,8 @@ object FrameAdd: TFrameAdd
       OnClick = clickButtonAdd
     end
     object loanExpDate: TDateTimePicker
-      Left = 16
-      Top = 168
+      Left = 32
+      Top = 312
       Width = 186
       Height = 23
       Date = 45884.000000000000000000
@@ -65,35 +66,35 @@ object FrameAdd: TFrameAdd
       TabOrder = 1
     end
     object radioItem: TRadioButton
-      Left = 16
-      Top = 6
-      Width = 113
-      Height = 17
-      Caption = 'radioItem'
+      Left = 72
+      Top = 120
+      Width = 176
+      Height = 15
+      Caption = 'Po'#380'yczam przedmiot'
       Checked = True
       TabOrder = 2
       TabStop = True
       OnClick = RadioButtonClick
     end
     object radioMoney: TRadioButton
-      Left = 16
-      Top = 29
-      Width = 113
+      Left = 72
+      Top = 141
+      Width = 161
       Height = 17
-      Caption = 'radioMoney'
+      Caption = 'Po'#380'yczam pieni'#261'dze'
       TabOrder = 3
       OnClick = RadioButtonClick
     end
     object editNumber: TEdit
-      Left = 16
-      Top = 110
+      Left = 32
+      Top = 254
       Width = 186
       Height = 23
       TabOrder = 4
     end
     object loanGivenDate: TDateTimePicker
-      Left = 16
-      Top = 139
+      Left = 32
+      Top = 283
       Width = 186
       Height = 23
       Date = 45884.000000000000000000
@@ -103,8 +104,8 @@ object FrameAdd: TFrameAdd
     object DBGridPeople: TDBGrid
       Left = 312
       Top = 6
-      Width = 337
-      Height = 325
+      Width = 900
+      Height = 300
       DataSource = DataModule1.DSOsoba
       TabOrder = 6
       TitleFont.Charset = DEFAULT_CHARSET
@@ -115,26 +116,26 @@ object FrameAdd: TFrameAdd
       OnDblClick = DBGridPeopleOnDblClick
     end
     object editPerson: TEdit
-      Left = 16
-      Top = 52
+      Left = 32
+      Top = 196
       Width = 186
       Height = 23
       ReadOnly = True
       TabOrder = 7
     end
     object editItem: TEdit
-      Left = 16
-      Top = 81
+      Left = 32
+      Top = 225
       Width = 186
       Height = 23
       ReadOnly = True
       TabOrder = 8
     end
     object DBGridItems: TDBGrid
-      Left = 664
-      Top = 13
-      Width = 361
-      Height = 318
+      Left = 312
+      Top = 312
+      Width = 900
+      Height = 300
       DataSource = DataModule1.DSPrzedmiot
       TabOrder = 9
       TitleFont.Charset = DEFAULT_CHARSET

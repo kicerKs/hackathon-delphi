@@ -26,7 +26,6 @@ type
     btnSearch: TButton;
     btnReset: TButton;
     Label1: TLabel;
-    Label2: TLabel;
 
     procedure btnAddItemClick(Sender: TObject);
     procedure btnGoAddClick(Sender: TObject);

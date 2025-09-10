@@ -154,7 +154,6 @@ object DataModule1: TDataModule1
     Top = 248
   end
   object TASelectAllPozyczkaPieniadze: TFDTableAdapter
-    UpdateTableName = 'osoba'
     DatSTableName = 'MTSelectAllPozyczkaPieniadze'
     SelectCommand = CMDSelectAllPozyczkaPieniadze
     Left = 280
@@ -600,7 +599,7 @@ object DataModule1: TDataModule1
       '    MONTH(termin_oddania) = :M '
       '    AND YEAR(termin_oddania) = :Y')
     Left = 576
-    Top = 576
+    Top = 672
     ParamData = <
       item
         Name = 'M'
@@ -631,7 +630,7 @@ object DataModule1: TDataModule1
       '    MONTH(termin_oddania) = :M'
       '    AND YEAR(termin_oddania) = :Y')
     Left = 576
-    Top = 632
+    Top = 728
     ParamData = <
       item
         Name = 'M'
@@ -665,7 +664,7 @@ object DataModule1: TDataModule1
         '= pozyczka_przedmiot.id_osoba and przedmiot.id = pozyczka_przedm' +
         'iot.id_przedmiot ORDER BY ID ASC')
     Left = 384
-    Top = 584
+    Top = 648
   end
   object QSelectMoneyDate: TFDQuery
     Connection = PozyczkomatDatabaseConnection
@@ -677,6 +676,49 @@ object DataModule1: TDataModule1
         'yczka_pieniadze where osoba.id = pozyczka_pieniadze.id_osoba ORD' +
         'ER BY ID ASC')
     Left = 384
-    Top = 648
+    Top = 712
+  end
+  object CMDSelectBalance: TFDCommand
+    Connection = PozyczkomatDatabaseConnection
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    CommandText.Strings = (
+      
+        '                                                                ' +
+        '                select concat(imie,'#39' '#39',nazwisko) as Osoba, sum(i' +
+        'losc) as Pozyczone, sum(case when data_oddania is null then ilos' +
+        'c else 0 end) as Nieoddane from pozyczka_pieniadze, osoba where ' +
+        'osoba.id=pozyczka_pieniadze.id_osoba group by id_osoba')
+    Left = 80
+    Top = 544
+  end
+  object TASelectBalance: TFDTableAdapter
+    DatSTableName = 'MTSelectBalance'
+    SelectCommand = CMDSelectBalance
+    Left = 256
+    Top = 544
+  end
+  object MTSelectBalance: TFDMemTable
+    Active = True
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Adapter = TASelectBalance
+    Left = 424
+    Top = 544
+  end
+  object DSBalance: TDataSource
+    DataSet = MTSelectBalance
+    Left = 584
+    Top = 552
   end
 end
