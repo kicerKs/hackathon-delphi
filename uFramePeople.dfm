@@ -19,7 +19,6 @@ object FramePeople: TFramePeople
       TabOrder = 0
       Text = 'Imi'#281
       OnEnter = editNameEnter
-      OnExit = editNameExit
       OnKeyPress = editNameKeyPress
     end
     object editSurname: TEdit
@@ -30,7 +29,6 @@ object FramePeople: TFramePeople
       TabOrder = 1
       Text = 'Nazwisko'
       OnEnter = editSurnameEnter
-      OnExit = editSurnameExit
       OnKeyPress = editSurnameKeyPress
     end
     object editPhone: TEdit
@@ -53,7 +51,6 @@ object FramePeople: TFramePeople
       TabOrder = 3
       Text = 'Adres'
       OnEnter = EditAddressEnter
-      OnExit = EditAddressExit
     end
     object editEmail: TEdit
       Left = 728
@@ -63,7 +60,6 @@ object FramePeople: TFramePeople
       TabOrder = 4
       Text = 'E-Mail'
       OnEnter = editEmailEnter
-      OnExit = editEmailExit
     end
     object btnAddPerson: TButton
       Left = 728
@@ -115,7 +111,7 @@ object FramePeople: TFramePeople
       Top = 44
       Width = 200
       Height = 25
-      Caption = 'Przejd'#378' do dodawania'
+      Caption = 'Przejd'#378' do Dodawania'
       TabOrder = 9
       Visible = False
       OnClick = btnGoAddClick

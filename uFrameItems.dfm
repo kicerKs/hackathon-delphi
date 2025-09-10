@@ -19,6 +19,14 @@ object FrameItems: TFrameItems
       Center = True
       Proportional = True
     end
+    object Label1: TLabel
+      Left = 752
+      Top = 288
+      Width = 149
+      Height = 15
+      Caption = 'Brak obrazu do wy'#347'wietlenia'
+      Visible = False
+    end
     object editItemName: TEdit
       Left = 728
       Top = 73
@@ -26,6 +34,7 @@ object FrameItems: TFrameItems
       Height = 23
       TabOrder = 0
       Text = 'Nazwa'
+      OnEnter = editItemNameEnter
     end
     object editItemPath: TEdit
       Left = 728
@@ -34,6 +43,7 @@ object FrameItems: TFrameItems
       Height = 23
       TabOrder = 1
       Text = #346'cie'#380'ka'
+      OnEnter = editItemPathEnter
     end
     object btnAddItem: TButton
       Left = 728
@@ -83,7 +93,7 @@ object FrameItems: TFrameItems
       Top = 42
       Width = 200
       Height = 25
-      Caption = 'Edycja'
+      Caption = 'Przejd'#378' do Edycji'
       TabOrder = 6
       OnClick = btnGoEditClick
     end
@@ -92,7 +102,7 @@ object FrameItems: TFrameItems
       Top = 42
       Width = 200
       Height = 25
-      Caption = 'Dodawanie'
+      Caption = 'Przejd'#378' do Dodawania'
       TabOrder = 7
       Visible = False
       OnClick = btnGoAddClick
@@ -136,7 +146,7 @@ object FrameItems: TFrameItems
     end
   end
   object openPicDialog: TOpenPictureDialog
-    Left = 1064
-    Top = 424
+    Left = 1240
+    Top = 584
   end
 end

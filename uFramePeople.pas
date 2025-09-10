@@ -30,13 +30,9 @@ type
     procedure EditPhoneExit(Sender: TObject);
     procedure editPhoneEnter(Sender: TObject);
     procedure EditNameEnter(Sender: TObject);
-    procedure EditNameExit(Sender: TObject);
     procedure EditSurnameEnter(Sender: TObject);
-    procedure EditSurnameExit(Sender: TObject);
     procedure EditEmailEnter(Sender: TObject);
-    procedure EditEmailExit(Sender: TObject);
     procedure EditAddressEnter(Sender: TObject);
-    procedure EditAddressExit(Sender: TObject);
     procedure btnEditPersonClick(Sender: TObject);
     procedure DBGridPersonDblClick(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
@@ -49,6 +45,7 @@ type
     procedure editSearchEnter(Sender: TObject);
     procedure editSearchExit(Sender: TObject);
     procedure btnResetClick(Sender: TObject);
+    procedure changeToEditMode();
 
   private
     isEditMode: Boolean;
@@ -70,7 +67,7 @@ end;
 //wypelnienie pól edycji (doubleclick)
 procedure TFramePeople.DBGridPersonDblClick(Sender: TObject);
 begin
-  if not isEditMode then Exit;
+  if not isEditMode then changeToEditMode();
 
   //zczytywanie danych do pol edycji
   if Assigned(DBGridPerson.DataSource) and
@@ -140,18 +137,6 @@ procedure TFramePeople.btnEditPersonClick(Sender: TObject);
   begin
     with Database.DataModule1 do
       begin
-      // Walidacja unikalnoœci imienia + nazwiska
-    QCheckPerson.Close;
-    QCheckPerson.ParamByName('imie').AsString := editName.Text;
-    QCheckPerson.ParamByName('nazwisko').AsString := editSurname.Text;
-    QCheckPerson.ParamByName('id').AsInteger := DBGridPerson.DataSource.DataSet.FieldByName('ID').AsInteger;
-    QCheckPerson.Open;
-
-    if QCheckPerson.FieldByName('CNT').AsInteger > 0 then
-    begin
-      MessageDlg('Osoba o takim imieniu i nazwisku ju¿ istnieje!', mtError, [mbOK], 0);
-      Exit;
-    end;
     //aktualizacja danych
         QUpdatePerson.ParamByName('ID').AsInteger :=
           DBGridPerson.DataSource.DataSet.FieldByName('id').AsInteger;
@@ -170,11 +155,11 @@ procedure TFramePeople.btnEditPersonClick(Sender: TObject);
 begin
   isEditMode := False;
 
-  editName.Text := '';
-  editSurname.Text := '';
-  editPhone.Text := '';
-  editAddress.Text := '';
-  editEmail.Text := '';
+  editName.Text := 'Imiê';
+  editSurname.Text := 'Nazwisko';
+  editPhone.Text := 'Telefon';
+  editEmail.Text := 'E-Mail';
+  editAddress.Text := 'Adres';
 
   btnAddPerson.Visible := True;
   btnEditPerson.Visible := False;
@@ -186,14 +171,7 @@ end;
 
 procedure TFramePeople.btnGoEditClick(Sender: TObject);
 begin
-  isEditMode := True;
-
-  btnAddPerson.Visible := False;
-  btnEditPerson.Visible := True;
-  btnDelete.Visible := True;
-  btnGoAdd.Visible := True;
-  btnGoEdit.Visible := False;
-
+     changeToEditMode();
 end;
 
 //wyszukanie rekordu w bazie
@@ -240,11 +218,11 @@ procedure TFramePeople.EditPhoneExit(Sender: TObject);
       Phone: string;
     begin
       Phone := EditPhone.Text;
-      if (EditPhone.Text = '') then
-        EditPhone.Text := 'Telefon'
-      else if (Length(Phone) < 7) or
-         (Phone[1] <> '+') and not CharInSet(Phone[1], ['0'..'9']) then
+      if not (Phone = '') then
+      begin
+      if (Length(Phone) < 7) or ((Phone[1] <> '+') and not CharInSet(Phone[1], ['0'..'9'])) then
         ShowMessage('Nieprawid³owy numer telefonu!');
+      end;
     end;
 
     //imie
@@ -273,46 +251,22 @@ procedure TFramePeople.editPhoneEnter(Sender: TObject);
         EditName.Clear;
     end;
 
-  procedure TFramePeople.EditNameExit(Sender: TObject);
-    begin
-      if EditName.Text = '' then
-        EditName.Text := 'Imiê';
-    end;
-
   procedure TFramePeople.EditSurnameEnter(Sender: TObject);
     begin
       if EditSurname.Text = 'Nazwisko' then
         EditSurname.Clear;
     end;
 
-  procedure TFramePeople.EditSurnameExit(Sender: TObject);
-    begin
-      if EditSurname.Text = '' then
-        EditSurname.Text := 'Nazwisko';
-    end;
-
-procedure TFramePeople.EditEmailEnter(Sender: TObject);
+  procedure TFramePeople.EditEmailEnter(Sender: TObject);
     begin
       if EditEmail.Text = 'E-Mail' then
         EditEmail.Clear;
     end;
 
-  procedure TFramePeople.EditEmailExit(Sender: TObject);
-    begin
-      if EditEmail.Text = '' then
-        EditEmail.Text := 'E-Mail';
-    end;
-
-procedure TFramePeople.EditAddressEnter(Sender: TObject);
+  procedure TFramePeople.EditAddressEnter(Sender: TObject);
     begin
       if EditAddress.Text = 'Adres' then
         EditAddress.Clear;
-    end;
-
-  procedure TFramePeople.EditAddressExit(Sender: TObject);
-    begin
-      if EditAddress.Text = '' then
-        EditAddress.Text := 'Adres';
     end;
 
   procedure TFramePeople.editSearchEnter(Sender: TObject);
@@ -326,4 +280,20 @@ procedure TFramePeople.editSearchExit(Sender: TObject);
        if editSearch.Text = '' then
         EditSearch.Text := 'Wyszukaj';
     end;
+
+procedure TFramePeople.changeToEditMode;
+begin
+     isEditMode := True;
+
+  btnAddPerson.Visible := False;
+  btnEditPerson.Visible := True;
+  btnDelete.Visible := True;
+  btnGoAdd.Visible := True;
+  btnGoEdit.Visible := False;
+  editName.Text := 'Imiê';
+  editSurname.Text := 'Nazwisko';
+  editPhone.Text := 'Telefon';
+  editEmail.Text := 'E-Mail';
+  editAddress.Text := 'Adres';
+end;
 end.

@@ -139,11 +139,18 @@ begin
     Database.DataModule1.QItempathById.Open;
     if Database.DataModule1.QItempathById.RecordCount > 0 then
     begin
-      imgLoan.Visible := True;
+
       if System.SysUtils.FileExists('pictures\'+Database.DataModule1.QItempathById.FieldByName('sciezka').AsString) then
-        imgLoan.Picture.LoadFromFile('pictures\'+Database.DataModule1.QItempathById.FieldByName('sciezka').AsString)
+        begin
+          Label2.Visible := False;
+          imgLoan.Picture.LoadFromFile('pictures\'+Database.DataModule1.QItempathById.FieldByName('sciezka').AsString);
+          imgLoan.Visible := True;
+        end
       else
-        imgLoan.Visible := False;
+        begin
+          imgLoan.Visible := False;
+          Label2.Visible := True;
+        end;
     end;
     Database.DataModule1.QItempathById.Close;
   end;

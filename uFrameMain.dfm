@@ -26,11 +26,12 @@ object FrameMain: TFrameMain
       Caption = 'Pole na edycje?'
     end
     object Label2: TLabel
-      Left = 936
-      Top = 250
-      Width = 68
+      Left = 1014
+      Top = 410
+      Width = 149
       Height = 15
-      Caption = 'tu sie konczy'
+      Caption = 'Brak obrazu do wy'#347'wietlenia'
+      Visible = False
     end
     object DBGridPozyczkaPieniadze: TDBGrid
       Left = 32

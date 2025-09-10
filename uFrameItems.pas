@@ -25,6 +25,7 @@ type
     editSearch: TEdit;
     btnSearch: TButton;
     btnReset: TButton;
+    Label1: TLabel;
 
     procedure btnAddItemClick(Sender: TObject);
     procedure btnGoAddClick(Sender: TObject);
@@ -38,6 +39,8 @@ type
     procedure btnResetClick(Sender: TObject);
     procedure editSearchEnter(Sender: TObject);
     procedure editSearchExit(Sender: TObject);
+    procedure editItemNameEnter(Sender: TObject);
+    procedure editItemPathEnter(Sender: TObject);
   private
     IsEditMode: Boolean;
     CurrentItemID: Integer;
@@ -107,9 +110,33 @@ begin
     editItemName.Text := DBGridItem.DataSource.DataSet.FieldByName('Nazwa').AsString;
     editItemPath.Text := DBGridItem.DataSource.DataSet.FieldByName('Œcie¿ka').AsString;
     // TODO: walidacja czy plik istnieje, daj placeholder <b³êdny plik> jeœli nie
-    itemImage.Picture.LoadFromFile('pictures/'+DBGridItem.DataSource.DataSet.FieldByName('Œcie¿ka').AsString);
+    if System.SysUtils.FileExists('pictures/'+DBGridItem.DataSource.DataSet.FieldByName('Œcie¿ka').AsString) then
+    begin
+      Label1.Visible := False;
+      itemImage.Picture.LoadFromFile('pictures/'+DBGridItem.DataSource.DataSet.FieldByName('Œcie¿ka').AsString);
+      itemImage.Visible := True;
+    end
+    else
+    begin
+      itemImage.Visible := False;
+      Label1.Visible := True;
+    end;
+
   end;
   //end;
+end;
+
+//³adne przejscie miedzy tekstami
+procedure TFrameItems.editItemNameEnter(Sender: TObject);
+begin
+    if(editItemName.Text = 'Nazwa') then
+   editItemName.Text := '';
+end;
+
+procedure TFrameItems.editItemPathEnter(Sender: TObject);
+begin
+  if(editItemPath.Text = 'Œcie¿ka') then
+    editItemPath.Text := '';
 end;
 
 procedure TFrameItems.editSearchEnter(Sender: TObject);
@@ -130,17 +157,10 @@ begin
   with Database.DataModule1 do
     begin
      // Walidacja unikalnoœci nazwy
-    QCheckItem.Close;
-    QCheckItem.ParamByName('nazwa').AsString := editItemName.Text;
-    QCheckItem.ParamByName('id').AsInteger :=
-      DBGridItem.DataSource.DataSet.FieldByName('ID').AsInteger;
-    QCheckItem.Open;
-
-    if QCheckItem.FieldByName('CNT').AsInteger > 0 then
-    begin
-      MessageDlg('Przedmiot o takiej nazwie ju¿ istnieje!', mtError, [mbOK], 0);
-      Exit;
-    end;
+     if(editItemName.Text = '') then
+     begin
+       showmessage('Nazwa przedmiotu nie mo¿e byæ pusta')
+     end;
     //dodanie
       QUpdateItem.ParamByName('ID').AsInteger :=
           DBGridItem.DataSource.DataSet.FieldByName('id').AsInteger;
@@ -198,9 +218,11 @@ begin
      btnGoAdd.Visible := False;
      btnGoEdit.Visible := True;
      btnAddItem.Visible := True;
-     editItemName.Text := '';
-     editItemPath.Text := '';
+     editItemName.Text := 'Nazwa';
+     editItemPath.Text := 'Œcie¿ka';
      itemImage.Picture := nil; // podobno nie robi memory leak :V
+     itemImage.Visible := False;
+     Label1.Visible := False;
 end;
 
 procedure TFrameItems.btnGoEditClick(Sender: TObject);
@@ -233,9 +255,11 @@ begin
      btnGoAdd.Visible := True;
      btnGoEdit.Visible := False;
      btnAddItem.Visible := False;
-     editItemName.Text := '';
-     editItemPath.Text := '';
+     editItemName.Text := 'Nazwa';
+     editItemPath.Text := 'Œcie¿ka';
      itemImage.Picture := nil; // podobno nie robi memory leak :V
+     itemImage.Visible := False;
+     Label1.Visible := False;
 end;
 
 end.
