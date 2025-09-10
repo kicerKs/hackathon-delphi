@@ -39,6 +39,8 @@ type
     procedure btnResetClick(Sender: TObject);
     procedure editSearchEnter(Sender: TObject);
     procedure editSearchExit(Sender: TObject);
+    procedure editItemNameEnter(Sender: TObject);
+    procedure editItemPathEnter(Sender: TObject);
   private
     IsEditMode: Boolean;
     CurrentItemID: Integer;
@@ -124,6 +126,19 @@ begin
   //end;
 end;
 
+//³adne przejscie miedzy tekstami
+procedure TFrameItems.editItemNameEnter(Sender: TObject);
+begin
+    if(editItemName.Text = 'Nazwa') then
+   editItemName.Text := '';
+end;
+
+procedure TFrameItems.editItemPathEnter(Sender: TObject);
+begin
+  if(editItemPath.Text = 'Œcie¿ka') then
+    editItemPath.Text := '';
+end;
+
 procedure TFrameItems.editSearchEnter(Sender: TObject);
 begin
   if editSearch.Text = 'Wyszukaj' then
@@ -142,17 +157,10 @@ begin
   with Database.DataModule1 do
     begin
      // Walidacja unikalnoœci nazwy
-    QCheckItem.Close;
-    QCheckItem.ParamByName('nazwa').AsString := editItemName.Text;
-    //QCheckItem.ParamByName('id').AsInteger :=
-    //  DBGridItem.DataSource.DataSet.FieldByName('ID').AsInteger;
-    QCheckItem.Open;
-
-    if QCheckItem.FieldByName('CNT').AsInteger > 0 then
-    begin
-      MessageDlg('Przedmiot o takiej nazwie ju¿ istnieje!', mtError, [mbOK], 0);
-      Exit;
-    end;
+     if(editItemName.Text = '') then
+     begin
+       showmessage('Nazwa przedmiotu nie mo¿e byæ pusta')
+     end;
     //dodanie
       QUpdateItem.ParamByName('ID').AsInteger :=
           DBGridItem.DataSource.DataSet.FieldByName('id').AsInteger;
@@ -210,8 +218,8 @@ begin
      btnGoAdd.Visible := False;
      btnGoEdit.Visible := True;
      btnAddItem.Visible := True;
-     editItemName.Text := '';
-     editItemPath.Text := '';
+     editItemName.Text := 'Nazwa';
+     editItemPath.Text := 'Œcie¿ka';
      itemImage.Picture := nil; // podobno nie robi memory leak :V
      itemImage.Visible := False;
      Label1.Visible := False;
@@ -247,8 +255,8 @@ begin
      btnGoAdd.Visible := True;
      btnGoEdit.Visible := False;
      btnAddItem.Visible := False;
-     editItemName.Text := '';
-     editItemPath.Text := '';
+     editItemName.Text := 'Nazwa';
+     editItemPath.Text := 'Œcie¿ka';
      itemImage.Picture := nil; // podobno nie robi memory leak :V
      itemImage.Visible := False;
      Label1.Visible := False;

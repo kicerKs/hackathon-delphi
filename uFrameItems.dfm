@@ -34,6 +34,7 @@ object FrameItems: TFrameItems
       Height = 23
       TabOrder = 0
       Text = 'Nazwa'
+      OnEnter = editItemNameEnter
     end
     object editItemPath: TEdit
       Left = 728
@@ -42,6 +43,7 @@ object FrameItems: TFrameItems
       Height = 23
       TabOrder = 1
       Text = #346'cie'#380'ka'
+      OnEnter = editItemPathEnter
     end
     object btnAddItem: TButton
       Left = 728
@@ -91,7 +93,7 @@ object FrameItems: TFrameItems
       Top = 42
       Width = 200
       Height = 25
-      Caption = 'Edycja'
+      Caption = 'Przejd'#378' do Edycji'
       TabOrder = 6
       OnClick = btnGoEditClick
     end
@@ -100,7 +102,7 @@ object FrameItems: TFrameItems
       Top = 42
       Width = 200
       Height = 25
-      Caption = 'Dodawanie'
+      Caption = 'Przejd'#378' do Dodawania'
       TabOrder = 7
       Visible = False
       OnClick = btnGoAddClick
