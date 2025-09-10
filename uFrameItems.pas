@@ -92,8 +92,11 @@ begin
   Database.DataModule1.QAddItem.ParamByName('sciezka').AsString := editItemPath.Text;
   Database.DataModule1.QAddItem.ExecSQL;
   // Copy file to \pictures
-  s := openPicDialog.FileName;
-  CopyFile(PWideChar(s), PWideChar('pictures\'+editItemPath.Text), True);
+  if not FileExists(IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0))) + 'pictures\'+editItemPath.Text) then
+  begin
+    s := openPicDialog.FileName;
+    CopyFile(PWideChar(s), PWideChar(IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0))) + 'pictures\'+editItemPath.Text), True);
+  end;
   // Refresh
   DBGridItem.DataSource.DataSet.Refresh;
 end;
@@ -111,10 +114,10 @@ begin
     editItemName.Text := DBGridItem.DataSource.DataSet.FieldByName('Nazwa').AsString;
     editItemPath.Text := DBGridItem.DataSource.DataSet.FieldByName('Œcie¿ka').AsString;
     // TODO: walidacja czy plik istnieje, daj placeholder <b³êdny plik> jeœli nie
-    if System.SysUtils.FileExists('pictures/'+DBGridItem.DataSource.DataSet.FieldByName('Œcie¿ka').AsString) then
+    if System.SysUtils.FileExists(IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0))) + 'pictures/'+DBGridItem.DataSource.DataSet.FieldByName('Œcie¿ka').AsString) then
     begin
       Label1.Visible := False;
-      itemImage.Picture.LoadFromFile('pictures/'+DBGridItem.DataSource.DataSet.FieldByName('Œcie¿ka').AsString);
+      itemImage.Picture.LoadFromFile(IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0))) + 'pictures/'+DBGridItem.DataSource.DataSet.FieldByName('Œcie¿ka').AsString);
       itemImage.Visible := True;
     end
     else
@@ -172,17 +175,11 @@ begin
       QUpdateItem.ExecSQL;
       DBGridItem.DataSource.DataSet.Refresh;
       s := openPicDialog.FileName;
-      Label2.Caption := 'pictures\'+editItemPath.Text;
-      try
-        if CopyFile(PWideChar(s), PWideChar(editItemPath.Text), True) then
-          ShowMessage('JD')
-        else
-          RaiseLastOSError;
-      except on E: Exception do
-        ShowMessage(Format('Error %s', [E.Message]));
+      if not FileExists(IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0))) + 'pictures\'+editItemPath.Text) then
+      begin
+        s := openPicDialog.FileName;
+        CopyFile(PWideChar(s), PWideChar(IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0))) + 'pictures\'+editItemPath.Text), True);
       end;
-
-      DeleteFile(PWideChar('pictures\'+DBGridItem.DataSource.DataSet.FieldByName('Œcie¿ka').AsString));
     end;
 end;
 

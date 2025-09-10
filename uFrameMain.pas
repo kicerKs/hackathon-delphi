@@ -140,10 +140,10 @@ begin
     if Database.DataModule1.QItempathById.RecordCount > 0 then
     begin
 
-      if System.SysUtils.FileExists('pictures\'+Database.DataModule1.QItempathById.FieldByName('sciezka').AsString) then
+      if System.SysUtils.FileExists(IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0))) + 'pictures\'+Database.DataModule1.QItempathById.FieldByName('sciezka').AsString) then
         begin
           Label2.Visible := False;
-          imgLoan.Picture.LoadFromFile('pictures\'+Database.DataModule1.QItempathById.FieldByName('sciezka').AsString);
+          imgLoan.Picture.LoadFromFile(IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0))) + 'pictures\'+Database.DataModule1.QItempathById.FieldByName('sciezka').AsString);
           imgLoan.Visible := True;
         end
       else
