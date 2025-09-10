@@ -19,6 +19,14 @@ object FrameItems: TFrameItems
       Center = True
       Proportional = True
     end
+    object Label1: TLabel
+      Left = 752
+      Top = 288
+      Width = 149
+      Height = 15
+      Caption = 'Brak obrazu do wy'#347'wietlenia'
+      Visible = False
+    end
     object editItemName: TEdit
       Left = 728
       Top = 73
@@ -136,7 +144,7 @@ object FrameItems: TFrameItems
     end
   end
   object openPicDialog: TOpenPictureDialog
-    Left = 1064
-    Top = 424
+    Left = 1240
+    Top = 584
   end
 end

@@ -25,6 +25,7 @@ type
     editSearch: TEdit;
     btnSearch: TButton;
     btnReset: TButton;
+    Label1: TLabel;
 
     procedure btnAddItemClick(Sender: TObject);
     procedure btnGoAddClick(Sender: TObject);
@@ -107,7 +108,18 @@ begin
     editItemName.Text := DBGridItem.DataSource.DataSet.FieldByName('Nazwa').AsString;
     editItemPath.Text := DBGridItem.DataSource.DataSet.FieldByName('Œcie¿ka').AsString;
     // TODO: walidacja czy plik istnieje, daj placeholder <b³êdny plik> jeœli nie
-    itemImage.Picture.LoadFromFile('pictures/'+DBGridItem.DataSource.DataSet.FieldByName('Œcie¿ka').AsString);
+    if System.SysUtils.FileExists('pictures/'+DBGridItem.DataSource.DataSet.FieldByName('Œcie¿ka').AsString) then
+    begin
+      Label1.Visible := False;
+      itemImage.Picture.LoadFromFile('pictures/'+DBGridItem.DataSource.DataSet.FieldByName('Œcie¿ka').AsString);
+      itemImage.Visible := True;
+    end
+    else
+    begin
+      itemImage.Visible := False;
+      Label1.Visible := True;
+    end;
+
   end;
   //end;
 end;
@@ -132,8 +144,8 @@ begin
      // Walidacja unikalnoœci nazwy
     QCheckItem.Close;
     QCheckItem.ParamByName('nazwa').AsString := editItemName.Text;
-    QCheckItem.ParamByName('id').AsInteger :=
-      DBGridItem.DataSource.DataSet.FieldByName('ID').AsInteger;
+    //QCheckItem.ParamByName('id').AsInteger :=
+    //  DBGridItem.DataSource.DataSet.FieldByName('ID').AsInteger;
     QCheckItem.Open;
 
     if QCheckItem.FieldByName('CNT').AsInteger > 0 then
@@ -201,6 +213,8 @@ begin
      editItemName.Text := '';
      editItemPath.Text := '';
      itemImage.Picture := nil; // podobno nie robi memory leak :V
+     itemImage.Visible := False;
+     Label1.Visible := False;
 end;
 
 procedure TFrameItems.btnGoEditClick(Sender: TObject);
@@ -236,6 +250,8 @@ begin
      editItemName.Text := '';
      editItemPath.Text := '';
      itemImage.Picture := nil; // podobno nie robi memory leak :V
+     itemImage.Visible := False;
+     Label1.Visible := False;
 end;
 
 end.
