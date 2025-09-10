@@ -2,7 +2,7 @@ object Form1: TForm1
   Left = 0
   Top = 0
   BorderStyle = bsDialog
-  Caption = 'Po'#380'yczkomat dla u'#322'omnych'
+  Caption = 'Po'#380'yczkomat'
   ClientHeight = 681
   ClientWidth = 1249
   Color = clBtnFace
