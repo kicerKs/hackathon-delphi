@@ -11,8 +11,6 @@ object FrameAdd: TFrameAdd
     Height = 615
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 640
-    ExplicitHeight = 480
     object label2: TLabel
       Left = 208
       Top = 84

@@ -27,6 +27,13 @@ object FrameItems: TFrameItems
       Caption = 'Brak obrazu do wy'#347'wietlenia'
       Visible = False
     end
+    object Label2: TLabel
+      Left = 728
+      Top = 432
+      Width = 34
+      Height = 15
+      Caption = 'Label2'
+    end
     object editItemName: TEdit
       Left = 728
       Top = 73

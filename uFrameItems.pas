@@ -26,6 +26,7 @@ type
     btnSearch: TButton;
     btnReset: TButton;
     Label1: TLabel;
+    Label2: TLabel;
 
     procedure btnAddItemClick(Sender: TObject);
     procedure btnGoAddClick(Sender: TObject);
@@ -153,6 +154,8 @@ end;
 
 //edit
 procedure TFrameItems.btnEditItemClick(Sender: TObject);
+var
+  s: String;
 begin
   with Database.DataModule1 do
     begin
@@ -163,11 +166,23 @@ begin
      end;
     //dodanie
       QUpdateItem.ParamByName('ID').AsInteger :=
-          DBGridItem.DataSource.DataSet.FieldByName('id').AsInteger;
+      DBGridItem.DataSource.DataSet.FieldByName('id').AsInteger;
       QUpdateItem.ParamByName('Nazwa').AsString := editItemName.Text;
       QUpdateItem.ParamByName('sciezka').AsString := editItemPath.Text;
       QUpdateItem.ExecSQL;
       DBGridItem.DataSource.DataSet.Refresh;
+      s := openPicDialog.FileName;
+      Label2.Caption := 'pictures\'+editItemPath.Text;
+      try
+        if CopyFile(PWideChar(s), PWideChar(editItemPath.Text), True) then
+          ShowMessage('JD')
+        else
+          RaiseLastOSError;
+      except on E: Exception do
+        ShowMessage(Format('Error %s', [E.Message]));
+      end;
+
+      DeleteFile(PWideChar('pictures\'+DBGridItem.DataSource.DataSet.FieldByName('Œcie¿ka').AsString));
     end;
 end;
 
