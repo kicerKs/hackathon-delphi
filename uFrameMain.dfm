@@ -16,6 +16,7 @@ object FrameMain: TFrameMain
       Top = 272
       Width = 305
       Height = 305
+      Proportional = True
     end
     object Label1: TLabel
       Left = 936
