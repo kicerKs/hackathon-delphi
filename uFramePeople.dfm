@@ -12,8 +12,8 @@ object FramePeople: TFramePeople
     Align = alClient
     TabOrder = 0
     object editName: TEdit
-      Left = 728
-      Top = 75
+      Left = 1040
+      Top = 234
       Width = 200
       Height = 23
       TabOrder = 0
@@ -22,8 +22,8 @@ object FramePeople: TFramePeople
       OnKeyPress = editNameKeyPress
     end
     object editSurname: TEdit
-      Left = 728
-      Top = 104
+      Left = 1040
+      Top = 263
       Width = 200
       Height = 23
       TabOrder = 1
@@ -32,8 +32,8 @@ object FramePeople: TFramePeople
       OnKeyPress = editSurnameKeyPress
     end
     object editPhone: TEdit
-      Left = 728
-      Top = 133
+      Left = 1040
+      Top = 292
       Width = 200
       Height = 23
       Hint = 'Telefon'
@@ -44,8 +44,8 @@ object FramePeople: TFramePeople
       OnKeyPress = editPhoneKeyPress
     end
     object editAddress: TEdit
-      Left = 728
-      Top = 162
+      Left = 1040
+      Top = 321
       Width = 200
       Height = 23
       TabOrder = 3
@@ -53,8 +53,8 @@ object FramePeople: TFramePeople
       OnEnter = EditAddressEnter
     end
     object editEmail: TEdit
-      Left = 728
-      Top = 191
+      Left = 1040
+      Top = 350
       Width = 200
       Height = 23
       TabOrder = 4
@@ -62,8 +62,8 @@ object FramePeople: TFramePeople
       OnEnter = editEmailEnter
     end
     object btnAddPerson: TButton
-      Left = 728
-      Top = 220
+      Left = 1040
+      Top = 379
       Width = 200
       Height = 25
       Caption = 'Dodaj'
@@ -72,9 +72,9 @@ object FramePeople: TFramePeople
     end
     object DBGridPerson: TDBGrid
       Left = 16
-      Top = 13
-      Width = 689
-      Height = 300
+      Top = 44
+      Width = 1009
+      Height = 565
       DataSource = DataModule1.DSOsoba
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
       ReadOnly = True
@@ -87,8 +87,8 @@ object FramePeople: TFramePeople
       OnDblClick = DBGridPersonDblClick
     end
     object btnEditPerson: TButton
-      Left = 728
-      Top = 220
+      Left = 1040
+      Top = 379
       Width = 200
       Height = 25
       Caption = 'Edytuj'
@@ -97,8 +97,8 @@ object FramePeople: TFramePeople
       OnClick = btnEditPersonClick
     end
     object btnDelete: TButton
-      Left = 728
-      Top = 251
+      Left = 1040
+      Top = 410
       Width = 200
       Height = 25
       Caption = 'Usu'#324
@@ -107,8 +107,8 @@ object FramePeople: TFramePeople
       OnClick = btnDeleteClick
     end
     object btnGoAdd: TButton
-      Left = 728
-      Top = 44
+      Left = 1040
+      Top = 203
       Width = 200
       Height = 25
       Caption = 'Przejd'#378' do Dodawania'
@@ -117,8 +117,8 @@ object FramePeople: TFramePeople
       OnClick = btnGoAddClick
     end
     object btnGoEdit: TButton
-      Left = 728
-      Top = 44
+      Left = 1040
+      Top = 204
       Width = 200
       Height = 25
       Caption = 'Przejd'#378' do Edycji'
@@ -126,9 +126,9 @@ object FramePeople: TFramePeople
       OnClick = btnGoEditClick
     end
     object editSearch: TEdit
-      Left = 728
-      Top = 13
-      Width = 200
+      Left = 16
+      Top = 175
+      Width = 450
       Height = 23
       TabOrder = 11
       Text = 'Wyszukaj'
@@ -137,18 +137,18 @@ object FramePeople: TFramePeople
       OnKeyPress = editSearchKeyPress
     end
     object btnSearch: TButton
-      Left = 934
-      Top = 12
-      Width = 90
+      Left = 472
+      Top = 13
+      Width = 112
       Height = 25
       Caption = 'Szukaj'
       TabOrder = 12
       OnClick = btnSearchClick
     end
     object btnReset: TButton
-      Left = 1030
-      Top = 12
-      Width = 90
+      Left = 590
+      Top = 13
+      Width = 115
       Height = 25
       Caption = 'Reset widoku'
       TabOrder = 13

@@ -52,6 +52,10 @@ type
     QItempathById: TFDQuery;
     QSelectItemDate: TFDQuery;
     QSelectMoneyDate: TFDQuery;
+    CMDSelectBalance: TFDCommand;
+    TASelectBalance: TFDTableAdapter;
+    MTSelectBalance: TFDMemTable;
+    DSBalance: TDataSource;
   private
   public
   end;

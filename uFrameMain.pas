@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids,
   Vcl.DBGrids, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.WinXCtrls, Vcl.ComCtrls, Database, FireDAC.Stan.Param, System.UITypes, uFrameOption,
-  System.Notification, System.IniFiles;
+  System.Notification, System.IniFiles, Vcl.Styles, Vcl.Themes;
 
 type
   TFrameMain = class(TFrame)
@@ -15,7 +15,6 @@ type
     DBGridPozyczkaPrzedmiot: TDBGrid;
     DBGridPozyczkaPieniadze: TDBGrid;
     toggleSwitch: TToggleSwitch;
-    Label1: TLabel;
     Label2: TLabel;
     comboPersonEdit: TComboBox;
     comboItemEdit: TComboBox;
@@ -28,6 +27,7 @@ type
     dateReturnTime: TDateTimePicker;
     btnReturn: TButton;
     NotificationCenter: TNotificationCenter;
+    DBGridBalance: TDBGrid;
 
     procedure DBGridPozyczkaPieniadzeDrawColumnCell(Sender: TObject;
   const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -45,6 +45,8 @@ type
     procedure btnGoEditClick(Sender: TObject);
     procedure btnGoCheckClick(Sender: TObject);
     procedure btnReturnClick(Sender: TObject);
+    procedure DBGridBalanceDrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
   private
     FIniFilePath: string;
   public
@@ -102,7 +104,12 @@ begin
   if (DBGridPozyczkaPieniadze.DataSource.DataSet.FieldByName('Data Oddania').AsString = '') then
   begin
     if (DBGridPozyczkaPieniadze.DataSource.DataSet.FieldByName('Termin').AsDateTime > Date) then
-      DBGridPozyczkaPieniadze.Canvas.Font.Color := clBlack
+      begin
+        if TStyleManager.ActiveStyle.Name = 'Windows10' then
+          DBGridPozyczkaPieniadze.Canvas.Font.Color := clBlack
+        else
+          DBGridPozyczkaPieniadze.Canvas.Font.Color := clWhite;
+      end
     else
       DBGridPozyczkaPieniadze.Canvas.Font.Color := clRed;
   end
@@ -140,10 +147,10 @@ begin
     if Database.DataModule1.QItempathById.RecordCount > 0 then
     begin
 
-      if System.SysUtils.FileExists('pictures\'+Database.DataModule1.QItempathById.FieldByName('sciezka').AsString) then
+      if System.SysUtils.FileExists(IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0))) + 'pictures\'+Database.DataModule1.QItempathById.FieldByName('sciezka').AsString) then
         begin
           Label2.Visible := False;
-          imgLoan.Picture.LoadFromFile('pictures\'+Database.DataModule1.QItempathById.FieldByName('sciezka').AsString);
+          imgLoan.Picture.LoadFromFile(IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0))) + 'pictures\'+Database.DataModule1.QItempathById.FieldByName('sciezka').AsString);
           imgLoan.Visible := True;
         end
       else
@@ -154,6 +161,20 @@ begin
     end;
     Database.DataModule1.QItempathById.Close;
   end;
+end;
+
+procedure TFrameMain.DBGridBalanceDrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  if Column.Title.Caption.Contains('Osoba') and (Column.Width <> 100) then Column.Width := 100;
+  if Column.Title.Caption.Contains('Pozyczone') and (Column.Width <> 75) then Column.Width := 75;
+  if Column.Title.Caption.Contains('Nieoddane') and (Column.Width <> 75) then Column.Width := 75;
+  //DBGridBalance.Canvas.Font.Color := clWindowText;
+  if TStyleManager.ActiveStyle.Name = 'Windows10' then
+    DBGridBalance.Canvas.Font.Color := clBlack
+  else
+    DBGridBalance.Canvas.Font.Color := clWhite;
+  DBGridBalance.DefaultDrawColumnCell(Rect, DataCol, Column, State);
 end;
 
 //wypelnianie pol edycji hajsu
@@ -284,7 +305,12 @@ begin
   if (DBGridPozyczkaPrzedmiot.DataSource.DataSet.FieldByName('Data Oddania').AsString = '') then
   begin
     if (DBGridPozyczkaPrzedmiot.DataSource.DataSet.FieldByName('Termin').AsDateTime > Date) then
-      DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clBlack
+    begin
+      if TStyleManager.ActiveStyle.Name = 'Windows10' then
+        DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clBlack
+      else
+        DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clWhite;
+    end
     else
       DBGridPozyczkaPrzedmiot.Canvas.Font.Color := clRed;
   end
@@ -298,8 +324,6 @@ begin
   DBGridPozyczkaPrzedmiot.DefaultDrawColumnCell(Rect, DataCol, Column, State);
 
   // Przesuwam do refreshDB, powinno dzia³aæ git
-
-
 end;
 
 //usuwanie pozyczek przyciskiem del
@@ -359,6 +383,7 @@ procedure TFrameMain.refreshDB();
 begin
   DBGridPozyczkaPieniadze.DataSource.DataSet.Refresh;
   DBGridPozyczkaPrzedmiot.DataSource.DataSet.Refresh;
+  DBGridBalance.DataSource.DataSet.Refresh;
 
   //dobra dzia³a wype³nianie comboboxów, chuj zostaw tak, nie wiem w jakim innym momencie wjebaæ
   //wczytywanie do comboboxow XD

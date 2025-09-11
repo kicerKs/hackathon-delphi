@@ -12,24 +12,24 @@ object FrameItems: TFrameItems
     Align = alClient
     TabOrder = 0
     object itemImage: TImage
-      Left = 728
+      Left = 752
       Top = 193
-      Width = 200
-      Height = 205
+      Width = 465
+      Height = 424
       Center = True
       Proportional = True
     end
     object Label1: TLabel
-      Left = 752
-      Top = 288
+      Left = 912
+      Top = 384
       Width = 149
       Height = 15
       Caption = 'Brak obrazu do wy'#347'wietlenia'
       Visible = False
     end
     object editItemName: TEdit
-      Left = 728
-      Top = 73
+      Left = 896
+      Top = 56
       Width = 200
       Height = 23
       TabOrder = 0
@@ -37,17 +37,18 @@ object FrameItems: TFrameItems
       OnEnter = editItemNameEnter
     end
     object editItemPath: TEdit
-      Left = 728
-      Top = 102
+      Left = 896
+      Top = 85
       Width = 200
       Height = 23
+      ReadOnly = True
       TabOrder = 1
       Text = #346'cie'#380'ka'
       OnEnter = editItemPathEnter
     end
     object btnAddItem: TButton
-      Left = 728
-      Top = 131
+      Left = 896
+      Top = 114
       Width = 200
       Height = 25
       Caption = 'Dodaj'
@@ -56,9 +57,9 @@ object FrameItems: TFrameItems
     end
     object DBGridItem: TDBGrid
       Left = 16
-      Top = 13
+      Top = 42
       Width = 689
-      Height = 173
+      Height = 575
       DataSource = DataModule1.DSPrzedmiot
       TabOrder = 3
       TitleFont.Charset = DEFAULT_CHARSET
@@ -69,8 +70,8 @@ object FrameItems: TFrameItems
       OnDblClick = DBGridItemDblClick
     end
     object btnEditItem: TButton
-      Left = 728
-      Top = 131
+      Left = 896
+      Top = 114
       Width = 200
       Height = 25
       Caption = 'Edytuj'
@@ -79,8 +80,8 @@ object FrameItems: TFrameItems
       OnClick = btnEditItemClick
     end
     object btnDelItem: TButton
-      Left = 728
-      Top = 162
+      Left = 896
+      Top = 145
       Width = 200
       Height = 25
       Caption = 'Usu'#324
@@ -89,8 +90,8 @@ object FrameItems: TFrameItems
       OnClick = btnDelItemClick
     end
     object btnGoEdit: TButton
-      Left = 728
-      Top = 42
+      Left = 896
+      Top = 11
       Width = 200
       Height = 25
       Caption = 'Przejd'#378' do Edycji'
@@ -98,8 +99,8 @@ object FrameItems: TFrameItems
       OnClick = btnGoEditClick
     end
     object btnGoAdd: TButton
-      Left = 728
-      Top = 42
+      Left = 896
+      Top = 11
       Width = 200
       Height = 25
       Caption = 'Przejd'#378' do Dodawania'
@@ -108,8 +109,8 @@ object FrameItems: TFrameItems
       OnClick = btnGoAddClick
     end
     object btnOpenFile: TButton
-      Left = 934
-      Top = 101
+      Left = 1102
+      Top = 85
       Width = 75
       Height = 25
       Caption = 'Wybierz...'
@@ -117,9 +118,9 @@ object FrameItems: TFrameItems
       OnClick = btnOpenFileClick
     end
     object editSearch: TEdit
-      Left = 728
+      Left = 16
       Top = 13
-      Width = 200
+      Width = 401
       Height = 23
       TabOrder = 9
       Text = 'Wyszukaj'
@@ -127,18 +128,18 @@ object FrameItems: TFrameItems
       OnExit = editSearchExit
     end
     object btnSearch: TButton
-      Left = 934
+      Left = 423
       Top = 11
-      Width = 90
+      Width = 138
       Height = 25
       Caption = 'Szukaj'
       TabOrder = 10
       OnClick = btnSearchClick
     end
     object btnReset: TButton
-      Left = 1030
+      Left = 576
       Top = 11
-      Width = 90
+      Width = 129
       Height = 25
       Caption = 'Reset widoku'
       TabOrder = 11

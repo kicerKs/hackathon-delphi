@@ -71,9 +71,9 @@ begin
     with Database.DataModule1 do
       begin
        QAddPozyczkaPieniadze.ParamByName('IDO').AsString := editPerson.Text;
-       QAddPozyczkaPieniadze.ParamByName('Ilosc').AsString := editNumber.Text;
-       QAddPozyczkaPieniadze.ParamByName('DataU').AsString := FormatDateTime('yyyy-mm-dd hh:mm:ss', loanGivenDate.Date);
-       QAddPozyczkaPieniadze.ParamByName('Termin').AsString := FormatDateTime('yyyy-mm-dd hh:mm:ss', loanExpDate.Date);
+       QAddPozyczkaPieniadze.ParamByName('Ilosc').AsString := editItem.Text;
+       QAddPozyczkaPieniadze.ParamByName('DataU').AsString := FormatDateTime('yyyy-mm-dd', loanGivenDate.Date);
+       QAddPozyczkaPieniadze.ParamByName('Termin').AsString := FormatDateTime('yyyy-mm-dd', loanExpDate.Date);
        QAddPozyczkaPieniadze.ExecSQL;
       end;
   end;
@@ -93,6 +93,7 @@ constructor TFrameAdd.Create(AOwner: TComponent);
 
 procedure TFrameAdd.DBGridItemsOnDblClick(Sender: TObject);
 begin
+if radioItem.Checked then
   with DBGridItems.DataSource.DataSet do
     editItem.Text := FieldByName('id').AsString;
 end;
@@ -107,6 +108,7 @@ procedure TFrameAdd.RadioButtonClick(Sender: TObject);
     const
       shiftAmount = 29;
     begin
+      editItem.Text := '';
       if RadioMoney.Checked then
       begin
         editNumber.Visible := True;
@@ -118,6 +120,7 @@ procedure TFrameAdd.RadioButtonClick(Sender: TObject);
         Label3.Caption := 'Data udzielenia';
         Label4.Caption := 'Termin';
         Label5.Visible := False;
+        editItem.ReadOnly := False;
       end
       else if RadioItem.Checked then
       begin
@@ -130,6 +133,7 @@ procedure TFrameAdd.RadioButtonClick(Sender: TObject);
         Label3.Caption := 'Iloœæ';
         Label4.Caption := 'Data udzielenia';
         Label5.Visible := True;
+        editItem.ReadOnly := True;
       end;
     end;
 
