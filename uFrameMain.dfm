@@ -140,6 +140,7 @@ object FrameMain: TFrameMain
       TitleFont.Height = -12
       TitleFont.Name = 'Segoe UI'
       TitleFont.Style = []
+      Visible = False
       OnDrawColumnCell = DBGridBalanceDrawColumnCell
     end
     object DBGridPozyczkaPrzedmiot: TDBGrid

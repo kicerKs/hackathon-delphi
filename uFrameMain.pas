@@ -84,6 +84,8 @@ begin
         dateEnd.Top := dateEnd.Top - shiftAmount;
         dateStart.Top := dateStart.Top - shiftAmount;
         btnEditLoan.Top := btnEditLoan.Top - shiftAmount;
+        imgLoan.Visible := False;
+        DBGridBalance.Visible := True;
       end
    else
       begin
@@ -94,6 +96,8 @@ begin
         dateEnd.Top := dateEnd.Top + shiftAmount;
         dateStart.Top := dateStart.Top + shiftAmount;
         btnEditLoan.Top := btnEditLoan.Top + shiftAmount;
+        imgLoan.Visible := True;
+        DBGridBalance.Visible := False;
       end;
 end;
 
