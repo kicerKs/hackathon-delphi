@@ -11,7 +11,6 @@ object FrameAdd: TFrameAdd
     Height = 615
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 1066
     object label2: TLabel
       Left = 224
       Top = 228
@@ -128,7 +127,6 @@ object FrameAdd: TFrameAdd
       Top = 225
       Width = 186
       Height = 23
-      ReadOnly = True
       TabOrder = 8
     end
     object DBGridItems: TDBGrid

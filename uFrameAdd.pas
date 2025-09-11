@@ -72,8 +72,8 @@ begin
       begin
        QAddPozyczkaPieniadze.ParamByName('IDO').AsString := editPerson.Text;
        QAddPozyczkaPieniadze.ParamByName('Ilosc').AsString := editNumber.Text;
-       QAddPozyczkaPieniadze.ParamByName('DataU').AsString := FormatDateTime('yyyy-mm-dd hh:mm:ss', loanGivenDate.Date);
-       QAddPozyczkaPieniadze.ParamByName('Termin').AsString := FormatDateTime('yyyy-mm-dd hh:mm:ss', loanExpDate.Date);
+       QAddPozyczkaPieniadze.ParamByName('DataU').AsString := FormatDateTime('yyyy-mm-dd', loanGivenDate.Date);
+       QAddPozyczkaPieniadze.ParamByName('Termin').AsString := FormatDateTime('yyyy-mm-dd', loanExpDate.Date);
        QAddPozyczkaPieniadze.ExecSQL;
       end;
   end;
@@ -120,6 +120,7 @@ procedure TFrameAdd.RadioButtonClick(Sender: TObject);
         Label3.Caption := 'Data udzielenia';
         Label4.Caption := 'Termin';
         Label5.Visible := False;
+        editItem.ReadOnly := False;
       end
       else if RadioItem.Checked then
       begin
@@ -132,6 +133,7 @@ procedure TFrameAdd.RadioButtonClick(Sender: TObject);
         Label3.Caption := 'Iloœæ';
         Label4.Caption := 'Data udzielenia';
         Label5.Visible := True;
+        editItem.ReadOnly := True;
       end;
     end;
 
