@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, DateUtils, Database, FireDAC.Stan.Param,
-  System.Generics.Collections;
+  System.Generics.Collections, System.StrUtils, VCL.Styles, VCL.Themes;
 
 type
   TFrameCalendar = class(TFrame)
@@ -33,16 +33,18 @@ implementation
 type
   TLoanRecord = record
     Caption: string;
-    IsMoney: Boolean;
+    IsMoney: string;
     IsOverdue: Boolean;
+    isReturned: Boolean;
     FullDetails: string;
     Day: Integer;
+    DueDate: TDateTime;
   end;
 
 type
   TLoanInfo = class
     Caption: string;
-    IsMoney: Boolean;
+    IsMoney: string;
     IsOverdue: Boolean;
     FullDetails: string;
   end;
@@ -51,7 +53,7 @@ type
   TSingleLoanInfo = class
     Caption: string;
     FullDetails: string;
-    IsMoney: Boolean;
+    IsMoney: string;
     IsOverdue: Boolean;
   end;
 
@@ -212,16 +214,22 @@ begin
       DayLabel.Caption := IntToStr(DaysInPrevMonth - (StartCol - 1 - i));
       DayLabel.Font.Style := [];
       DayPanel.Color := clBtnFace;
+      DayPanel.Tag := Trunc(EncodeDate(PrevYear, PrevMonth, DaysInPrevMonth - (StartCol - 1 - i)));
       DayLabel.Font.Color := clGray;
       DayLabel.Visible := False;
     end
     else if DayNum <= DaysInMonth then
     begin
       // dni aktualnego miesi¹ca
+      DayLabel.StyleElements := DayLabel.StyleElements - [seFont];
       DayLabel.Caption := IntToStr(DayNum);
       DayLabel.Font.Style := [fsBold];
       DayPanel.Color := clSkyBlue;
-      DayLabel.Font.Color := clBlack;
+      DayPanel.Tag := Trunc(EncodeDate(AYear, AMonth, DayNum));
+      if TStyleManager.ActiveStyle.Name = 'Windows10' then
+              DayLabel.Font.Color := clBlack
+            else
+              DayLabel.Font.Color := clWhite;
       DayLabel.Visible := True;
       Inc(DayNum);
     end
@@ -231,6 +239,7 @@ begin
       DayLabel.Caption := IntToStr(DayNum - DaysInMonth);
       DayLabel.Font.Style := [];
       DayPanel.Color := clBtnFace;
+      DayPanel.Tag := Trunc(EncodeDate(NextYear, NextMonth, DayNum - DaysInMonth));
       DayLabel.Font.Color := clGray;
       DayLabel.Visible := False;
       Inc(DayNum);
@@ -264,9 +273,20 @@ begin
     Open;
     while not Eof do
     begin
+      Loan.DueDate := FieldByName('termin_oddania').AsDateTime;
       Loan.Caption := FieldByName('Caption').AsString;
-      Loan.IsMoney := False;
-      Loan.IsOverdue := FieldByName('DateReturn').AsDateTime > FieldByName('termin_oddania').AsDateTime;
+      Loan.IsMoney := 'Nie';
+      if(FieldByName('DateReturn').AsDateTime > FieldByName('termin_oddania').AsDateTime) or
+        ((Date > FieldByName('termin_oddania').AsDateTime) and (FieldByName('DateReturn').IsNull)) then
+        Loan.IsOverdue := True
+      else
+        Loan.IsOverdue := False;
+      if not (Loan.IsOverdue) and
+      (FieldByName('DateReturn').AsDateTime <= FieldByName('termin_oddania').AsDateTime) and
+      not (FieldByName('DateReturn').IsNull) then
+        Loan.IsReturned := True
+      else
+        Loan.isReturned := False;
       Loan.FullDetails := FieldByName('FullDetails').AsString;
       Loan.Day := DayOf(FieldByName('termin_oddania').AsDateTime);
       Loans := Loans + [Loan];
@@ -283,9 +303,20 @@ begin
     Open;
     while not Eof do
     begin
+      Loan.DueDate := FieldByName('termin_oddania').AsDateTime;
       Loan.Caption := FieldByName('Caption').AsString;
-      Loan.IsMoney := True;
-      Loan.IsOverdue := FieldByName('DateReturn').AsDateTime > FieldByName('termin_oddania').AsDateTime;
+      Loan.IsMoney := 'Tak';
+      if(FieldByName('DateReturn').AsDateTime > FieldByName('termin_oddania').AsDateTime) or
+        ((Date > FieldByName('termin_oddania').AsDateTime) and (FieldByName('DateReturn').IsNull)) then
+        Loan.IsOverdue := True
+      else
+        Loan.IsOverdue := False;
+      if not (Loan.IsOverdue) and
+      (FieldByName('DateReturn').AsDateTime <= FieldByName('termin_oddania').AsDateTime) and
+      not (FieldByName('DateReturn').IsNull) then
+        Loan.IsReturned := True
+      else
+        Loan.isReturned := False;
       Loan.FullDetails := FieldByName('FullDetails').AsString;
       Loan.Day := DayOf(FieldByName('termin_oddania').AsDateTime);
       Loans := Loans + [Loan];
@@ -301,7 +332,7 @@ begin
     begin
       DayPanel := TPanel(gridCalendar.Controls[j]);
       DayLabel := TLabel(DayPanel.Controls[0]);
-      if StrToIntDef(DayLabel.Caption,0) = Loans[i].Day then
+      if Trunc(DayPanel.Tag) = Trunc(Loans[i].DueDate) then
       begin
         if not PanelLoans.ContainsKey(DayPanel) then
           PanelLoans.Add(DayPanel, TObjectList<TLoanInfo>.Create);
@@ -327,10 +358,6 @@ begin
           LoanPanel.Left := 2;
           LoanPanel.Height := 16;
           LoanPanel.BevelOuter := bvNone;
-          if Loans[i].IsMoney then
-            LoanPanel.Color := clYellow
-          else
-            LoanPanel.Color := clAqua;
 
           LoanLabel := TLabel.Create(LoanPanel);
           LoanLabel.Parent := LoanPanel;
@@ -339,10 +366,16 @@ begin
           LoanLabel.Layout := tlCenter;
           LoanLabel.Font.Size := 8;
           LoanLabel.Font.Style := [fsBold];
+          LoanLabel.StyleElements := LoanLabel.StyleElements - [seFont];
           if Loans[i].IsOverdue then
             LoanLabel.Font.Color := clRed
           else
-            LoanLabel.Font.Color := clBlack;
+            if TStyleManager.ActiveStyle.Name = 'Windows10' then
+              LoanLabel.Font.Color := clBlack
+            else
+              LoanLabel.Font.Color := clWhite;
+          if Loans[i].isReturned then
+            LoanLabel.Font.Color := clGreen;
 
           var SingleLoanObj: TSingleLoanInfo;
           SingleLoanObj := TSingleLoanInfo.Create;
@@ -389,8 +422,8 @@ begin
                         'Pieniê¿na: %s, Przeterminowana: %s'#13#10 +
                         'Pe³ne info: %s'#13#10#13#10,
                         [Loan.Caption,
-                         BoolToStr(Loan.IsMoney, True),
-                         BoolToStr(Loan.IsOverdue, True),
+                         Loan.IsMoney,
+                         IfThen(Loan.IsOverdue, 'Tak', 'Nie'),
                          Loan.FullDetails]);
   end;
 
@@ -402,13 +435,18 @@ procedure TFrameCalendar.ShowLoanInfo(Sender: TObject);
 var
   Lbl: TLabel;
   LoanData: TSingleLoanInfo;
+  LoanOverdue: string;
 begin
   Lbl := Sender as TLabel;
   LoanData := TSingleLoanInfo(Lbl.Tag);
+  if(LoanData.IsOverdue) then
+    LoanOverdue := 'Tak'
+  else
+    LoanOverdue := 'Nie';
   if Assigned(LoanData) then
     ShowMessage('Tytu³: ' + LoanData.Caption + #13#10 +
-                'Pieniê¿na: ' + BoolToStr(LoanData.IsMoney, True) + #13#10 +
-                'Przeterminowana: ' + BoolToStr(LoanData.IsOverdue, True) + #13#10 +
+                'Pieniê¿na: ' + LoanData.IsMoney + #13#10 +
+                'Przeterminowana: ' + LoanOverdue + #13#10 +
                 'Pe³ne info: ' + LoanData.FullDetails);
 end;
 

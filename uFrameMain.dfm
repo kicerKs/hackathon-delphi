@@ -29,7 +29,7 @@ object FrameMain: TFrameMain
     object toggleSwitch: TToggleSwitch
       Left = 1023
       Top = 16
-      Width = 113
+      Width = 116
       Height = 20
       Hint = 'abc'
       StateCaptions.CaptionOn = 'Pieni'#261'dze'
