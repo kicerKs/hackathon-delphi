@@ -41,6 +41,7 @@ object FrameItems: TFrameItems
       Top = 85
       Width = 200
       Height = 23
+      ReadOnly = True
       TabOrder = 1
       Text = #346'cie'#380'ka'
       OnEnter = editItemPathEnter

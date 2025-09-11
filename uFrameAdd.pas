@@ -47,7 +47,7 @@ procedure TFrameAdd.clickButtonAdd(Sender: TObject);
 begin
   if loanExpDate.Date < loanGivenDate.Date then
   begin
-    MessageDlg('Data terminu nie mo¿e byæ wczeœniejsza ni¿ data udzielenia po¿yczki!',
+    MessageDlg('Data terminu nie moÂ¿e byÃ¦ wczeÅ“niejsza niÂ¿ data udzielenia poÂ¿yczki!',
       mtError, [mbOK], 0);
     Exit;
   end;
@@ -72,8 +72,8 @@ begin
       begin
        QAddPozyczkaPieniadze.ParamByName('IDO').AsString := editPerson.Text;
        QAddPozyczkaPieniadze.ParamByName('Ilosc').AsString := editItem.Text;
-       QAddPozyczkaPieniadze.ParamByName('DataU').AsString := FormatDateTime('yyyy-mm-dd hh:mm:ss', loanGivenDate.Date);
-       QAddPozyczkaPieniadze.ParamByName('Termin').AsString := FormatDateTime('yyyy-mm-dd hh:mm:ss', loanExpDate.Date);
+       QAddPozyczkaPieniadze.ParamByName('DataU').AsString := FormatDateTime('yyyy-mm-dd', loanGivenDate.Date);
+       QAddPozyczkaPieniadze.ParamByName('Termin').AsString := FormatDateTime('yyyy-mm-dd', loanExpDate.Date);
        QAddPozyczkaPieniadze.ExecSQL;
       end;
   end;
@@ -130,7 +130,7 @@ procedure TFrameAdd.RadioButtonClick(Sender: TObject);
         loanGivenDate.Top := loanGivenDate.Top + shiftAmount;
         editNumber.Top := editNumber.Top + shiftAmount;
         Label2.Caption := 'Przedmiot';
-        Label3.Caption := 'Iloœæ';
+        Label3.Caption := 'IloÅ“Ã¦';
         Label4.Caption := 'Data udzielenia';
         Label5.Visible := True;
         editItem.ReadOnly := True;

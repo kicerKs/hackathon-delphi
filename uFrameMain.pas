@@ -108,7 +108,12 @@ begin
   if (DBGridPozyczkaPieniadze.DataSource.DataSet.FieldByName('Data Oddania').AsString = '') then
   begin
     if (DBGridPozyczkaPieniadze.DataSource.DataSet.FieldByName('Termin').AsDateTime > Date) then
-      DBGridPozyczkaPieniadze.Canvas.Font.Color := clBlack
+      begin
+        if TStyleManager.ActiveStyle.Name = 'Windows10' then
+          DBGridPozyczkaPieniadze.Canvas.Font.Color := clBlack
+        else
+          DBGridPozyczkaPieniadze.Canvas.Font.Color := clWhite;
+      end
     else
       DBGridPozyczkaPieniadze.Canvas.Font.Color := clRed;
   end
@@ -288,8 +293,6 @@ begin
   end;
 end;
 
-
-
 procedure TFrameMain.DBGridPozyczkaPrzedmiotDrawColumnCell(Sender: TObject;
 const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
 begin
@@ -325,8 +328,6 @@ begin
   DBGridPozyczkaPrzedmiot.DefaultDrawColumnCell(Rect, DataCol, Column, State);
 
   // Przesuwam do refreshDB, powinno dzia³aæ git
-
-
 end;
 
 //usuwanie pozyczek przyciskiem del
