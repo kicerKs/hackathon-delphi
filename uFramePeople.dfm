@@ -127,7 +127,7 @@ object FramePeople: TFramePeople
     end
     object editSearch: TEdit
       Left = 16
-      Top = 175
+      Top = 15
       Width = 450
       Height = 23
       TabOrder = 11

@@ -71,9 +71,9 @@ begin
     with Database.DataModule1 do
       begin
        QAddPozyczkaPieniadze.ParamByName('IDO').AsString := editPerson.Text;
-       QAddPozyczkaPieniadze.ParamByName('Ilosc').AsString := editNumber.Text;
-       QAddPozyczkaPieniadze.ParamByName('DataU').AsString := FormatDateTime('yyyy-mm-dd', loanGivenDate.Date);
-       QAddPozyczkaPieniadze.ParamByName('Termin').AsString := FormatDateTime('yyyy-mm-dd', loanExpDate.Date);
+       QAddPozyczkaPieniadze.ParamByName('Ilosc').AsString := editItem.Text;
+       QAddPozyczkaPieniadze.ParamByName('DataU').AsString := FormatDateTime('yyyy-mm-dd hh:mm:ss', loanGivenDate.Date);
+       QAddPozyczkaPieniadze.ParamByName('Termin').AsString := FormatDateTime('yyyy-mm-dd hh:mm:ss', loanExpDate.Date);
        QAddPozyczkaPieniadze.ExecSQL;
       end;
   end;
